@@ -89,7 +89,7 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.DoctorsHolde
     public void setDoctors(ArrayList<Doctor> list) {
         if (list != null) {
             this.doctors = list;
-            this.notifyItemRangeChanged(0, list.size() - 1);
+            this.notifyItemRangeChanged(0, list.size());
         } else {
             this.doctors = new ArrayList<>();
             this.notifyItemRangeChanged(0, 0);
@@ -99,7 +99,7 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.DoctorsHolde
     public void setPatients(ArrayList<Patient> list) {
         if (list != null) {
             this.patients = list;
-            this.notifyItemRangeChanged(0, list.size() - 1);
+            this.notifyItemRangeChanged(0, list.size());
         } else {
             this.patients = new ArrayList<>();
             this.notifyItemRangeChanged(0, 0);
