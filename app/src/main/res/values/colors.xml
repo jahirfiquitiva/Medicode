@@ -16,12 +16,19 @@
   -->
 
 <resources>
-    <color name="colorPrimaryDark">#1c2541</color>
-    <color name="colorPrimary">#3a506b</color>
-    <color name="colorAccent">#6fffe9</color>
-    <color name="pink">#e63e96</color>
+    <color name="colorPrimaryDark">#0288D1</color>
+    <color name="colorPrimary">#03A9F4</color>
+    <color name="colorAccent">#69F0AE</color>
+    <color name="darkAccent">@color/colorPrimary</color>
+    <color name="pink">#EC407A</color>
+    <color name="orange">#ff5722</color>
     <color name="windowBg">#fafafa</color>
     <color name="semitransparent_white">#80ffffff</color>
     <color name="divider">#61000000</color>
     <color name="unselectedIcon">#80ffffff</color>
+    <color name="primary_text">#de000000</color>
+    <color name="secondary_text">#8a000000</color>
+    <color name="tertiary_text">#61000000</color>
+    <color name="fab_one">@color/colorAccent</color>
+    <color name="fab_two">#FD8383</color>
 </resources>

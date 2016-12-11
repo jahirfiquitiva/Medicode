@@ -30,26 +30,33 @@ import java.util.ArrayList;
 
 import jahirfiquitiva.apps.medicode.R;
 import jahirfiquitiva.apps.medicode.adapters.ListsAdapter;
-import jahirfiquitiva.apps.medicode.base.Patient;
+import jahirfiquitiva.apps.medicode.logic.objects.Patient;
 
 
 public class PatientsFragment extends Fragment {
 
     private ArrayList<Patient> list;
+    private ListsAdapter adapter;
+    private LinearLayoutManager layoutManager;
+    private boolean scrollable;
+
+    public PatientsFragment() {
+    }
 
     public static Fragment newInstance(ArrayList<Patient> list) {
         PatientsFragment fragment = new PatientsFragment();
         Bundle args = new Bundle();
-        args.putParcelableArrayList("list", list);
+        args.putSerializable("list", list);
         fragment.setArguments(args);
         return fragment;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            list = getArguments().getParcelableArrayList("list");
+            list = (ArrayList<Patient>) getArguments().getSerializable("list");
         }
     }
 
@@ -58,13 +65,14 @@ public class PatientsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.list, container, false);
 
-        ListsAdapter adapter = new ListsAdapter(getContext());
+        adapter = new ListsAdapter(getActivity(), null);
         adapter.setPatients(list);
 
         RecyclerView rv = (RecyclerView) layout.findViewById(R.id.rv);
-        rv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,
-                false));
-        rv.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        setupLinearLayout();
+        rv.setLayoutManager(layoutManager);
+        rv.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager
+                .VERTICAL));
         rv.setAdapter(adapter);
 
         return layout;
@@ -80,7 +88,49 @@ public class PatientsFragment extends Fragment {
         super.onDetach();
     }
 
-    public PatientsFragment() {
+    public void update(ArrayList<Patient> list) {
+        this.list = list;
+        if (adapter != null) {
+            adapter.setPatients(list);
+            adapter.notifyDataSetChanged();
+        }
     }
 
+    private void setupLinearLayout() {
+        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL,
+                false) {
+            @Override
+            public void onLayoutChildren(final RecyclerView.Recycler recycler, final RecyclerView
+                    .State state) {
+                super.onLayoutChildren(recycler, state);
+                setScrollable(layoutScrollable());
+            }
+        };
+    }
+
+    private boolean layoutScrollable() {
+        if (layoutManager == null) return false;
+        if (list.isEmpty()) return false;
+
+        final int firstVisibleItemPosition =
+                layoutManager.findFirstCompletelyVisibleItemPosition();
+        if (firstVisibleItemPosition != 0) {
+            if (firstVisibleItemPosition == -1) {
+                return false;
+            }
+        }
+        return (layoutManager.findLastCompletelyVisibleItemPosition() != (list.size() - 1));
+    }
+
+    public boolean isScrollable() {
+        return scrollable;
+    }
+
+    public void setScrollable(boolean scrollable) {
+        this.scrollable = scrollable;
+    }
+
+    public void updateScrollable() {
+        this.scrollable = layoutScrollable();
+    }
 }

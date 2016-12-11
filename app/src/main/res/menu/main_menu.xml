@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016. Jahir Fiquitiva
+  ~
+  ~ 	Licensed under the CreativeCommons Attribution-ShareAlike
+  ~ 	4.0 International License. You may not use this file except in compliance
+  ~ 	with the License. You may obtain a copy of the License at
+  ~
+  ~ 	   http://creativecommons.org/licenses/by-sa/4.0/legalcode
+  ~
+  ~ 	Unless required by applicable law or agreed to in writing, software
+  ~ 	distributed under the License is distributed on an "AS IS" BASIS,
+  ~ 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ 	See the License for the specific language governing permissions and
+  ~ 	limitations under the License.
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--
+    <item
+            android:id="@+id/sort"
+            android:icon="@drawable/ic_sort"
+            app:showAsAction="never|ifRoom"
+            android:orderInCategory="100"
+            android:title="@string/sort">
+        <menu>
+            <group
+                    android:icon="@drawable/ic_sort"
+                    android:checkableBehavior="single"
+                    android:id="@+id/sortOptns2">
+                <item
+                        android:id="@+id/id2"
+                        android:orderInCategory="100"
+                        app:showAsAction="never"
+                        android:title="@string/sort_by_id"/>
+                <item
+                        android:id="@+id/name2"
+                        android:orderInCategory="200"
+                        app:showAsAction="never"
+                        android:title="@string/sort_by_name"/>
+                <item
+                        android:id="@+id/gender2"
+                        android:orderInCategory="300"
+                        app:showAsAction="never"
+                        android:title="@string/sort_by_gender"/>
+
+            </group>
+        </menu>
+    </item>
+    -->
+
+    <item
+            android:id="@+id/search"
+            android:icon="@drawable/ic_search"
+            app:showAsAction="ifRoom"
+            android:orderInCategory="200"
+            android:title="@string/search"/>
+
+    <item
+            android:id="@+id/save"
+            android:icon="@drawable/ic_save"
+            app:showAsAction="ifRoom"
+            android:orderInCategory="100"
+            android:title="@string/save_data"/>
+
+</menu>

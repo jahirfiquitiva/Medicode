@@ -14,47 +14,29 @@
  * 	limitations under the License.
  */
 
-package jahirfiquitiva.apps.medicode.base;
+package jahirfiquitiva.apps.medicode.logic.objects;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import java.io.Serializable;
 
-public class Doctor implements Parcelable {
+import jahirfiquitiva.apps.medicode.logic.ListsManager;
 
-    private String name;
-    private String id;
+public class Doctor extends Person implements Serializable {
+
+    private static final long serialVersionUID = 123L;
+
     private String specialization;
 
     public Doctor(String name, String id, String specialization) {
-        this.name = name;
-        this.id = id;
+        super(name, id);
         this.specialization = specialization;
     }
 
-    protected Doctor(Parcel in) {
-        name = in.readString();
-        id = in.readString();
-        specialization = in.readString();
-    }
-
-    public static final Creator<Doctor> CREATOR = new Creator<Doctor>() {
-        @Override
-        public Doctor createFromParcel(Parcel in) {
-            return new Doctor(in);
-        }
-
-        @Override
-        public Doctor[] newArray(int size) {
-            return new Doctor[size];
-        }
-    };
-
     public String getName() {
-        return name;
+        return ListsManager.makeNameCamelCase(super.getName());
     }
 
     public String getId() {
-        return id;
+        return super.getId();
     }
 
     public String getSpecialization() {
@@ -62,14 +44,14 @@ public class Doctor implements Parcelable {
     }
 
     @Override
-    public int describeContents() {
-        return 0;
+    public String toString() {
+        return getName();
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(name);
-        parcel.writeString(id);
-        parcel.writeString(specialization);
+    public boolean equals(Object object) {
+        return object != null && object instanceof Doctor && (this.getId().equals(((Doctor)
+                object).getId()));
     }
+
 }

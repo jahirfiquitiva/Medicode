@@ -15,7 +15,7 @@
   ~ 	limitations under the License.
   -->
 
-<RelativeLayout
+<android.support.design.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -38,7 +38,8 @@
                 android:layout_height="?actionBarSize"
                 android:title="@string/app_name"
                 android:theme="@style/Toolbar.AppCompat.Responsive"
-                android:popupTheme="@style/Toolbar.Popup.AppCompat"/>
+                android:popupTheme="@style/Toolbar.Popup.AppCompat"
+                app:layout_scrollFlags="scroll|enterAlways"/>
 
         <android.support.design.widget.TabLayout
                 android:id="@+id/tabs"
@@ -54,30 +55,25 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <FrameLayout
-            android:layout_below="@+id/appBar"
+    <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        <android.support.v4.view.ViewPager
-                android:id="@+id/pager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-    </FrameLayout>
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
+            android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            app:layout_behavior="jahirfiquitiva.apps.medicode.views.ScrollAwareFABBehavior"
             app:srcCompat="@drawable/ic_add"
             app:backgroundTint="@color/colorAccent"
             app:fabSize="normal"
-            app:rippleColor="@color/semitransparent_white"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"/>
+            app:rippleColor="@color/semitransparent_white"/>
 
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

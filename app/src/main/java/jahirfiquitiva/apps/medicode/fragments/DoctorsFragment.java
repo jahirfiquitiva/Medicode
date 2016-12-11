@@ -17,6 +17,7 @@
 package jahirfiquitiva.apps.medicode.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -29,27 +30,40 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import jahirfiquitiva.apps.medicode.R;
+import jahirfiquitiva.apps.medicode.activities.DoctorAppntmntsActivity;
+import jahirfiquitiva.apps.medicode.activities.MainActivity;
 import jahirfiquitiva.apps.medicode.adapters.ListsAdapter;
-import jahirfiquitiva.apps.medicode.base.Doctor;
+import jahirfiquitiva.apps.medicode.logic.objects.Doctor;
+import jahirfiquitiva.apps.medicode.logic.ListsManager;
 
 
 public class DoctorsFragment extends Fragment {
 
+    private ListsManager manager;
     private ArrayList<Doctor> list;
+    private LinearLayoutManager layoutManager;
+    private boolean scrollable = false;
 
-    public static Fragment newInstance(ArrayList<Doctor> list) {
+    public DoctorsFragment() {
+    }
+
+    public static Fragment newInstance(ListsManager manager) {
         DoctorsFragment fragment = new DoctorsFragment();
         Bundle args = new Bundle();
-        args.putParcelableArrayList("list", list);
+        args.putSerializable("manager", manager);
         fragment.setArguments(args);
         return fragment;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            list = getArguments().getParcelableArrayList("list");
+            manager = (ListsManager) getArguments().getSerializable("manager");
+            if (manager != null) {
+                list = manager.getDoctors();
+            }
         }
     }
 
@@ -58,13 +72,23 @@ public class DoctorsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.list, container, false);
 
-        ListsAdapter adapter = new ListsAdapter(getContext());
+        ListsAdapter adapter = new ListsAdapter(getActivity(), new ListsAdapter.ItemClickListener
+                () {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(getActivity(), DoctorAppntmntsActivity.class);
+                intent.putExtra("doctor", list.get(position));
+                intent.putExtra("manager", manager);
+                startActivityForResult(intent, 11);
+            }
+        });
         adapter.setDoctors(list);
 
         RecyclerView rv = (RecyclerView) layout.findViewById(R.id.rv);
-        rv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,
-                false));
-        rv.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        setupLinearLayout();
+        rv.setLayoutManager(layoutManager);
+        rv.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager
+                .VERTICAL));
         rv.setAdapter(adapter);
 
         return layout;
@@ -80,7 +104,47 @@ public class DoctorsFragment extends Fragment {
         super.onDetach();
     }
 
-    public DoctorsFragment() {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ((MainActivity) getActivity()).onActivityResult(requestCode, resultCode, data);
     }
 
+    private void setupLinearLayout() {
+        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL,
+                false) {
+            @Override
+            public void onLayoutChildren(final RecyclerView.Recycler recycler, final RecyclerView
+                    .State state) {
+                super.onLayoutChildren(recycler, state);
+                setScrollable(layoutScrollable());
+            }
+        };
+    }
+
+    private boolean layoutScrollable() {
+        if (layoutManager == null) return false;
+        if (list.isEmpty()) return false;
+
+        final int firstVisibleItemPosition =
+                layoutManager.findFirstCompletelyVisibleItemPosition();
+        if (firstVisibleItemPosition != 0) {
+            if (firstVisibleItemPosition == -1) {
+                return false;
+            }
+        }
+        return (layoutManager.findLastCompletelyVisibleItemPosition() != (list.size() - 1));
+    }
+
+    public boolean isScrollable() {
+        return scrollable;
+    }
+
+    public void setScrollable(boolean scrollable) {
+        this.scrollable = scrollable;
+    }
+
+    public void updateScrollable() {
+        this.scrollable = layoutScrollable();
+    }
 }

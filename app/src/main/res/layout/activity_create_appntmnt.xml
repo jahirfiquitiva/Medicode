@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016. Jahir Fiquitiva
+  ~
+  ~ 	Licensed under the CreativeCommons Attribution-ShareAlike
+  ~ 	4.0 International License. You may not use this file except in compliance
+  ~ 	with the License. You may obtain a copy of the License at
+  ~
+  ~ 	   http://creativecommons.org/licenses/by-sa/4.0/legalcode
+  ~
+  ~ 	Unless required by applicable law or agreed to in writing, software
+  ~ 	distributed under the License is distributed on an "AS IS" BASIS,
+  ~ 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ 	See the License for the specific language governing permissions and
+  ~ 	limitations under the License.
+  -->
+
+<android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/main">
+
+    <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:clipChildren="false"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:id="@+id/appBar"
+            android:elevation="4dp"
+            android:layout_height="wrap_content"
+            tools:ignore="UnusedAttribute">
+
+        <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:contentInsetStart="@dimen/second_keyline"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:title="@string/title_activity_create_doctor"
+                android:theme="@style/Toolbar.AppCompat.Responsive"
+                android:popupTheme="@style/Toolbar.Popup.AppCompat"
+                app:layout_scrollFlags="enterAlways"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_below="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fab_margin"
+                android:layout_marginLeft="@dimen/fab_margin"
+                android:layout_marginStart="@dimen/fab_margin"
+                android:text="@string/doctor"
+                android:textSize="14sp"
+                android:textAppearance="@style/SecondaryText"/>
+
+        <LinearLayout
+                android:id="@+id/doctor"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_marginTop="12dp"
+                android:layout_height="wrap_content">
+
+            <ImageView
+                    android:layout_marginLeft="@dimen/icon_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/ic_doctor"
+                    android:tint="@color/colorPrimary"
+                    android:paddingEnd="@dimen/item_margin"
+                    android:paddingRight="@dimen/item_margin"
+                    tools:ignore="ContentDescription,RtlHardcoded,RtlSymmetry"/>
+
+            <TextView
+                    android:id="@+id/doctorName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/item_margin"
+                    android:layout_marginBottom="@dimen/item_margin"
+                    android:layout_marginLeft="@dimen/field_margin_l"
+                    android:layout_marginStart="@dimen/field_margin_l"
+                    android:layout_marginRight="@dimen/field_margin_r"
+                    android:layout_marginEnd="@dimen/field_margin_r"
+                    android:textSize="18sp"
+                    android:textColor="@color/primary_text"
+                    android:hint="@string/tap_to_choose_doctor"
+                    android:textColorHint="@color/tertiary_text"
+                    tools:text="Doctor Name"/>
+
+        </LinearLayout>
+
+        <View
+                android:layout_width="match_parent"
+                android:background="?dividerHorizontal"
+                android:layout_marginTop="8dp"
+                android:layout_height="1dp"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fab_margin"
+                android:layout_marginLeft="@dimen/fab_margin"
+                android:layout_marginStart="@dimen/fab_margin"
+                android:text="@string/patient"
+                android:textSize="14sp"
+                android:textAppearance="@style/SecondaryText"/>
+
+        <LinearLayout
+                android:id="@+id/patient"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_marginTop="12dp"
+                android:layout_height="wrap_content">
+
+            <ImageView
+                    android:layout_marginLeft="@dimen/icon_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/ic_patient"
+                    android:tint="@color/colorPrimary"
+                    android:paddingEnd="@dimen/item_margin"
+                    android:paddingRight="@dimen/item_margin"
+                    tools:ignore="ContentDescription,RtlHardcoded,RtlSymmetry"/>
+
+            <TextView
+                    android:id="@+id/patientName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/item_margin"
+                    android:layout_marginBottom="@dimen/item_margin"
+                    android:layout_marginLeft="@dimen/field_margin_l"
+                    android:layout_marginStart="@dimen/field_margin_l"
+                    android:layout_marginRight="@dimen/field_margin_r"
+                    android:layout_marginEnd="@dimen/field_margin_r"
+                    android:textSize="18sp"
+                    android:textColor="@color/primary_text"
+                    android:hint="@string/tap_to_choose_patient"
+                    android:textColorHint="@color/tertiary_text"
+                    tools:text="Fulanito"/>
+
+        </LinearLayout>
+
+        <View
+                android:layout_width="match_parent"
+                android:background="?dividerHorizontal"
+                android:layout_marginTop="8dp"
+                android:layout_height="1dp"/>
+
+        <LinearLayout
+                android:id="@+id/date"
+                android:background="?selectableItemBackground"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fab_margin"
+                    android:layout_marginLeft="@dimen/fab_margin"
+                    android:layout_marginStart="@dimen/fab_margin"
+                    android:text="@string/date"
+                    android:textSize="14sp"
+                    android:textAppearance="@style/SecondaryText"/>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_height="wrap_content">
+
+                <ImageView
+                        android:layout_marginLeft="@dimen/icon_margin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        app:srcCompat="@drawable/ic_calendar"
+                        android:paddingEnd="@dimen/item_margin"
+                        android:paddingRight="@dimen/item_margin"
+                        tools:ignore="ContentDescription,RtlHardcoded,RtlSymmetry"/>
+
+                <TextView
+                        android:id="@+id/detailedDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/item_margin"
+                        android:layout_marginBottom="@dimen/item_margin"
+                        android:layout_marginLeft="@dimen/field_margin_l"
+                        android:layout_marginStart="@dimen/field_margin_l"
+                        android:layout_marginRight="@dimen/field_margin_r"
+                        android:layout_marginEnd="@dimen/field_margin_r"
+                        android:textSize="18sp"
+                        android:textColor="@color/primary_text"
+                        android:hint="@string/tap_to_choose_date"
+                        android:textColorHint="@color/tertiary_text"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+                android:layout_width="match_parent"
+                android:background="?dividerHorizontal"
+                android:layout_height="1dp"/>
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            app:layout_behavior="jahirfiquitiva.apps.medicode.views.ScrollAwareFABBehavior"
+            app:srcCompat="@drawable/ic_check"
+            app:backgroundTint="@color/fab_one"
+            app:fabSize="normal"
+            app:rippleColor="@color/semitransparent_white"/>
+
+</android.support.design.widget.CoordinatorLayout>

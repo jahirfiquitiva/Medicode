@@ -16,12 +16,18 @@
 
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="ColdStart" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/colorPrimary</item>
+    </style>
+
+    <style name="AppTheme" parent="ColdStart">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/windowBg</item>
-
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeStyle">@style/Responsive.ActionMode</item>
         <item name="actionModeCloseButtonStyle">@style/Responsive.ActionButton.CloseMode</item>
@@ -30,6 +36,10 @@
         <item name="actionOverflowButtonStyle">@style/Responsive.ActionButton.Overflow</item>
         <item name="actionBarTheme">@style/Toolbar.AppCompat.Responsive</item>
         <item name="actionBarPopupTheme">@style/Toolbar.Popup.AppCompat</item>
+    </style>
+
+    <style name="DatePicker" parent="AppTheme">
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
 </resources>

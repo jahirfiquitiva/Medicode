@@ -14,12 +14,21 @@
  * 	limitations under the License.
  */
 
-package jahirfiquitiva.apps.medicode.base;
+package jahirfiquitiva.apps.medicode.logic.objects;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import java.io.Serializable;
+import java.util.Comparator;
 
-public class Appntmnt implements Parcelable {
+public class Appntmnt implements Serializable {
+
+    private static final long serialVersionUID = 123L;
+
+    public static Comparator<Appntmnt> appntmntComparator = new Comparator<Appntmnt>() {
+        @Override
+        public int compare(Appntmnt appntmnt, Appntmnt t1) {
+            return appntmnt.getDate().compareTo(t1.getDate());
+        }
+    };
 
     private Doctor doctor;
     private Patient patient;
@@ -30,24 +39,6 @@ public class Appntmnt implements Parcelable {
         this.patient = patient;
         this.date = date;
     }
-
-    protected Appntmnt(Parcel in) {
-        doctor = in.readParcelable(Doctor.class.getClassLoader());
-        patient = in.readParcelable(Patient.class.getClassLoader());
-        date = in.readString();
-    }
-
-    public static final Creator<Appntmnt> CREATOR = new Creator<Appntmnt>() {
-        @Override
-        public Appntmnt createFromParcel(Parcel in) {
-            return new Appntmnt(in);
-        }
-
-        @Override
-        public Appntmnt[] newArray(int size) {
-            return new Appntmnt[size];
-        }
-    };
 
     public Doctor getDoctor() {
         return doctor;
@@ -61,16 +52,12 @@ public class Appntmnt implements Parcelable {
         return date;
     }
 
-
     @Override
-    public int describeContents() {
-        return 0;
+    public boolean equals(Object object) {
+        return object != null && object instanceof Appntmnt && ((this.doctor.equals(((Appntmnt)
+                object).getDoctor())) && (this.patient.equals(((Appntmnt) object).getPatient()))
+                && (this.date.equals(((Appntmnt) object).getDate())));
     }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeParcelable(doctor, i);
-        parcel.writeParcelable(patient, i);
-        parcel.writeString(date);
-    }
+
 }

@@ -17,21 +17,12 @@
 
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="ColdStart" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/windowBg</item>
-
-        <item name="windowActionModeOverlay">true</item>
-        <item name="actionModeStyle">@style/Responsive.ActionMode</item>
-        <item name="actionModeCloseButtonStyle">@style/Responsive.ActionButton.CloseMode</item>
-        <item name="toolbarStyle">@style/Responsive.Toolbar</item>
-        <item name="toolbarNavigationButtonStyle">@style/Responsive.Toolbar.Button.Navigation</item>
-        <item name="actionOverflowButtonStyle">@style/Responsive.ActionButton.Overflow</item>
-        <item name="actionBarTheme">@style/Toolbar.AppCompat.Responsive</item>
-        <item name="actionBarPopupTheme">@style/Toolbar.Popup.AppCompat</item>
-
+        <item name="android:windowBackground">@color/colorPrimary</item>
         <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
     </style>
 </resources>

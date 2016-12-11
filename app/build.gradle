@@ -50,5 +50,4 @@ dependencies {
     compile "com.android.support:gridlayout-v7:$ANDROID_SUPPORT_LIBS"
     compile "com.android.support:customtabs:$ANDROID_SUPPORT_LIBS"
     compile 'com.afollestad.material-dialogs:core:0.9.1.0'
-    compile 'com.android.support:support-v4:25.0.1'
 }

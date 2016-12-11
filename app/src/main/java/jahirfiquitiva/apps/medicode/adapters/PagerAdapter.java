@@ -18,13 +18,11 @@ package jahirfiquitiva.apps.medicode.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.util.Log;
 
-import jahirfiquitiva.apps.medicode.base.ListsManager;
-import jahirfiquitiva.apps.medicode.fragments.AppntmntsFragment;
+import jahirfiquitiva.apps.medicode.adapters.base.FragmentStatePagerAdapter;
 import jahirfiquitiva.apps.medicode.fragments.DoctorsFragment;
 import jahirfiquitiva.apps.medicode.fragments.PatientsFragment;
+import jahirfiquitiva.apps.medicode.logic.ListsManager;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
@@ -39,14 +37,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                Log.d("APP", "Doctors: " + manager.getDoctors().size());
-                return DoctorsFragment.newInstance(manager.getDoctors());
+                return DoctorsFragment.newInstance(manager);
             case 1:
-                Log.d("APP", "Patients: " + manager.getPatients().size());
                 return PatientsFragment.newInstance(manager.getPatients());
-            case 2:
-                Log.d("APP", "Appointments: " + manager.getAppntmnts().size());
-                return AppntmntsFragment.newInstance(manager.getAppntmnts());
             default:
                 return null;
         }
@@ -54,6 +47,16 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 2;
     }
+
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
+    }
+
+    public void setManager(ListsManager manager) {
+        this.manager = manager;
+    }
+
 }

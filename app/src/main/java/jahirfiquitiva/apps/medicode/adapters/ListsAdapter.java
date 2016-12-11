@@ -17,6 +17,7 @@
 package jahirfiquitiva.apps.medicode.adapters;
 
 import android.content.Context;
+import android.support.annotation.ColorRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,20 +28,21 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import jahirfiquitiva.apps.medicode.R;
-import jahirfiquitiva.apps.medicode.base.Appntmnt;
-import jahirfiquitiva.apps.medicode.base.Doctor;
-import jahirfiquitiva.apps.medicode.base.Patient;
+import jahirfiquitiva.apps.medicode.logic.objects.Doctor;
+import jahirfiquitiva.apps.medicode.logic.enums.Gender;
+import jahirfiquitiva.apps.medicode.logic.objects.Patient;
 import jahirfiquitiva.apps.medicode.utils.IconTintUtils;
 
 public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.DoctorsHolder> {
 
     private ArrayList<Doctor> doctors;
     private ArrayList<Patient> patients;
-    private ArrayList<Appntmnt> appntmnts;
+    private ItemClickListener listener;
     private Context context;
 
-    public ListsAdapter(Context context) {
+    public ListsAdapter(Context context, ItemClickListener listener) {
         this.context = context;
+        this.listener = listener;
     }
 
     @Override
@@ -50,7 +52,7 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.DoctorsHolde
     }
 
     @Override
-    public void onBindViewHolder(DoctorsHolder holder, int position) {
+    public void onBindViewHolder(final DoctorsHolder holder, int position) {
         if (doctors != null && doctors.size() > 0) {
             holder.title.setText(doctors.get(position).getName());
             if (context != null) {
@@ -58,6 +60,8 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.DoctorsHolde
                         .get(position).getId()));
                 holder.icon.setImageDrawable(IconTintUtils.getTintedIcon(context, R.drawable
                         .ic_doctor, R.color.colorPrimary));
+                holder.specialization.setText(context.getResources().getString(R.string
+                        .specialization_n, doctors.get(position).getSpecialization()));
             }
         } else if (patients != null && patients.size() > 0) {
             holder.title.setText(patients.get(position).getName());
@@ -65,50 +69,76 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.DoctorsHolde
                 holder.content.setText(context.getResources().getString(R.string.cc, patients
                         .get(position).getId()));
                 holder.icon.setImageDrawable(IconTintUtils.getTintedIcon(context, R.drawable
-                                .ic_patient,
-                        patients.get(position).isGender() ? R.color.colorPrimary : R.color.pink
-                ));
-            }
-        } else if (appntmnts != null && appntmnts.size() > 0) {
-            holder.content.setText(appntmnts.get(position).getDate());
-            if (context != null) {
-                holder.title.setText(context.getResources().getString(R.string.appntmnt, String
-                        .valueOf(position + 1)));
-                holder.icon.setImageDrawable(IconTintUtils.getTintedIcon(context, R.drawable
-                        .ic_appntmnt, R.color.colorPrimary));
+                        .ic_patient, getGenderColor(patients.get(position).getGender())));
             }
         }
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null)
+                    listener.onItemClick(holder.getAdapterPosition());
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return doctors != null ? doctors.size() : patients != null ? patients.size() : appntmnts
-                != null ? appntmnts.size() : 0;
+        return doctors != null ? doctors.size() : patients != null ? patients.size() : 0;
     }
 
-    class DoctorsHolder extends RecyclerView.ViewHolder {
-        final ImageView icon;
-        final TextView title;
-        final TextView content;
-
-        public DoctorsHolder(View item) {
-            super(item);
-            icon = (ImageView) item.findViewById(R.id.icon);
-            title = (TextView) item.findViewById(R.id.title);
-            content = (TextView) item.findViewById(R.id.content);
+    public void setDoctors(ArrayList<Doctor> list) {
+        if (list != null) {
+            this.doctors = list;
+            this.notifyItemRangeChanged(0, list.size() - 1);
+        } else {
+            this.doctors = new ArrayList<>();
+            this.notifyItemRangeChanged(0, 0);
         }
     }
 
-    public void setDoctors(ArrayList<Doctor> doctors) {
-        this.doctors = doctors;
+    public void setPatients(ArrayList<Patient> list) {
+        if (list != null) {
+            this.patients = list;
+            this.notifyItemRangeChanged(0, list.size() - 1);
+        } else {
+            this.patients = new ArrayList<>();
+            this.notifyItemRangeChanged(0, 0);
+        }
     }
 
-    public void setPatients(ArrayList<Patient> patients) {
-        this.patients = patients;
+    class DoctorsHolder extends RecyclerView.ViewHolder {
+        final View view;
+        final ImageView icon;
+        final TextView title;
+        final TextView content;
+        final TextView specialization;
+
+        public DoctorsHolder(View item) {
+            super(item);
+            view = item;
+            icon = (ImageView) item.findViewById(R.id.icon);
+            title = (TextView) item.findViewById(R.id.title);
+            content = (TextView) item.findViewById(R.id.content);
+            specialization = (TextView) item.findViewById(R.id.specialization);
+        }
+
     }
 
-    public void setAppntmnts(ArrayList<Appntmnt> appntmnts) {
-        this.appntmnts = appntmnts;
+    @ColorRes
+    private int getGenderColor(Gender gender) {
+        switch (gender) {
+            default:
+            case MALE:
+                return R.color.colorPrimary;
+            case FEMALE:
+                return R.color.pink;
+            case OTHER:
+                return R.color.orange;
+        }
+    }
+
+    public interface ItemClickListener {
+        void onItemClick(int position);
     }
 
 }
