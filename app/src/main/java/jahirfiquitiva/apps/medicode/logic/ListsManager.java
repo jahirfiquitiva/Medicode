@@ -41,7 +41,6 @@ public class ListsManager implements Serializable {
         this.doctors = new ArrayList<>();
         this.patients = new ArrayList<>();
         this.appntmnts = new ArrayList<>();
-        addPatient(new Patient("Fulanito", "123", 19, Gender.MALE, "O+", "Nueva EPS"));
     }
 
     public boolean addDoctor(Doctor doctor) {

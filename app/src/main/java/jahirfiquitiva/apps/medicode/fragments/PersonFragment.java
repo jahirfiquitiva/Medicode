@@ -63,11 +63,8 @@ public class PersonFragment extends Fragment {
             this.doctorsFrag = getArguments().getBoolean("doctorsFrag");
             this.manager = (ListsManager) getArguments().getSerializable("manager");
             if (manager != null) {
-                if (doctorsFrag) {
-                    this.doctors = (ArrayList<Doctor>) getArguments().getSerializable("doctors");
-                } else {
-                    this.patients = (ArrayList<Patient>) getArguments().getSerializable("patients");
-                }
+                this.doctors = (ArrayList<Doctor>) getArguments().getSerializable("doctors");
+                this.patients = (ArrayList<Patient>) getArguments().getSerializable("patients");
             }
         }
     }

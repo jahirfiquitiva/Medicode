@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -53,6 +54,8 @@ import jahirfiquitiva.apps.medicode.R;
 import jahirfiquitiva.apps.medicode.adapters.PagerAdapter;
 import jahirfiquitiva.apps.medicode.fragments.PersonFragment;
 import jahirfiquitiva.apps.medicode.logic.ListsManager;
+import jahirfiquitiva.apps.medicode.logic.enums.Gender;
+import jahirfiquitiva.apps.medicode.logic.objects.Patient;
 import jahirfiquitiva.apps.medicode.persistence.SerializableFile;
 import jahirfiquitiva.apps.medicode.utils.IconTintUtils;
 import jahirfiquitiva.apps.medicode.utils.PermissionsUtils;
@@ -78,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         manager = new ListsManager();
+
+        manager.addPatient(new Patient("Fulanito", "123", 19, Gender.MALE, "O+", "Nueva EPS"));
 
         requestPermissions(false, false);
 
@@ -457,7 +462,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void animateFab(int pos) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             hideFab(pos);
             showFab();
         }
