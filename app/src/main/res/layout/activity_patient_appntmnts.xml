@@ -55,7 +55,7 @@
                 android:layout_height="match_parent">
 
             <LinearLayout
-                    android:id="@+id/doctorDetails"
+                    android:id="@+id/patientDetails"
                     android:layout_marginTop="@dimen/item_margin"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
@@ -95,7 +95,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                        android:id="@+id/specializationLayout"
+                        android:id="@+id/ageLayout"
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_marginTop="12dp"
@@ -105,7 +105,7 @@
                             android:layout_marginLeft="@dimen/icon_margin"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            app:srcCompat="@drawable/ic_specialization"
+                            app:srcCompat="@drawable/ic_age"
                             android:paddingLeft="@dimen/toolbar_horizontal_padding"
                             android:paddingStart="@dimen/toolbar_horizontal_padding"
                             android:paddingEnd="@dimen/item_margin"
@@ -113,7 +113,107 @@
                             tools:ignore="ContentDescription,RtlHardcoded,RtlSymmetry"/>
 
                     <TextView
-                            android:id="@+id/specialization"
+                            android:id="@+id/age"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/item_margin"
+                            android:layout_marginBottom="@dimen/item_margin"
+                            android:layout_marginLeft="@dimen/field_margin_ls"
+                            android:layout_marginStart="@dimen/field_margin_ls"
+                            android:layout_marginRight="@dimen/field_margin_r"
+                            android:layout_marginEnd="@dimen/field_margin_r"
+                            android:textSize="18sp"
+                            android:textColor="@color/primary_text"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:id="@+id/genderLayout"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="12dp"
+                        android:layout_height="wrap_content">
+
+                    <ImageView
+                            android:id="@+id/genderIcon"
+                            android:layout_marginLeft="@dimen/icon_margin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            app:srcCompat="@drawable/ic_gender"
+                            android:paddingLeft="@dimen/toolbar_horizontal_padding"
+                            android:paddingStart="@dimen/toolbar_horizontal_padding"
+                            android:paddingEnd="@dimen/item_margin"
+                            android:paddingRight="@dimen/item_margin"
+                            tools:ignore="ContentDescription,RtlHardcoded,RtlSymmetry"/>
+
+                    <TextView
+                            android:id="@+id/gender"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/item_margin"
+                            android:layout_marginBottom="@dimen/item_margin"
+                            android:layout_marginLeft="@dimen/field_margin_ls"
+                            android:layout_marginStart="@dimen/field_margin_ls"
+                            android:layout_marginRight="@dimen/field_margin_r"
+                            android:layout_marginEnd="@dimen/field_margin_r"
+                            android:textSize="18sp"
+                            android:textColor="@color/primary_text"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:id="@+id/rhLayout"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="12dp"
+                        android:layout_height="wrap_content">
+
+                    <ImageView
+                            android:layout_marginLeft="@dimen/icon_margin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            app:srcCompat="@drawable/ic_blood"
+                            android:paddingLeft="@dimen/toolbar_horizontal_padding"
+                            android:paddingStart="@dimen/toolbar_horizontal_padding"
+                            android:paddingEnd="@dimen/item_margin"
+                            android:paddingRight="@dimen/item_margin"
+                            tools:ignore="ContentDescription,RtlHardcoded,RtlSymmetry"/>
+
+                    <TextView
+                            android:id="@+id/rh"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/item_margin"
+                            android:layout_marginBottom="@dimen/item_margin"
+                            android:layout_marginLeft="@dimen/field_margin_ls"
+                            android:layout_marginStart="@dimen/field_margin_ls"
+                            android:layout_marginRight="@dimen/field_margin_r"
+                            android:layout_marginEnd="@dimen/field_margin_r"
+                            android:textSize="18sp"
+                            android:textColor="@color/primary_text"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:id="@+id/epsLayout"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="12dp"
+                        android:layout_height="wrap_content">
+
+                    <ImageView
+                            android:layout_marginLeft="@dimen/icon_margin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            app:srcCompat="@drawable/ic_eps"
+                            android:paddingLeft="@dimen/toolbar_horizontal_padding"
+                            android:paddingStart="@dimen/toolbar_horizontal_padding"
+                            android:paddingEnd="@dimen/item_margin"
+                            android:paddingRight="@dimen/item_margin"
+                            tools:ignore="ContentDescription,RtlHardcoded,RtlSymmetry"/>
+
+                    <TextView
+                            android:id="@+id/eps"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/item_margin"
@@ -140,14 +240,14 @@
                         android:layout_marginStart="@dimen/fab_margin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/doc_appntmnts"
+                        android:text="@string/appntmnts"
                         android:textAppearance="@style/PrimaryText"/>
 
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                     android:padding="@dimen/item_margin"
-                    android:layout_below="@id/doctorDetails"
+                    android:layout_below="@id/patientDetails"
                     android:id="@+id/rv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

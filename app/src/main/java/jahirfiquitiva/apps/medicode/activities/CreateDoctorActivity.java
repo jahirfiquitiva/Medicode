@@ -36,13 +36,14 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import jahirfiquitiva.apps.medicode.R;
-import jahirfiquitiva.apps.medicode.logic.objects.Doctor;
 import jahirfiquitiva.apps.medicode.logic.ListsManager;
+import jahirfiquitiva.apps.medicode.logic.objects.Doctor;
 
 public class CreateDoctorActivity extends AppCompatActivity {
 
     private Context context;
     private ListsManager manager;
+    private Snackbar snackbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +96,10 @@ public class CreateDoctorActivity extends AppCompatActivity {
                 if (docName.length() > 0 && docID.length() > 3
                         && docSpecialization.length() > 0) {
 
+                    if (snackbar != null && snackbar.isShown()) {
+                        snackbar.dismiss();
+                    }
+
                     final boolean added = manager.addDoctor(new Doctor(docName, docID,
                             docSpecialization));
 
@@ -103,8 +108,8 @@ public class CreateDoctorActivity extends AppCompatActivity {
                             .content(added ? R.string.doctor_success : R.string.doctor_error)
                             .positiveText(added ? android.R.string.yes : android.R.string.ok)
                             .cancelable(false).autoDismiss(false).canceledOnTouchOutside(false)
-                            .positiveColor(ContextCompat.getColor(context, R.color.darkAccent))
-                            .negativeColor(ContextCompat.getColor(context, R.color.darkAccent))
+                            .positiveColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                            .negativeColor(ContextCompat.getColor(context, R.color.colorPrimary))
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
                                 public void onClick(@NonNull MaterialDialog dialog, @NonNull
@@ -133,7 +138,7 @@ public class CreateDoctorActivity extends AppCompatActivity {
                     }
                     dialog.show();
                 } else {
-                    final Snackbar snackbar = Snackbar.make(findViewById(R.id.main), context
+                    snackbar = Snackbar.make(findViewById(R.id.main), context
                             .getResources().getString(R.string.doctor_not_filled), Snackbar
                             .LENGTH_INDEFINITE);
                     snackbar.setAction(android.R.string.ok, new View.OnClickListener() {

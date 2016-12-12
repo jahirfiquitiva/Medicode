@@ -19,6 +19,7 @@ package jahirfiquitiva.apps.medicode.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -29,63 +30,75 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import jahirfiquitiva.apps.medicode.R;
 import jahirfiquitiva.apps.medicode.adapters.AppntmntAdapter;
-import jahirfiquitiva.apps.medicode.logic.objects.Doctor;
 import jahirfiquitiva.apps.medicode.logic.ListsManager;
+import jahirfiquitiva.apps.medicode.logic.enums.Gender;
+import jahirfiquitiva.apps.medicode.logic.objects.Patient;
+import jahirfiquitiva.apps.medicode.utils.IconTintUtils;
 
-public class DoctorAppntmntsActivity extends AppCompatActivity {
+public class PatientAppntmntsActivity extends AppCompatActivity {
 
     private ListsManager manager;
     private AppntmntAdapter adapter;
     private RecyclerView rv;
-    private Doctor doctor;
+    private Patient patient;
     private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
-        setContentView(R.layout.activity_doctor_appntmnts);
+        setContentView(R.layout.activity_patient_appntmnts);
 
-        doctor = (Doctor) getIntent().getSerializableExtra("doctor");
+        patient = (Patient) getIntent().getSerializableExtra("patient");
         manager = (ListsManager) getIntent().getSerializableExtra("manager");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(getResources().getString(R.string.doctor_n, doctor
+            getSupportActionBar().setTitle(getResources().getString(R.string.patient_n, patient
                     .getName()));
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        if (doctor != null) {
+        if (patient != null) {
             TextView id = (TextView) findViewById(R.id.id);
-            id.setText(doctor.getId());
-            TextView spec = (TextView) findViewById(R.id.specialization);
-            spec.setText(doctor.getSpecialization());
+            id.setText(patient.getId());
+            TextView age = (TextView) findViewById(R.id.age);
+            age.setText(String.valueOf(patient.getAge()));
+            TextView gender = (TextView) findViewById(R.id.gender);
+            gender.setText(ListsManager.makeNameCamelCase(patient.getGender().toString()));
+            ImageView genderIcon = (ImageView) findViewById(R.id.genderIcon);
+            genderIcon.setImageDrawable(IconTintUtils.getTintedIcon(context, R.drawable
+                    .ic_gender, getGenderColor(patient.getGender())));
+            TextView rh = (TextView) findViewById(R.id.rh);
+            rh.setText(patient.getRh());
+            TextView eps = (TextView) findViewById(R.id.eps);
+            eps.setText(patient.getEps());
         }
 
         rv = (RecyclerView) findViewById(R.id.rv);
         rv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         rv.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         rv.setNestedScrollingEnabled(false);
-        updateAdapter(doctor);
+        updateAdapter(patient);
 
         FloatingActionButton addAppntmnt = (FloatingActionButton) findViewById(R.id.fab);
         addAppntmnt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (manager.getPatients().size() > 0) {
+                if (manager.getDoctors().size() > 0) {
                     Intent intent = new Intent(context, CreateAppntmntActivity.class);
-                    intent.putExtra("doctor", doctor);
+                    intent.putExtra("patient", patient);
                     intent.putExtra("manager", manager);
                     startActivityForResult(intent, 14);
                 } else {
                     final Snackbar snackbar = Snackbar.make(findViewById(R.id.main), context
-                            .getResources().getString(R.string.not_enough_patients), Snackbar
+                            .getResources().getString(R.string.not_enough_doctors), Snackbar
                             .LENGTH_LONG);
                     snackbar.setAction(android.R.string.ok, new View.OnClickListener() {
                         @Override
@@ -116,9 +129,9 @@ public class DoctorAppntmntsActivity extends AppCompatActivity {
 
     private void finishAndSendData() {
         Intent intent = new Intent();
-        intent.putExtra("doctor", doctor);
+        intent.putExtra("patient", patient);
         intent.putExtra("manager", manager);
-        setResult(12, intent);
+        setResult(13, intent);
         finish();
     }
 
@@ -129,7 +142,7 @@ public class DoctorAppntmntsActivity extends AppCompatActivity {
             case 14:
                 if (data != null) {
                     manager = (ListsManager) data.getSerializableExtra("manager");
-                    updateAdapter((Doctor) data.getSerializableExtra("doctor"));
+                    updateAdapter((Patient) data.getSerializableExtra("patient"));
                 }
                 break;
         }
@@ -138,7 +151,7 @@ public class DoctorAppntmntsActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putSerializable("manager", manager);
-        outState.putSerializable("doctor", doctor);
+        outState.putSerializable("patient", patient);
         super.onSaveInstanceState(outState);
     }
 
@@ -146,21 +159,34 @@ public class DoctorAppntmntsActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         manager = (ListsManager) savedInstanceState.getSerializable("manager");
-        updateAdapter((Doctor) savedInstanceState.getSerializable("doctor"));
+        updateAdapter((Patient) savedInstanceState.getSerializable("patient"));
     }
 
-    private void updateAdapter(Doctor doctor) {
-        if (doctor != null) {
-            this.doctor = doctor;
+    private void updateAdapter(Patient patient) {
+        if (patient != null) {
+            this.patient = patient;
             if (adapter != null) {
-                adapter.updateList(manager.getDoctorAppntmnts(doctor));
+                adapter.updateList(manager.getPatientAppntmnts(patient));
             } else {
-                this.adapter = new AppntmntAdapter(this, doctor, manager.getDoctorAppntmnts
-                        (doctor));
+                this.adapter = new AppntmntAdapter(this, patient, manager.getPatientAppntmnts
+                        (patient));
                 if (rv != null) {
                     rv.setAdapter(adapter);
                 }
             }
+        }
+    }
+
+    @ColorRes
+    private int getGenderColor(Gender gender) {
+        switch (gender) {
+            default:
+            case MALE:
+                return R.color.colorPrimary;
+            case FEMALE:
+                return R.color.pink;
+            case OTHER:
+                return R.color.orange;
         }
     }
 

@@ -79,7 +79,6 @@ public class AppntmntAdapter extends RecyclerView.Adapter<AppntmntAdapter.Appntm
     }
 
     public void updateList(ArrayList<Appntmnt> list) {
-        Log.d("Medicode", "Updating list with " + (list != null ? list.size() : 0) + " items");
         if (list != null) {
             this.list = list;
             this.notifyItemRangeChanged(0, list.size());

@@ -60,6 +60,7 @@
     <string name="appntmnt_success">La cita se ha programado con éxito. Deseas añadir otra cita?</string>
     <string name="appntmnt_error">La cita ya se encuentra programada en la base de datos.</string>
     <string name="appntmnts">Citas</string>
+    <string name="doc_appntmnts">Agenda</string>
     <string name="patient">Paciente</string>
     <string name="date">Fecha</string>
     <string name="tap_to_choose_date">Toca para escoger fecha</string>
@@ -68,4 +69,7 @@
     <string name="not_enough_patients">No hay pacientes a quienes se les pueda asignar una cita.</string>
     <string name="not_enough_doctors">No hay doctores a quienes se les pueda solicitar una cita.</string>
     <string name="full_date">%1$s de %2$s de %3$s  a las  %4$s:%5$s %6$s</string>
+    <string name="search_x">Buscar %1$s…</string>
+    <string name="about">Acerca de</string>
+    <string name="jahir_info">Aplicación desarrollada por Jahir Fiquitiva.\nCódigo: 201521721</string>
 </resources>

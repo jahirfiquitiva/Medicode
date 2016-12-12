@@ -29,4 +29,24 @@
         <item>Ginecólogo</item>
         <item>Urólogo</item>
     </string-array>
+
+    <string-array name="genders">
+        <item>Masculino</item>
+        <item>Femenino</item>
+        <item>Otro</item>
+    </string-array>
+
+    <string-array name="rhs">
+        <item>O+</item>
+        <item>O-</item>
+        <item>A+</item>
+        <item>A-</item>
+        <item>B+</item>
+        <item>B-</item>
+        <item>AB+</item>
+        <item>AB-</item>
+        <item>H/H</item>
+        <item>Desconocido</item>
+    </string-array>
+
 </resources>

@@ -94,9 +94,9 @@ public class LoginActivity extends AppCompatActivity {
         MaterialDialog dialog = new MaterialDialog.Builder(context)
                 .title(R.string.login)
                 .customView(R.layout.login_dialog, true)
-                .positiveColor(ContextCompat.getColor(context, R.color.darkAccent))
+                .positiveColor(ContextCompat.getColor(context, R.color.colorPrimary))
                 .positiveText(R.string.login)
-                .negativeColor(ContextCompat.getColor(context, R.color.darkAccent))
+                .negativeColor(ContextCompat.getColor(context, R.color.colorPrimary))
                 .negativeText(android.R.string.cancel)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                                         .content(R.string.invalid_user)
                                         .positiveText(android.R.string.ok)
                                         .positiveColor(ContextCompat.getColor(context, R.color
-                                                .darkAccent))
+                                                .colorPrimary))
                                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                                             @Override
                                             public void onClick(@NonNull MaterialDialog dialog,
@@ -132,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
                                     .content(R.string.user_does_not_exist)
                                     .positiveText(android.R.string.ok)
                                     .positiveColor(ContextCompat.getColor(context, R.color
-                                            .darkAccent))
+                                            .colorPrimary))
                                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                                         @Override
                                         public void onClick(@NonNull MaterialDialog dialog,
@@ -181,9 +181,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        MDTintHelper.setTint(checkbox, ContextCompat.getColor(context, R.color.darkAccent));
-        MDTintHelper.setTint(userInput, ContextCompat.getColor(context, R.color.darkAccent));
-        MDTintHelper.setTint(passwordInput, ContextCompat.getColor(context, R.color.darkAccent));
+        MDTintHelper.setTint(checkbox, ContextCompat.getColor(context, R.color.colorPrimary));
+        MDTintHelper.setTint(userInput, ContextCompat.getColor(context, R.color.colorPrimary));
+        MDTintHelper.setTint(passwordInput, ContextCompat.getColor(context, R.color.colorPrimary));
 
         positiveAction.setEnabled(false);
 
@@ -213,9 +213,9 @@ public class LoginActivity extends AppCompatActivity {
         MaterialDialog dialog = new MaterialDialog.Builder(context)
                 .title(R.string.login)
                 .customView(R.layout.login_dialog, true)
-                .positiveColor(ContextCompat.getColor(context, R.color.darkAccent))
+                .positiveColor(ContextCompat.getColor(context, R.color.colorPrimary))
                 .positiveText(R.string.login)
-                .negativeColor(ContextCompat.getColor(context, R.color.darkAccent))
+                .negativeColor(ContextCompat.getColor(context, R.color.colorPrimary))
                 .negativeText(android.R.string.cancel)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
@@ -258,8 +258,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        MDTintHelper.setTint(checkbox, ContextCompat.getColor(context, R.color.darkAccent));
-        MDTintHelper.setTint(passwordInput, ContextCompat.getColor(context, R.color.darkAccent));
+        MDTintHelper.setTint(checkbox, ContextCompat.getColor(context, R.color.colorPrimary));
+        MDTintHelper.setTint(passwordInput, ContextCompat.getColor(context, R.color.colorPrimary));
 
         positiveAction.setEnabled(false);
 

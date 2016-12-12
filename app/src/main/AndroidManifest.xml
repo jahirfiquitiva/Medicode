@@ -1,72 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2016. Jahir Fiquitiva
-  ~
-  ~ 	Licensed under the CreativeCommons Attribution-ShareAlike
-  ~ 	4.0 International License. You may not use this file except in compliance
-  ~ 	with the License. You may obtain a copy of the License at
-  ~
-  ~ 	   http://creativecommons.org/licenses/by-sa/4.0/legalcode
-  ~
-  ~ 	Unless required by applicable law or agreed to in writing, software
-  ~ 	distributed under the License is distributed on an "AS IS" BASIS,
-  ~ 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ 	See the License for the specific language governing permissions and
-  ~ 	limitations under the License.
--->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="jahirfiquitiva.apps.medicode">
-
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
-    <application
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:supportsRtl="true"
-            android:theme="@style/ColdStart"
-            tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity
-                android:name=".activities.LoginActivity"
-                android:noHistory="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-        <activity
-                android:name=".activities.MainActivity"
-                android:theme="@style/AppTheme">
-        </activity>
-        <activity
-                android:name=".activities.CreateDoctorActivity"
-                android:label="@string/title_activity_create_doctor"
-                android:parentActivityName=".activities.MainActivity"
-                android:theme="@style/AppTheme">
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value="jahirfiquitiva.apps.medicode.activities.MainActivity"/>
-        </activity>
-        <activity
-                android:name=".activities.DoctorAppntmntsActivity"
-                android:parentActivityName=".activities.MainActivity"
-                android:theme="@style/AppTheme">
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value="jahirfiquitiva.apps.medicode.activities.MainActivity"/>
-        </activity>
-        <activity
-                android:name=".activities.CreateAppntmntActivity"
-                android:label="@string/appntmnts"
-                android:parentActivityName=".activities.MainActivity"
-                android:theme="@style/DatePicker">
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value="jahirfiquitiva.apps.medicode.activities.MainActivity"/>
-        </activity>
-    </application>
-
-</manifest>
+<?xml version="1.0" encoding="utf-8"?><!--  ~ Copyright (c) 2016. Jahir Fiquitiva  ~  ~ 	Licensed under the CreativeCommons Attribution-ShareAlike  ~ 	4.0 International License. You may not use this file except in compliance  ~ 	with the License. You may obtain a copy of the License at  ~  ~ 	   http://creativecommons.org/licenses/by-sa/4.0/legalcode  ~  ~ 	Unless required by applicable law or agreed to in writing, software  ~ 	distributed under the License is distributed on an "AS IS" BASIS,  ~ 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  ~ 	See the License for the specific language governing permissions and  ~ 	limitations under the License.--><manifest xmlns:android="http://schemas.android.com/apk/res/android"          xmlns:tools="http://schemas.android.com/tools"          package="jahirfiquitiva.apps.medicode">    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>    <application            android:allowBackup="true"            android:icon="@mipmap/ic_launcher"            android:label="@string/app_name"            android:supportsRtl="true"            android:theme="@style/ColdStart"            tools:ignore="AllowBackup,GoogleAppIndexingWarning">        <activity                android:name=".activities.LoginActivity"                android:noHistory="true">            <intent-filter>                <action android:name="android.intent.action.MAIN"/>                <category android:name="android.intent.category.LAUNCHER"/>            </intent-filter>        </activity>        <activity                android:name=".activities.MainActivity"                android:theme="@style/AppTheme">        </activity>        <activity                android:name=".activities.CreateDoctorActivity"                android:label="@string/title_activity_create_doctor"                android:parentActivityName=".activities.MainActivity"                android:theme="@style/AppTheme">            <meta-data                    android:name="android.support.PARENT_ACTIVITY"                    android:value="jahirfiquitiva.apps.medicode.activities.MainActivity"/>        </activity>        <activity                android:name=".activities.DoctorAppntmntsActivity"                android:parentActivityName=".activities.MainActivity"                android:theme="@style/AppTheme">            <meta-data                    android:name="android.support.PARENT_ACTIVITY"                    android:value="jahirfiquitiva.apps.medicode.activities.MainActivity"/>        </activity>		<activity                android:name=".activities.PatientAppntmntsActivity"                android:parentActivityName=".activities.MainActivity"                android:theme="@style/AppTheme">            <meta-data                    android:name="android.support.PARENT_ACTIVITY"                    android:value="jahirfiquitiva.apps.medicode.activities.MainActivity"/>        </activity>        <activity                android:name=".activities.CreateAppntmntActivity"                android:label="@string/appntmnts"                android:parentActivityName=".activities.MainActivity"                android:theme="@style/DatePicker">            <meta-data                    android:name="android.support.PARENT_ACTIVITY"                    android:value="jahirfiquitiva.apps.medicode.activities.MainActivity"/>        </activity>    </application></manifest>

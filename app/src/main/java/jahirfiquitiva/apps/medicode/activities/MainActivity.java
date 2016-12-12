@@ -34,12 +34,16 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -49,8 +53,7 @@ import java.io.IOException;
 
 import jahirfiquitiva.apps.medicode.R;
 import jahirfiquitiva.apps.medicode.adapters.PagerAdapter;
-import jahirfiquitiva.apps.medicode.fragments.DoctorsFragment;
-import jahirfiquitiva.apps.medicode.fragments.PatientsFragment;
+import jahirfiquitiva.apps.medicode.fragments.PersonFragment;
 import jahirfiquitiva.apps.medicode.logic.ListsManager;
 import jahirfiquitiva.apps.medicode.persistence.SerializableFile;
 import jahirfiquitiva.apps.medicode.utils.IconTintUtils;
@@ -67,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
     private int lastSelected = 0;
     private boolean open = true;
     private boolean finishActivity = false;
+    private MenuItem mSearchItem;
+    private SearchView mSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        tabs.removeAllTabs();
         tabs.addTab(tabs.newTab().setIcon(IconTintUtils.getTintedIcon(this, R.drawable
                 .ic_doctor, (lastSelected == 0) ?
                 android.R.color.white : R.color.unselectedIcon)));
@@ -139,7 +145,20 @@ public class MainActivity extends AppCompatActivity {
                 super.onPageSelected(position);
                 animateFab(position);
                 enableToolbarScrolling(position, false);
+                if (position != lastSelected) {
+                    Fragment frag = getSupportFragmentManager().findFragmentByTag("page:" +
+                            lastSelected);
+                    if (frag != null && frag instanceof PersonFragment) {
+                        ((PersonFragment) frag).performSearch(null);
+                    }
+                }
                 lastSelected = position;
+                if (mSearchView != null) {
+                    mSearchItem.collapseActionView();
+                    mSearchView.setQueryHint(getString(R.string.search_x, getTabName
+                            (lastSelected)));
+                }
+                invalidateOptionsMenu();
             }
         });
         pager.setAdapter(new PagerAdapter(getSupportFragmentManager(), manager));
@@ -154,13 +173,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case 10:
-            case 11:
-                if (data != null) {
-                    updatePager((ListsManager) data.getSerializableExtra("manager"));
-                }
-                break;
+        if (requestCode >= 10 && requestCode <= 14) {
+            if (data != null) {
+                updatePager((ListsManager) data.getSerializableExtra("manager"));
+            }
         }
     }
 
@@ -168,14 +184,21 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.main_menu, menu);
+        setupSearch(menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.search:
-                // TODO: Search
+            case R.id.about:
+                new MaterialDialog.Builder(this)
+                        .title(R.string.about)
+                        .content(getResources().getString(R.string.jahir_info).replace("\\n", "\n"))
+                        .positiveText(android.R.string.ok)
+                        .positiveColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                        .icon(ContextCompat.getDrawable(this, R.mipmap.logo))
+                        .show();
                 break;
             case R.id.save:
                 requestPermissions(true, false);
@@ -191,8 +214,8 @@ public class MainActivity extends AppCompatActivity {
                 .content(R.string.exit_confirmation)
                 .positiveText(android.R.string.yes)
                 .negativeText(android.R.string.no)
-                .positiveColor(ContextCompat.getColor(context, R.color.darkAccent))
-                .negativeColor(ContextCompat.getColor(context, R.color.darkAccent))
+                .positiveColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                .negativeColor(ContextCompat.getColor(context, R.color.colorPrimary))
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction
@@ -204,9 +227,9 @@ public class MainActivity extends AppCompatActivity {
                                     .positiveText(android.R.string.yes)
                                     .negativeText(android.R.string.no)
                                     .positiveColor(ContextCompat.getColor(context, R.color
-                                            .darkAccent))
+                                            .colorPrimary))
                                     .negativeColor(ContextCompat.getColor(context, R.color
-                                            .darkAccent))
+                                            .colorPrimary))
                                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                                         @Override
                                         public void onClick(@NonNull MaterialDialog dialog, @NonNull
@@ -289,7 +312,7 @@ public class MainActivity extends AppCompatActivity {
                             public void onPermissionDenied() {
                                 Snackbar.make(findViewById(R.id.pager), R.string
                                         .permission_denied, Snackbar
-                                        .LENGTH_INDEFINITE)
+                                        .LENGTH_LONG)
                                         .setAction(android.R.string.ok, new View
                                                 .OnClickListener() {
                                             @Override
@@ -333,8 +356,8 @@ public class MainActivity extends AppCompatActivity {
                     new MaterialDialog.Builder(context)
                             .title(R.string.load_data)
                             .content(R.string.load_data_content)
-                            .positiveColor(ContextCompat.getColor(context, R.color.darkAccent))
-                            .negativeColor(ContextCompat.getColor(context, R.color.darkAccent))
+                            .positiveColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                            .negativeColor(ContextCompat.getColor(context, R.color.colorPrimary))
                             .positiveText(android.R.string.yes)
                             .negativeText(android.R.string.no)
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -351,21 +374,6 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException | ClassNotFoundException e) {
                 // Ignore
             }
-        }
-    }
-
-    private void updatePager(ListsManager mng) {
-        if (mng == null) return;
-        setManager(mng);
-        if (pager != null) {
-            if (pager.getAdapter() != null) {
-                ((PagerAdapter) pager.getAdapter()).setManager(mng);
-                pager.getAdapter().notifyDataSetChanged();
-            } else {
-                pager.setAdapter(new PagerAdapter(getSupportFragmentManager(), mng));
-            }
-            pager.setCurrentItem(lastSelected, true);
-            enableToolbarScrolling(lastSelected, true);
         }
     }
 
@@ -389,6 +397,58 @@ public class MainActivity extends AppCompatActivity {
 
     public void setManager(ListsManager manager) {
         this.manager = manager;
+    }
+
+    private void setupSearch(Menu menu) {
+        mSearchItem = menu.findItem(R.id.search);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
+        try {
+            ((EditText) mSearchView.findViewById(android.support.v7.appcompat.R.id.search_src_text))
+                    .setHintTextColor(ContextCompat.getColor(context, R.color
+                            .semitransparent_white));
+        } catch (Exception ignored) {
+        }
+        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                updatePager(manager);
+                return true;
+            }
+        });
+        mSearchView.setQueryHint(getString(R.string.search_x, getTabName(lastSelected)));
+        mSearchView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus && mSearchItem != null) {
+                    mSearchItem.collapseActionView();
+                }
+            }
+        });
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                search(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                search(s);
+                return false;
+            }
+
+            private void search(String s) {
+                Fragment frag = getSupportFragmentManager().findFragmentByTag("page:" +
+                        lastSelected);
+                if (frag != null && frag instanceof PersonFragment) {
+                    ((PersonFragment) frag).performSearch(s);
+                    updatePager(manager);
+                }
+            }
+        });
+
+        mSearchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
     }
 
     private void animateFab(int pos) {
@@ -452,17 +512,27 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isContentScrollable(Fragment fragment, boolean updating) {
         if (fragment != null) {
-            if (fragment instanceof DoctorsFragment) {
-                if (updating) ((DoctorsFragment) fragment).updateScrollable();
-                return (((DoctorsFragment) fragment)
-                        .isScrollable());
-            } else if (fragment instanceof PatientsFragment) {
-                if (updating) ((PatientsFragment) fragment).updateScrollable();
-                return (((PatientsFragment) fragment)
-                        .isScrollable());
+            if (fragment instanceof PersonFragment) {
+                if (updating) ((PersonFragment) fragment).updateScrollable();
+                return ((PersonFragment) fragment).isScrollable();
             }
         }
         return false;
+    }
+
+    private void updatePager(ListsManager mng) {
+        if (mng == null) return;
+        setManager(mng);
+        if (pager != null) {
+            if (pager.getAdapter() != null) {
+                ((PagerAdapter) pager.getAdapter()).setManager(mng);
+                pager.getAdapter().notifyDataSetChanged();
+            } else {
+                pager.setAdapter(new PagerAdapter(getSupportFragmentManager(), mng));
+            }
+            pager.setCurrentItem(lastSelected, true);
+            enableToolbarScrolling(lastSelected, true);
+        }
     }
 
     private void showToastAndFinish(final Toast toast, boolean finish) {
@@ -480,6 +550,16 @@ public class MainActivity extends AppCompatActivity {
         toast.show();
         if (finish)
             thread.start();
+    }
+
+    private String getTabName(int position) {
+        if (position == 0) {
+            return getResources().getString(R.string.doctor).toLowerCase();
+        } else if (position == 1) {
+            return getResources().getString(R.string.patient).toLowerCase();
+        } else {
+            return "";
+        }
     }
 
 }

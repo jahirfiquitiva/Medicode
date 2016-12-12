@@ -28,8 +28,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import jahirfiquitiva.apps.medicode.R;
-import jahirfiquitiva.apps.medicode.logic.objects.Doctor;
 import jahirfiquitiva.apps.medicode.logic.enums.Gender;
+import jahirfiquitiva.apps.medicode.logic.objects.Doctor;
 import jahirfiquitiva.apps.medicode.logic.objects.Patient;
 import jahirfiquitiva.apps.medicode.utils.IconTintUtils;
 
@@ -62,6 +62,7 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.DoctorsHolde
                         .ic_doctor, R.color.colorPrimary));
                 holder.specialization.setText(context.getResources().getString(R.string
                         .specialization_n, doctors.get(position).getSpecialization()));
+                holder.specialization.setVisibility(View.VISIBLE);
             }
         } else if (patients != null && patients.size() > 0) {
             holder.title.setText(patients.get(position).getName());
@@ -103,6 +104,21 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.DoctorsHolde
         } else {
             this.patients = new ArrayList<>();
             this.notifyItemRangeChanged(0, 0);
+        }
+    }
+
+    public void clearList(int set) {
+        switch (set) {
+            case 0:
+                if (doctors != null) {
+                    doctors.clear();
+                }
+                break;
+            case 1:
+                if (patients != null) {
+                    patients.clear();
+                }
+                break;
         }
     }
 

@@ -20,8 +20,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import jahirfiquitiva.apps.medicode.adapters.base.FragmentStatePagerAdapter;
-import jahirfiquitiva.apps.medicode.fragments.DoctorsFragment;
-import jahirfiquitiva.apps.medicode.fragments.PatientsFragment;
+import jahirfiquitiva.apps.medicode.fragments.PersonFragment;
 import jahirfiquitiva.apps.medicode.logic.ListsManager;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
@@ -37,9 +36,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return DoctorsFragment.newInstance(manager);
+                return PersonFragment.newInstance(manager, true);
             case 1:
-                return PatientsFragment.newInstance(manager.getPatients());
+                return PersonFragment.newInstance(manager, false);
             default:
                 return null;
         }

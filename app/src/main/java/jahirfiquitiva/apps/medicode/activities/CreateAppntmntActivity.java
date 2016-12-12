@@ -167,9 +167,6 @@ public class CreateAppntmntActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (doctor != null && patient != null && (!(selectedDate.isEmpty()))) {
-
-                    //doctor.addAppntmnt(new Appntmnt(doctor, patient, selectedDate));
-
                     final boolean added = manager.addAppntmnt(new Appntmnt(doctor, patient,
                             selectedDate));
 
@@ -178,8 +175,8 @@ public class CreateAppntmntActivity extends AppCompatActivity {
                             .content(added ? R.string.appntmnt_success : R.string.appntmnt_error)
                             .positiveText(added ? android.R.string.yes : android.R.string.ok)
                             .cancelable(false).autoDismiss(false).canceledOnTouchOutside(false)
-                            .positiveColor(ContextCompat.getColor(context, R.color.darkAccent))
-                            .negativeColor(ContextCompat.getColor(context, R.color.darkAccent))
+                            .positiveColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                            .negativeColor(ContextCompat.getColor(context, R.color.colorPrimary))
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
                                 public void onClick(@NonNull MaterialDialog dialog, @NonNull
@@ -212,7 +209,7 @@ public class CreateAppntmntActivity extends AppCompatActivity {
                 } else {
                     final Snackbar snackbar = Snackbar.make(findViewById(R.id.main), context
                             .getResources().getString(R.string.appntmnt_not_filled), Snackbar
-                            .LENGTH_INDEFINITE);
+                            .LENGTH_LONG);
                     snackbar.setAction(android.R.string.ok, new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -248,7 +245,7 @@ public class CreateAppntmntActivity extends AppCompatActivity {
         intent.putExtra("doctor", doctor);
         intent.putExtra("patient", patient);
         intent.putExtra("manager", manager);
-        setResult(13, intent);
+        setResult(14, intent);
         finish();
     }
 
