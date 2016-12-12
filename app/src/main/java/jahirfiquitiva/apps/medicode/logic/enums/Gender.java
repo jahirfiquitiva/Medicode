@@ -16,6 +16,35 @@
 
 package jahirfiquitiva.apps.medicode.logic.enums;
 
+import android.content.Context;
+import android.support.annotation.StringRes;
+
+import jahirfiquitiva.apps.medicode.R;
+
 public enum Gender {
-    MALE, FEMALE, OTHER
+    MALE(R.string.male), FEMALE(R.string.female), OTHER(R.string.other);
+
+    private int def;
+
+    Gender(@StringRes int res) {
+        this.def = res;
+    }
+
+    public String getDef(Context context) {
+        return context.getResources().getString(def);
+    }
+
+    public static Gender getGender(Context context, String text) {
+        if (text.compareToIgnoreCase(context.getResources().getString(R.string.male)) == 0) {
+            return MALE;
+        } else if (text.compareToIgnoreCase(context.getResources().getString(R.string.female)) ==
+                0) {
+            return FEMALE;
+        } else if (text.compareToIgnoreCase(context.getResources().getString(R.string.other)) ==
+                0) {
+            return OTHER;
+        }
+        return null;
+    }
+
 }

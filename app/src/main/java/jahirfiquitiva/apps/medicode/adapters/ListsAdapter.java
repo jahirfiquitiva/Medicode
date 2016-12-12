@@ -34,7 +34,7 @@ import jahirfiquitiva.apps.medicode.logic.objects.Doctor;
 import jahirfiquitiva.apps.medicode.logic.objects.Patient;
 import jahirfiquitiva.apps.medicode.utils.IconTintUtils;
 
-public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.DoctorsHolder> {
+public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.PersonHolder> {
 
     private ArrayList<Doctor> doctors;
     private ArrayList<Patient> patients;
@@ -47,13 +47,13 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.DoctorsHolde
     }
 
     @Override
-    public DoctorsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new DoctorsHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item,
+    public PersonHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new PersonHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item,
                 parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final DoctorsHolder holder, int position) {
+    public void onBindViewHolder(final PersonHolder holder, int position) {
         if (doctors != null && doctors.size() > 0) {
             holder.title.setText(doctors.get(position).getName());
             if (context != null) {
@@ -119,24 +119,25 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.DoctorsHolde
         }
     }
 
-    private void setupClickListener(final DoctorsHolder holder) {
+    private void setupClickListener(final PersonHolder holder) {
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (listener != null)
+                if (listener != null && ((doctors != null && doctors.size() > 0) || (patients !=
+                        null && patients.size() > 0)))
                     listener.onItemClick(holder.getAdapterPosition());
             }
         });
     }
 
-    class DoctorsHolder extends RecyclerView.ViewHolder {
+    class PersonHolder extends RecyclerView.ViewHolder {
         final View view;
         final ImageView icon;
         final TextView title;
         final TextView content;
         final TextView specialization;
 
-        DoctorsHolder(View item) {
+        PersonHolder(View item) {
             super(item);
             view = item;
             icon = (ImageView) item.findViewById(R.id.icon);

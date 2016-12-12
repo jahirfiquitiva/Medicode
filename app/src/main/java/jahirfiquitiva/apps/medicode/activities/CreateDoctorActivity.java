@@ -44,6 +44,7 @@ public class CreateDoctorActivity extends AppCompatActivity {
     private Context context;
     private ListsManager manager;
     private Snackbar snackbar;
+    private MaterialDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +73,8 @@ public class CreateDoctorActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 hideKeyboard();
-                new MaterialDialog.Builder(context)
+                dismissPreviousDialog();
+                dialog = new MaterialDialog.Builder(context)
                         .title(R.string.specialization)
                         .items(R.array.specializations)
                         .itemsCallback(new MaterialDialog.ListCallback() {
@@ -82,7 +84,8 @@ public class CreateDoctorActivity extends AppCompatActivity {
                                 specialization.setText(text);
                             }
                         })
-                        .show();
+                        .build();
+                dialog.show();
             }
         });
 
@@ -102,8 +105,8 @@ public class CreateDoctorActivity extends AppCompatActivity {
 
                     final boolean added = manager.addDoctor(new Doctor(docName, docID,
                             docSpecialization));
-
-                    MaterialDialog dialog = new MaterialDialog.Builder(context)
+                    dismissPreviousDialog();
+                    dialog = new MaterialDialog.Builder(context)
                             .title(added ? R.string.success : R.string.error)
                             .content(added ? R.string.doctor_success : R.string.doctor_error)
                             .positiveText(added ? android.R.string.yes : android.R.string.ok)
@@ -170,6 +173,11 @@ public class CreateDoctorActivity extends AppCompatActivity {
         finishAndSendData();
     }
 
+    @Override
+    protected void onDestroy() {
+        dismissPreviousDialog();
+    }
+
     private void finishAndSendData() {
         Intent intent = new Intent();
         intent.putExtra("manager", manager);
@@ -185,6 +193,12 @@ public class CreateDoctorActivity extends AppCompatActivity {
             imm.hideSoftInputFromWindow(findViewById(R.id.main).getWindowToken(), 0);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void dismissPreviousDialog() {
+        if (dialog != null) {
+            dialog.dismiss();
         }
     }
 

@@ -81,15 +81,22 @@ public class PersonFragment extends Fragment {
                 () {
             @Override
             public void onItemClick(int position) {
-                Intent intent = new Intent(getActivity(), doctorsFrag ? DoctorAppntmntsActivity
-                        .class : PatientAppntmntsActivity.class);
+                Intent intent = null;
                 if (doctorsFrag) {
-                    intent.putExtra("doctor", doctors.get(position));
+                    if (doctors != null && doctors.size() > 0) {
+                        intent = new Intent(getActivity(), DoctorAppntmntsActivity.class);
+                        intent.putExtra("doctor", doctors.get(position));
+                    }
                 } else {
-                    intent.putExtra("patient", patients.get(position));
+                    if (patients != null && patients.size() > 0) {
+                        intent = new Intent(getActivity(), PatientAppntmntsActivity.class);
+                        intent.putExtra("patient", patients.get(position));
+                    }
                 }
-                intent.putExtra("manager", manager);
-                startActivityForResult(intent, doctorsFrag ? 12 : 13);
+                if (intent != null) {
+                    intent.putExtra("manager", manager);
+                    startActivityForResult(intent, doctorsFrag ? 12 : 13);
+                }
             }
         });
 
@@ -164,16 +171,20 @@ public class PersonFragment extends Fragment {
                 ((doctors != null ? doctors.size() : patients != null ? patients.size() : 0) - 1));
     }
 
-    public boolean isScrollable() {
-        return layoutScrollable();
-    }
-
     public void performSearch(String query) {
         if (query != null) {
             if (doctorsFrag) {
                 filterDoctors(query, adapter);
             } else {
                 filterPatients(query, adapter);
+            }
+        } else {
+            if (doctorsFrag) {
+                adapter.setDoctors(doctors);
+                adapter.notifyDataSetChanged();
+            } else {
+                adapter.setPatients(patients);
+                adapter.notifyDataSetChanged();
             }
         }
     }
@@ -184,7 +195,7 @@ public class PersonFragment extends Fragment {
                 Log.d("Medicode", "Nothing to search setting default doctors");
                 filteredDoctors = null;
                 adapter.clearList(0);
-                adapter.setDoctors(doctors);
+                adapter.setDoctors(null);
             } else {
                 Log.d("Medicode", "Searching for doctor: " + s.toString());
                 if (filteredDoctors != null) {
@@ -201,7 +212,6 @@ public class PersonFragment extends Fragment {
                 adapter.clearList(0);
                 adapter.setDoctors(filteredDoctors);
             }
-            adapter.notifyDataSetChanged();
         }
     }
 

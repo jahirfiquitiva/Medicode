@@ -25,6 +25,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import jahirfiquitiva.apps.medicode.R;
 import jahirfiquitiva.apps.medicode.logic.ListsManager;
+import jahirfiquitiva.apps.medicode.logic.enums.Gender;
 
 public class CreatePatientActivity extends AppCompatActivity {
 
@@ -49,24 +50,25 @@ public class CreatePatientActivity extends AppCompatActivity {
 
         final EditText name = (EditText) findViewById(R.id.name);
         final EditText id = (EditText) findViewById(R.id.id);
-        final LinearLayout specLayout = (LinearLayout) findViewById(R.id.specializationLayout);
-        final TextView specialization = (TextView) findViewById(R.id.specialization);
+        final LinearLayout genderLayout = (LinearLayout) findViewById(R.id.genderLayout);
+        final TextView gender = (TextView) findViewById(R.id.gender);
+
         InputMethodManager imm = (InputMethodManager)
                 getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 
-        specLayout.setOnClickListener(new View.OnClickListener() {
+        genderLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 hideKeyboard();
                 new MaterialDialog.Builder(context)
-                        .title(R.string.specialization)
-                        .items(R.array.specializations)
+                        .title(R.string.gender)
+                        .items(R.array.genders)
                         .itemsCallback(new MaterialDialog.ListCallback() {
                             @Override
                             public void onSelection(MaterialDialog dialog, View itemView, int
                                     position, CharSequence text) {
-                                specialization.setText(text);
+                                gender.setText(text);
                             }
                         })
                         .show();
@@ -77,11 +79,11 @@ public class CreatePatientActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String docName = name.getText().toString().trim();
-                String docID = id.getText().toString().trim();
-                String docSpecialization = specialization.getText().toString().trim();
-                if (docName.length() > 0 && docID.length() > 3
-                        && docSpecialization.length() > 0) {
+                String patName = name.getText().toString().trim();
+                String patID = id.getText().toString().trim();
+                Gender patGender = Gender.getGender(context, gender.getText().toString().trim());
+                if (patName.length() > 0 && patID.length() > 3
+                        && patGender != null) {
 
                     if (snackbar != null && snackbar.isShown()) {
                         snackbar.dismiss();
@@ -105,7 +107,7 @@ public class CreatePatientActivity extends AppCompatActivity {
                                     dialog.dismiss();
                                     name.setText("");
                                     id.setText("");
-                                    specialization.setText("");
+                                    gender.setText("");
                                     name.requestFocus();
                                     InputMethodManager imm = (InputMethodManager)
                                             getSystemService(Context.INPUT_METHOD_SERVICE);

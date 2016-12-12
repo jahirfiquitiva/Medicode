@@ -39,7 +39,7 @@
                 android:title="@string/app_name"
                 android:theme="@style/Toolbar.AppCompat.Responsive"
                 android:popupTheme="@style/Toolbar.Popup.AppCompat"
-                app:layout_scrollFlags="scroll|enterAlways"/>
+                app:layout_scrollFlags="enterAlways"/>
 
         <android.support.design.widget.TabLayout
                 android:id="@+id/tabs"
