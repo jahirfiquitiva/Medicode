@@ -1,5 +1,17 @@
 /*
- * Copyright (c) 2016. Jahir Fiquitiva. Android Developer. All rights reserved.
+ * Copyright (c) 2016. Jahir Fiquitiva
+ *
+ * Licensed under the CreativeCommons Attribution-ShareAlike
+ * 4.0 International License. You may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *    http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package jahirfiquitiva.apps.medicode.activities;
@@ -26,6 +38,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import jahirfiquitiva.apps.medicode.R;
 import jahirfiquitiva.apps.medicode.logic.ListsManager;
 import jahirfiquitiva.apps.medicode.logic.enums.Gender;
+import jahirfiquitiva.apps.medicode.logic.objects.Patient;
 
 public class CreatePatientActivity extends AppCompatActivity {
 
@@ -50,13 +63,11 @@ public class CreatePatientActivity extends AppCompatActivity {
 
         final EditText name = (EditText) findViewById(R.id.name);
         final EditText id = (EditText) findViewById(R.id.id);
+        final EditText age = (EditText) findViewById(R.id.age);
+        final EditText eps = (EditText) findViewById(R.id.eps);
+
         final LinearLayout genderLayout = (LinearLayout) findViewById(R.id.genderLayout);
         final TextView gender = (TextView) findViewById(R.id.gender);
-
-        InputMethodManager imm = (InputMethodManager)
-                getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-
         genderLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,23 +86,50 @@ public class CreatePatientActivity extends AppCompatActivity {
             }
         });
 
+        final LinearLayout rhLayout = (LinearLayout) findViewById(R.id.rhLayout);
+        final TextView rh = (TextView) findViewById(R.id.rh);
+        rhLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideKeyboard();
+                new MaterialDialog.Builder(context)
+                        .title(R.string.rh)
+                        .items(R.array.rhs)
+                        .itemsCallback(new MaterialDialog.ListCallback() {
+                            @Override
+                            public void onSelection(MaterialDialog dialog, View itemView, int
+                                    position, CharSequence text) {
+                                rh.setText(text);
+                            }
+                        })
+                        .show();
+            }
+        });
+
+        InputMethodManager imm = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String patName = name.getText().toString().trim();
                 String patID = id.getText().toString().trim();
+                String patAge = age.getText().toString().trim();
                 Gender patGender = Gender.getGender(context, gender.getText().toString().trim());
+                String patRh = rh.getText().toString().trim();
+                String patEps = eps.getText().toString().trim();
                 if (patName.length() > 0 && patID.length() > 3
-                        && patGender != null) {
+                        && patGender != null && patAge.length() > 0 && patRh.length() > 0 &&
+                        patEps.length() > 0) {
 
                     if (snackbar != null && snackbar.isShown()) {
                         snackbar.dismiss();
                     }
 
-                    // TODO Add patient properly
-                    final boolean added = false;
-                    // final boolean added = manager.addPatient(new Patient());
+                    final boolean added = manager.addPatient(new Patient(patName, patID, Integer
+                            .parseInt(patAge), patGender, patRh, patEps));
 
                     MaterialDialog dialog = new MaterialDialog.Builder(context)
                             .title(added ? R.string.success : R.string.error)
@@ -107,7 +145,10 @@ public class CreatePatientActivity extends AppCompatActivity {
                                     dialog.dismiss();
                                     name.setText("");
                                     id.setText("");
+                                    age.setText("");
                                     gender.setText("");
+                                    rh.setText("");
+                                    eps.setText("");
                                     name.requestFocus();
                                     InputMethodManager imm = (InputMethodManager)
                                             getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -163,7 +204,7 @@ public class CreatePatientActivity extends AppCompatActivity {
     private void finishAndSendData() {
         Intent intent = new Intent();
         intent.putExtra("manager", manager);
-        setResult(10, intent);
+        setResult(11, intent);
         hideKeyboard();
         finish();
     }

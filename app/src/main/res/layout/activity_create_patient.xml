@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2016. Jahir Fiquitiva. Android Developer. All rights reserved.
+  ~ Copyright (c) 2016. Jahir Fiquitiva
+  ~
+  ~ Licensed under the CreativeCommons Attribution-ShareAlike
+  ~ 4.0 International License. You may not use this file except in compliance
+  ~ with the License. You may obtain a copy of the License at
+  ~
+  ~    http://creativecommons.org/licenses/by-sa/4.0/legalcode
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
   -->
 
 <android.support.design.widget.CoordinatorLayout
@@ -75,7 +87,6 @@
                     android:layout_marginEnd="@dimen/field_margin_r"
                     android:inputType="text"
                     android:textSize="18sp"
-                    android:hint="@string/full_name"
                     android:textColor="@color/primary_text"
                     android:textColorHint="@color/tertiary_text"/>
 
@@ -123,7 +134,6 @@
                     android:inputType="number"
                     android:textSize="18sp"
                     android:maxLength="10"
-                    android:hint="@string/id"
                     android:textColor="@color/primary_text"
                     android:textColorHint="@color/tertiary_text"/>
 
@@ -171,7 +181,6 @@
                     android:inputType="number"
                     android:textSize="18sp"
                     android:maxLength="3"
-                    android:hint="@string/age"
                     android:textColor="@color/primary_text"
                     android:textColorHint="@color/tertiary_text"/>
 
@@ -220,7 +229,7 @@
                     android:layout_marginRight="@dimen/field_margin_r"
                     android:layout_marginEnd="@dimen/field_margin_r"
                     android:textSize="18sp"
-                    android:hint="@string/gender"
+                    android:hint="@string/tap_to_choose_gender"
                     android:textColor="@color/primary_text"
                     android:textColorHint="@color/tertiary_text"/>
 
@@ -269,7 +278,7 @@
                     android:layout_marginRight="@dimen/field_margin_r"
                     android:layout_marginEnd="@dimen/field_margin_r"
                     android:textSize="18sp"
-                    android:hint="@string/rh"
+                    android:hint="@string/tap_to_choose_rh"
                     android:textColor="@color/primary_text"
                     android:textColorHint="@color/tertiary_text"/>
 
@@ -292,33 +301,30 @@
                 android:textAppearance="@style/SecondaryText"/>
 
         <LinearLayout
-                android:id="@+id/epsLayout"
+                android:layout_marginTop="6dp"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_marginTop="12dp"
                 android:layout_height="wrap_content">
 
             <ImageView
                     android:layout_marginLeft="@dimen/icon_margin"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    app:srcCompat="@drawable/ic_eps"
                     android:paddingEnd="@dimen/item_margin"
                     android:paddingRight="@dimen/item_margin"
+                    app:srcCompat="@drawable/ic_eps"
                     tools:ignore="ContentDescription,RtlHardcoded,RtlSymmetry"/>
 
-            <TextView
+            <EditText
                     android:id="@+id/eps"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/item_margin"
-                    android:layout_marginBottom="@dimen/item_margin"
-                    android:layout_marginLeft="@dimen/field_margin_l"
-                    android:layout_marginStart="@dimen/field_margin_l"
+                    android:layout_marginLeft="@dimen/field_margin"
+                    android:layout_marginStart="@dimen/field_margin"
                     android:layout_marginRight="@dimen/field_margin_r"
                     android:layout_marginEnd="@dimen/field_margin_r"
+                    android:inputType="text"
                     android:textSize="18sp"
-                    android:hint="@string/eps"
                     android:textColor="@color/primary_text"
                     android:textColorHint="@color/tertiary_text"/>
 

@@ -1,17 +1,17 @@
 /*
  * Copyright (c) 2016. Jahir Fiquitiva
  *
- * 	Licensed under the CreativeCommons Attribution-ShareAlike
- * 	4.0 International License. You may not use this file except in compliance
- * 	with the License. You may obtain a copy of the License at
+ * Licensed under the CreativeCommons Attribution-ShareAlike
+ * 4.0 International License. You may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
  *
- * 	   http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *    http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
- * 	Unless required by applicable law or agreed to in writing, software
- * 	distributed under the License is distributed on an "AS IS" BASIS,
- * 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * 	See the License for the specific language governing permissions and
- * 	limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package jahirfiquitiva.apps.medicode.adapters;
@@ -19,7 +19,6 @@ package jahirfiquitiva.apps.medicode.adapters;
 import android.content.Context;
 import android.support.annotation.ColorRes;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +43,17 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.PersonHolder
     public ListsAdapter(Context context, ItemClickListener listener) {
         this.context = context;
         this.listener = listener;
+    }
+
+    public ListsAdapter(Context context, ItemClickListener listener, ArrayList<Doctor> doctors) {
+        this(context, listener);
+        this.doctors = doctors;
+    }
+
+
+    public ListsAdapter(Context context, ArrayList<Patient> patients, ItemClickListener listener) {
+        this(context, listener);
+        this.patients = patients;
     }
 
     @Override
@@ -81,42 +91,6 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.PersonHolder
     @Override
     public int getItemCount() {
         return doctors != null ? doctors.size() : patients != null ? patients.size() : 0;
-    }
-
-    public void setDoctors(ArrayList<Doctor> list) {
-        Log.d("Medicode", "Adding " + (list != null ? list.size() : 0) + " doctor");
-        if (list != null && (!(list.isEmpty()))) {
-            this.doctors = list;
-            // this.notifyItemRangeChanged(0, list.size());
-        } else {
-            this.doctors = new ArrayList<>();
-            // this.notifyItemRangeChanged(0, 0);
-        }
-    }
-
-    public void setPatients(ArrayList<Patient> list) {
-        if (list != null) {
-            this.patients = list;
-            // this.notifyItemRangeChanged(0, list.size());
-        } else {
-            this.patients = new ArrayList<>();
-            // this.notifyItemRangeChanged(0, 0);
-        }
-    }
-
-    public void clearList(int set) {
-        switch (set) {
-            case 0:
-                if (doctors != null) {
-                    doctors.clear();
-                }
-                break;
-            case 1:
-                if (patients != null) {
-                    patients.clear();
-                }
-                break;
-        }
     }
 
     private void setupClickListener(final PersonHolder holder) {

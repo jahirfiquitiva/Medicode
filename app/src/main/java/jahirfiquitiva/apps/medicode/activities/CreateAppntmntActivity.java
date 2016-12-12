@@ -1,17 +1,17 @@
 /*
  * Copyright (c) 2016. Jahir Fiquitiva
  *
- * 	Licensed under the CreativeCommons Attribution-ShareAlike
- * 	4.0 International License. You may not use this file except in compliance
- * 	with the License. You may obtain a copy of the License at
+ * Licensed under the CreativeCommons Attribution-ShareAlike
+ * 4.0 International License. You may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
  *
- * 	   http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *    http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
- * 	Unless required by applicable law or agreed to in writing, software
- * 	distributed under the License is distributed on an "AS IS" BASIS,
- * 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * 	See the License for the specific language governing permissions and
- * 	limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package jahirfiquitiva.apps.medicode.activities;
@@ -42,9 +42,9 @@ import java.text.DateFormatSymbols;
 import java.util.Calendar;
 
 import jahirfiquitiva.apps.medicode.R;
+import jahirfiquitiva.apps.medicode.logic.ListsManager;
 import jahirfiquitiva.apps.medicode.logic.objects.Appntmnt;
 import jahirfiquitiva.apps.medicode.logic.objects.Doctor;
-import jahirfiquitiva.apps.medicode.logic.ListsManager;
 import jahirfiquitiva.apps.medicode.logic.objects.Patient;
 
 public class CreateAppntmntActivity extends AppCompatActivity {
@@ -54,6 +54,7 @@ public class CreateAppntmntActivity extends AppCompatActivity {
     private Patient patient;
     private Context context;
     private String selectedDate = "";
+    private MaterialDialog dialog;
     private boolean hadDoctor = true;
 
     @Override
@@ -81,7 +82,8 @@ public class CreateAppntmntActivity extends AppCompatActivity {
             docName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new MaterialDialog.Builder(context)
+                    dismissPreviousDialog();
+                    dialog = new MaterialDialog.Builder(context)
                             .title(R.string.doctor)
                             .items(manager.getDoctors())
                             .itemsCallback(new MaterialDialog.ListCallback() {
@@ -91,8 +93,8 @@ public class CreateAppntmntActivity extends AppCompatActivity {
                                     docName.setText(text);
                                     setDoctor(manager.getDoctors().get(position));
                                 }
-                            })
-                            .show();
+                            }).build();
+                    dialog.show();
                 }
             });
         }
@@ -104,7 +106,8 @@ public class CreateAppntmntActivity extends AppCompatActivity {
             patientName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new MaterialDialog.Builder(context)
+                    dismissPreviousDialog();
+                    dialog = new MaterialDialog.Builder(context)
                             .title(R.string.patient)
                             .items(manager.getPatients())
                             .itemsCallback(new MaterialDialog.ListCallback() {
@@ -169,8 +172,8 @@ public class CreateAppntmntActivity extends AppCompatActivity {
                 if (doctor != null && patient != null && (!(selectedDate.isEmpty()))) {
                     final boolean added = manager.addAppntmnt(new Appntmnt(doctor, patient,
                             selectedDate));
-
-                    MaterialDialog dialog = new MaterialDialog.Builder(context)
+                    dismissPreviousDialog();
+                    dialog = new MaterialDialog.Builder(context)
                             .title(added ? R.string.success : R.string.error)
                             .content(added ? R.string.appntmnt_success : R.string.appntmnt_error)
                             .positiveText(added ? android.R.string.yes : android.R.string.ok)
@@ -205,6 +208,7 @@ public class CreateAppntmntActivity extends AppCompatActivity {
                     if (added) {
                         dialog.setActionButton(DialogAction.NEGATIVE, android.R.string.no);
                     }
+
                     dialog.show();
                 } else {
                     final Snackbar snackbar = Snackbar.make(findViewById(R.id.main), context
@@ -240,6 +244,12 @@ public class CreateAppntmntActivity extends AppCompatActivity {
         finishAndSendData();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dismissPreviousDialog();
+    }
+
     private void finishAndSendData() {
         Intent intent = new Intent();
         intent.putExtra("doctor", doctor);
@@ -267,6 +277,12 @@ public class CreateAppntmntActivity extends AppCompatActivity {
 
     private void setPatient(Patient patient) {
         this.patient = patient;
+    }
+
+    private void dismissPreviousDialog() {
+        if (dialog != null) {
+            dialog.dismiss();
+        }
     }
 
 }

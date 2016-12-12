@@ -1,17 +1,17 @@
 /*
  * Copyright (c) 2016. Jahir Fiquitiva
  *
- * 	Licensed under the CreativeCommons Attribution-ShareAlike
- * 	4.0 International License. You may not use this file except in compliance
- * 	with the License. You may obtain a copy of the License at
+ * Licensed under the CreativeCommons Attribution-ShareAlike
+ * 4.0 International License. You may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
  *
- * 	   http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *    http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
- * 	Unless required by applicable law or agreed to in writing, software
- * 	distributed under the License is distributed on an "AS IS" BASIS,
- * 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * 	See the License for the specific language governing permissions and
- * 	limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package jahirfiquitiva.apps.medicode.activities;
@@ -68,11 +68,11 @@ public class MainActivity extends AppCompatActivity {
     private Context context;
     private ListsManager manager;
     private SerializableFile file;
+    private MenuItem mSearchItem;
+    private SearchView mSearchView;
     private int lastSelected = 0;
     private boolean open = true;
     private boolean finishActivity = false;
-    private MenuItem mSearchItem;
-    private SearchView mSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         manager = new ListsManager();
-
+        //TODO Delete this
         manager.addPatient(new Patient("Fulanito", "123", 19, Gender.MALE, "O+", "Nueva EPS"));
 
         requestPermissions(false, false);
@@ -100,18 +100,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent create = null;
+                boolean doctor = true;
                 switch (lastSelected) {
                     case 0:
                         create = new Intent(context, CreateDoctorActivity.class);
                         break;
-                    default:
-                        Toast.makeText(context, "Creando datos de la lista: " + String.valueOf
-                                (lastSelected + 1), Toast.LENGTH_SHORT).show();
+                    case 1:
+                        doctor = false;
+                        create = new Intent(context, CreatePatientActivity.class);
                         break;
                 }
                 if (create != null) {
                     create.putExtra("manager", manager);
-                    startActivityForResult(create, 10);
+                    startActivityForResult(create, doctor ? 10 : 11);
                 }
             }
         });
@@ -145,24 +146,25 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 animateFab(position);
-                if (position != lastSelected) {
+                /*
+                if (lastSelected > -1) {
                     Fragment frag = getSupportFragmentManager().findFragmentByTag("page:" +
                             lastSelected);
-                    if (frag != null && frag instanceof PersonFragment) {
+                    if ((frag != null) && (frag instanceof PersonFragment)) {
                         ((PersonFragment) frag).performSearch(null);
                     }
                 }
+                */
                 lastSelected = position;
                 if (mSearchView != null) {
-                    mSearchItem.collapseActionView();
                     mSearchView.setQueryHint(getString(R.string.search_x, getTabName
                             (lastSelected)));
                 }
                 invalidateOptionsMenu();
             }
         });
+        pager.setOffscreenPageLimit(2);
         pager.setAdapter(new PagerAdapter(getSupportFragmentManager(), manager));
-        pager.setOffscreenPageLimit(3);
     }
 
     @Override
@@ -253,7 +255,6 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .show();
     }
-
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -414,6 +415,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
+                search(null);
                 return true;
             }
 
@@ -429,8 +431,8 @@ public class MainActivity extends AppCompatActivity {
             public void onFocusChange(View view, boolean hasFocus) {
                 if (!hasFocus && mSearchItem != null) {
                     mSearchItem.collapseActionView();
-                    updatePager(manager, lastSelected);
                 }
+                updatePager(manager, lastSelected);
             }
         });
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -445,16 +447,6 @@ public class MainActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String s) {
                 search(s);
                 return true;
-            }
-
-            private void search(String s) {
-                Fragment frag = getSupportFragmentManager().findFragmentByTag("page:" +
-                        lastSelected);
-                if (frag != null) {
-                    if (frag instanceof PersonFragment) {
-                        ((PersonFragment) frag).performSearch(s);
-                    }
-                }
             }
         });
 
@@ -504,35 +496,29 @@ public class MainActivity extends AppCompatActivity {
     private void updatePager(ListsManager mng, int position) {
         if (mng == null) return;
         setManager(mng);
-        Fragment frag = getSupportFragmentManager().findFragmentByTag("page:" +
-                position);
-        if (frag != null) {
-            if (frag instanceof PersonFragment) {
-                if (((PersonFragment) frag).getAdapter() != null) {
-                    if (position == 0) {
-                        ((PersonFragment) frag).getAdapter().setDoctors(mng.getDoctors());
-                    } else if (position == 1) {
-                        ((PersonFragment) frag).getAdapter().setPatients(mng.getPatients());
-                    }
-                    //.getRecycledViewPool().clear();
-                    ((PersonFragment) frag).getAdapter().notifyDataSetChanged();
-                }
-            }
-        }
-        /*
         if (pager != null) {
             if (pager.getAdapter() != null) {
                 ((PagerAdapter) pager.getAdapter()).setManager(mng);
-                pager.getAdapter().notifyDataSetChanged();
-            } else {
-                pager.setAdapter(new PagerAdapter(getSupportFragmentManager(), mng));
+                /*
+                Fragment frag = getSupportFragmentManager().findFragmentByTag("page:" +
+                        position);
+                if (frag != null) {
+                    if (frag instanceof PersonFragment) {
+                        if (((PersonFragment) frag).getAdapter() != null) {
+                            /*
+                            if (position == 0) {
+                                ((PersonFragment) frag).getAdapter().setDoctors(mng.getDoctors());
+                            } else if (position == 1) {
+                                ((PersonFragment) frag).getAdapter().setPatients(mng.getPatients());
+                            }
+                            //.getRecycledViewPool().clear();
+                            ((PersonFragment) frag).getAdapter().notifyDataSetChanged();
+                        }
+                    }
+                }
+                */
             }
-            pager.setCurrentItem(lastSelected, true);
-            enableToolbarScrolling(lastSelected);
-        }
-        */
-        if (pager != null) {
-            pager.setCurrentItem(lastSelected, true);
+            pager.setCurrentItem(lastSelected);
         }
     }
 
@@ -560,6 +546,15 @@ public class MainActivity extends AppCompatActivity {
             return getResources().getString(R.string.patient).toLowerCase();
         } else {
             return "";
+        }
+    }
+
+    private void search(String s) {
+        Fragment frag = getSupportFragmentManager().findFragmentByTag("page:" + lastSelected);
+        if (frag != null) {
+            if (frag instanceof PersonFragment) {
+                ((PersonFragment) frag).performSearch(s);
+            }
         }
     }
 

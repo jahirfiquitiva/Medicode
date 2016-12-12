@@ -1,17 +1,17 @@
 /*
  * Copyright (c) 2016. Jahir Fiquitiva
  *
- * 	Licensed under the CreativeCommons Attribution-ShareAlike
- * 	4.0 International License. You may not use this file except in compliance
- * 	with the License. You may obtain a copy of the License at
+ * Licensed under the CreativeCommons Attribution-ShareAlike
+ * 4.0 International License. You may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
  *
- * 	   http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *    http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
- * 	Unless required by applicable law or agreed to in writing, software
- * 	distributed under the License is distributed on an "AS IS" BASIS,
- * 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * 	See the License for the specific language governing permissions and
- * 	limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package jahirfiquitiva.apps.medicode.fragments;
@@ -63,8 +63,8 @@ public class PersonFragment extends Fragment {
             this.doctorsFrag = getArguments().getBoolean("doctorsFrag");
             this.manager = (ListsManager) getArguments().getSerializable("manager");
             if (manager != null) {
-                this.doctors = (ArrayList<Doctor>) getArguments().getSerializable("doctors");
-                this.patients = (ArrayList<Patient>) getArguments().getSerializable("patients");
+                this.doctors = manager.getDoctors();
+                this.patients = manager.getPatients();
             }
         }
     }
@@ -74,33 +74,10 @@ public class PersonFragment extends Fragment {
                              Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.list, container, false);
 
-        adapter = new ListsAdapter(getActivity(), new ListsAdapter.ItemClickListener
-                () {
-            @Override
-            public void onItemClick(int position) {
-                Intent intent = null;
-                if (doctorsFrag) {
-                    if (doctors != null && doctors.size() > 0) {
-                        intent = new Intent(getActivity(), DoctorAppntmntsActivity.class);
-                        intent.putExtra("doctor", doctors.get(position));
-                    }
-                } else {
-                    if (patients != null && patients.size() > 0) {
-                        intent = new Intent(getActivity(), PatientAppntmntsActivity.class);
-                        intent.putExtra("patient", patients.get(position));
-                    }
-                }
-                if (intent != null) {
-                    intent.putExtra("manager", manager);
-                    startActivityForResult(intent, doctorsFrag ? 12 : 13);
-                }
-            }
-        });
-
         if (doctorsFrag) {
-            adapter.setDoctors(doctors);
+            adapter = new ListsAdapter(getActivity(), getItemClickListener(), doctors);
         } else {
-            adapter.setPatients(patients);
+            adapter = new ListsAdapter(getActivity(), patients, getItemClickListener());
         }
 
         RecyclerView rv = (RecyclerView) layout.findViewById(R.id.rv);
@@ -126,11 +103,6 @@ public class PersonFragment extends Fragment {
         Bundle args = new Bundle();
         args.putBoolean("doctorsFrag", doctor);
         args.putSerializable("manager", manager);
-        if (doctor) {
-            args.putSerializable("doctors", manager.getDoctors());
-        } else {
-            args.putSerializable("patients", manager.getPatients());
-        }
         fragment.setArguments(args);
         return fragment;
     }
@@ -168,31 +140,45 @@ public class PersonFragment extends Fragment {
                 ((doctors != null ? doctors.size() : patients != null ? patients.size() : 0) - 1));
     }
 
+    private ListsAdapter.ItemClickListener getItemClickListener() {
+        return new ListsAdapter.ItemClickListener
+                () {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = null;
+                if (doctorsFrag) {
+                    if (doctors != null && doctors.size() > 0) {
+                        intent = new Intent(getActivity(), DoctorAppntmntsActivity.class);
+                        intent.putExtra("doctor", doctors.get(position));
+                    }
+                } else {
+                    if (patients != null && patients.size() > 0) {
+                        intent = new Intent(getActivity(), PatientAppntmntsActivity.class);
+                        intent.putExtra("patient", patients.get(position));
+                    }
+                }
+                if (intent != null) {
+                    intent.putExtra("manager", manager);
+                    startActivityForResult(intent, doctorsFrag ? 12 : 13);
+                }
+            }
+        };
+    }
+
     public void performSearch(String query) {
-        if (query != null) {
-            if (doctorsFrag) {
-                filterDoctors(query, adapter);
-            } else {
-                filterPatients(query, adapter);
-            }
+        if (doctorsFrag) {
+            filterDoctors(query);
         } else {
-            if (doctorsFrag) {
-                adapter.setDoctors(doctors);
-                adapter.notifyDataSetChanged();
-            } else {
-                adapter.setPatients(patients);
-                adapter.notifyDataSetChanged();
-            }
+            filterPatients(query);
         }
     }
 
-    private synchronized void filterDoctors(CharSequence s, ListsAdapter adapter) {
+    private synchronized void filterDoctors(CharSequence s) {
         if (doctors != null && !(doctors.isEmpty())) {
             if (s == null || s.toString().trim().isEmpty()) {
                 Log.d("Medicode", "Nothing to search setting default doctors");
                 filteredDoctors = null;
-                adapter.clearList(0);
-                adapter.setDoctors(null);
+                setDoctors(null);
             } else {
                 Log.d("Medicode", "Searching for doctor: " + s.toString());
                 if (filteredDoctors != null) {
@@ -206,18 +192,16 @@ public class PersonFragment extends Fragment {
                     }
                 }
                 Log.d("Medicode", "Putting " + filteredDoctors.size() + " doctors in list");
-                adapter.clearList(0);
-                adapter.setDoctors(filteredDoctors);
+                setDoctors(filteredDoctors);
             }
         }
     }
 
-    private synchronized void filterPatients(CharSequence s, ListsAdapter adapter) {
+    private synchronized void filterPatients(CharSequence s) {
         if ((patients != null) && (!(patients.isEmpty()))) {
             if (s == null || s.toString().trim().isEmpty()) {
                 filteredPatients = null;
-                adapter.clearList(1);
-                adapter.setPatients(null);
+                setPatients(null);
             } else {
                 if (filteredPatients != null) {
                     filteredPatients.clear();
@@ -229,15 +213,38 @@ public class PersonFragment extends Fragment {
                         filteredPatients.add(patient);
                     }
                 }
-                adapter.clearList(1);
-                adapter.setPatients(filteredPatients);
+                setPatients(filteredPatients);
             }
-            adapter.notifyDataSetChanged();
         }
     }
 
     public ListsAdapter getAdapter() {
         return adapter;
+    }
+
+    public void setDoctors(ArrayList<Doctor> list) {
+        Log.d("Medicode", "Adding " + (list != null ? list.size() : 0) + " doctors");
+        if (list != null && (!(list.isEmpty()))) {
+            if (doctors != null) {
+                doctors.clear();
+                doctors.addAll(list);
+            }
+        } else {
+            this.doctors = new ArrayList<>();
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    public void setPatients(ArrayList<Patient> list) {
+        if (list != null) {
+            if (patients != null) {
+                patients.clear();
+                patients.addAll(list);
+            }
+        } else {
+            this.patients = new ArrayList<>();
+        }
+        adapter.notifyDataSetChanged();
     }
 
 }
