@@ -19,6 +19,7 @@ package jahirfiquitiva.apps.medicode.adapters;
 import android.content.Context;
 import android.support.annotation.ColorRes;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,7 +89,8 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.DoctorsHolde
     }
 
     public void setDoctors(ArrayList<Doctor> list) {
-        if (list != null) {
+        Log.d("Medicode", "Adding " + (list != null ? list.size() : 0) + " doctor");
+        if (list != null && (!(list.isEmpty()))) {
             this.doctors = list;
             this.notifyItemRangeChanged(0, list.size());
         } else {
@@ -98,6 +100,7 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.DoctorsHolde
     }
 
     public void setPatients(ArrayList<Patient> list) {
+        Log.d("Medicode", "Adding " + (list != null ? list.size() : 0) + " patients");
         if (list != null) {
             this.patients = list;
             this.notifyItemRangeChanged(0, list.size());
@@ -129,7 +132,7 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.DoctorsHolde
         final TextView content;
         final TextView specialization;
 
-        public DoctorsHolder(View item) {
+        DoctorsHolder(View item) {
             super(item);
             view = item;
             icon = (ImageView) item.findViewById(R.id.icon);

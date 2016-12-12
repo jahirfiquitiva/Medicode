@@ -39,6 +39,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -150,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
                             lastSelected);
                     if (frag != null && frag instanceof PersonFragment) {
                         ((PersonFragment) frag).performSearch(null);
+                        updatePager(manager);
                     }
                 }
                 lastSelected = position;
@@ -408,9 +410,17 @@ public class MainActivity extends AppCompatActivity {
                             .semitransparent_white));
         } catch (Exception ignored) {
         }
-        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
+        MenuItemCompat.setOnActionExpandListener(mSearchItem, new MenuItemCompat
+                .OnActionExpandListener() {
+
+
             @Override
-            public boolean onClose() {
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
                 updatePager(manager);
                 return true;
             }
@@ -421,6 +431,7 @@ public class MainActivity extends AppCompatActivity {
             public void onFocusChange(View view, boolean hasFocus) {
                 if (!hasFocus && mSearchItem != null) {
                     mSearchItem.collapseActionView();
+                    updatePager(manager);
                 }
             }
         });
@@ -429,21 +440,28 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 search(s);
-                return false;
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
                 search(s);
-                return false;
+                return true;
             }
 
             private void search(String s) {
                 Fragment frag = getSupportFragmentManager().findFragmentByTag("page:" +
                         lastSelected);
-                if (frag != null && frag instanceof PersonFragment) {
-                    ((PersonFragment) frag).performSearch(s);
-                    updatePager(manager);
+                if (frag != null) {
+                    Log.d("Medicode", "Fragment is not null");
+                    if (frag instanceof PersonFragment) {
+                        ((PersonFragment) frag).performSearch(s);
+                        // updatePager(manager);
+                    } else {
+                        Log.d("Medicode", "Fragment is not an instance of PersonFragment");
+                    }
+                } else {
+                    Log.d("Medicode", "Fragment is null");
                 }
             }
         });

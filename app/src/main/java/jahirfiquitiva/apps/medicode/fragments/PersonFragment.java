@@ -23,6 +23,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -189,10 +190,12 @@ public class PersonFragment extends Fragment {
     private synchronized void filterDoctors(CharSequence s, ListsAdapter adapter) {
         if ((doctors != null) && (!(doctors.isEmpty()))) {
             if (s == null || s.toString().trim().isEmpty()) {
+                Log.d("Medicode", "Nothing to search setting default patients");
                 filteredDoctors = null;
                 adapter.clearList(0);
                 adapter.setDoctors(doctors);
             } else {
+                Log.d("Medicode", "Searching for doctor: " + s.toString());
                 if (filteredDoctors != null) {
                     filteredDoctors.clear();
                 }
@@ -203,20 +206,25 @@ public class PersonFragment extends Fragment {
                         filteredDoctors.add(doctor);
                     }
                 }
+                Log.d("Medicode", "Putting " + filteredDoctors.size() + " doctors in list");
                 adapter.clearList(0);
                 adapter.setDoctors(filteredDoctors);
             }
             adapter.notifyDataSetChanged();
+        } else {
+            Log.d("Medicode", "Doctors is null or empty");
         }
     }
 
     private synchronized void filterPatients(CharSequence s, ListsAdapter adapter) {
         if ((patients != null) && (!(patients.isEmpty()))) {
             if (s == null || s.toString().trim().isEmpty()) {
+                Log.d("Medicode", "Nothing to search setting default patients");
                 filteredPatients = null;
                 adapter.clearList(1);
-                adapter.setPatients(patients);
+                adapter.setPatients(null);
             } else {
+                Log.d("Medicode", "Searching for patient: " + s.toString());
                 if (filteredPatients != null) {
                     filteredPatients.clear();
                 }
@@ -227,6 +235,7 @@ public class PersonFragment extends Fragment {
                         filteredPatients.add(patient);
                     }
                 }
+                Log.d("Medicode", "Putting " + filteredPatients.size() + " doctors in list");
                 adapter.clearList(1);
                 adapter.setPatients(filteredPatients);
             }
