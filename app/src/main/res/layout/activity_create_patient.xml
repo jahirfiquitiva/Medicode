@@ -141,12 +141,60 @@
                 android:layout_marginTop="@dimen/fab_margin"
                 android:layout_marginLeft="@dimen/fab_margin"
                 android:layout_marginStart="@dimen/fab_margin"
-                android:text="@string/specialization"
+                android:text="@string/age"
                 android:textSize="14sp"
                 android:textAppearance="@style/SecondaryText"/>
 
         <LinearLayout
-                android:id="@+id/specializationLayout"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <ImageView
+                    android:layout_marginLeft="@dimen/icon_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/ic_age"
+                    android:paddingEnd="@dimen/item_margin"
+                    android:paddingRight="@dimen/item_margin"
+                    tools:ignore="ContentDescription,RtlHardcoded,RtlSymmetry"/>
+
+            <EditText
+                    android:id="@+id/age"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/field_margin"
+                    android:layout_marginStart="@dimen/field_margin"
+                    android:layout_marginRight="@dimen/field_margin_r"
+                    android:layout_marginEnd="@dimen/field_margin_r"
+                    android:inputType="number"
+                    android:textSize="18sp"
+                    android:maxLength="3"
+                    android:hint="@string/age"
+                    android:textColor="@color/primary_text"
+                    android:textColorHint="@color/tertiary_text"/>
+
+        </LinearLayout>
+
+        <View
+                android:layout_width="match_parent"
+                android:background="?dividerHorizontal"
+                android:layout_marginTop="8dp"
+                android:layout_height="1dp"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fab_margin"
+                android:layout_marginLeft="@dimen/fab_margin"
+                android:layout_marginStart="@dimen/fab_margin"
+                android:text="@string/gender"
+                android:textSize="14sp"
+                android:textAppearance="@style/SecondaryText"/>
+
+        <LinearLayout
+                android:id="@+id/genderLayout"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_marginTop="12dp"
@@ -156,7 +204,7 @@
                     android:layout_marginLeft="@dimen/icon_margin"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    app:srcCompat="@drawable/ic_specialization"
+                    app:srcCompat="@drawable/ic_gender"
                     android:paddingEnd="@dimen/item_margin"
                     android:paddingRight="@dimen/item_margin"
                     tools:ignore="ContentDescription,RtlHardcoded,RtlSymmetry"/>
@@ -172,7 +220,105 @@
                     android:layout_marginRight="@dimen/field_margin_r"
                     android:layout_marginEnd="@dimen/field_margin_r"
                     android:textSize="18sp"
-                    android:hint="@string/specialization"
+                    android:hint="@string/gender"
+                    android:textColor="@color/primary_text"
+                    android:textColorHint="@color/tertiary_text"/>
+
+        </LinearLayout>
+
+        <View
+                android:layout_width="match_parent"
+                android:background="?dividerHorizontal"
+                android:layout_marginTop="8dp"
+                android:layout_height="1dp"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fab_margin"
+                android:layout_marginLeft="@dimen/fab_margin"
+                android:layout_marginStart="@dimen/fab_margin"
+                android:text="@string/rh"
+                android:textSize="14sp"
+                android:textAppearance="@style/SecondaryText"/>
+
+        <LinearLayout
+                android:id="@+id/rhLayout"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_marginTop="12dp"
+                android:layout_height="wrap_content">
+
+            <ImageView
+                    android:layout_marginLeft="@dimen/icon_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/ic_blood"
+                    android:paddingEnd="@dimen/item_margin"
+                    android:paddingRight="@dimen/item_margin"
+                    tools:ignore="ContentDescription,RtlHardcoded,RtlSymmetry"/>
+
+            <TextView
+                    android:id="@+id/rh"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/item_margin"
+                    android:layout_marginBottom="@dimen/item_margin"
+                    android:layout_marginLeft="@dimen/field_margin_l"
+                    android:layout_marginStart="@dimen/field_margin_l"
+                    android:layout_marginRight="@dimen/field_margin_r"
+                    android:layout_marginEnd="@dimen/field_margin_r"
+                    android:textSize="18sp"
+                    android:hint="@string/rh"
+                    android:textColor="@color/primary_text"
+                    android:textColorHint="@color/tertiary_text"/>
+
+        </LinearLayout>
+
+        <View
+                android:layout_width="match_parent"
+                android:background="?dividerHorizontal"
+                android:layout_marginTop="8dp"
+                android:layout_height="1dp"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fab_margin"
+                android:layout_marginLeft="@dimen/fab_margin"
+                android:layout_marginStart="@dimen/fab_margin"
+                android:text="@string/eps"
+                android:textSize="14sp"
+                android:textAppearance="@style/SecondaryText"/>
+
+        <LinearLayout
+                android:id="@+id/epsLayout"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_marginTop="12dp"
+                android:layout_height="wrap_content">
+
+            <ImageView
+                    android:layout_marginLeft="@dimen/icon_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/ic_eps"
+                    android:paddingEnd="@dimen/item_margin"
+                    android:paddingRight="@dimen/item_margin"
+                    tools:ignore="ContentDescription,RtlHardcoded,RtlSymmetry"/>
+
+            <TextView
+                    android:id="@+id/eps"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/item_margin"
+                    android:layout_marginBottom="@dimen/item_margin"
+                    android:layout_marginLeft="@dimen/field_margin_l"
+                    android:layout_marginStart="@dimen/field_margin_l"
+                    android:layout_marginRight="@dimen/field_margin_r"
+                    android:layout_marginEnd="@dimen/field_margin_r"
+                    android:textSize="18sp"
+                    android:hint="@string/eps"
                     android:textColor="@color/primary_text"
                     android:textColorHint="@color/tertiary_text"/>
 

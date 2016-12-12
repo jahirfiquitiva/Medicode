@@ -50,6 +50,10 @@
     <string name="title_activity_create_doctor">Añadir Doctor</string>
     <string name="doctor">Doctor</string>
     <string name="id">ID</string>
+    <string name="age">Edad</string>
+    <string name="gender">Género</string>
+    <string name="rh">RH</string>
+    <string name="eps">EPS</string>
     <string name="specialization">Especialización</string>
     <string name="full_name">Nombre completo</string>
     <string name="success">Éxito</string>
