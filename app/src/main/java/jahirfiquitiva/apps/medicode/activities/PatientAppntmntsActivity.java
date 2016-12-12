@@ -71,7 +71,7 @@ public class PatientAppntmntsActivity extends AppCompatActivity {
             TextView age = (TextView) findViewById(R.id.age);
             age.setText(String.valueOf(patient.getAge()));
             TextView gender = (TextView) findViewById(R.id.gender);
-            gender.setText(ListsManager.makeNameCamelCase(patient.getGender().toString()));
+            gender.setText(ListsManager.makeNameCamelCase(patient.getGender().getDef(context)));
             ImageView genderIcon = (ImageView) findViewById(R.id.genderIcon);
             genderIcon.setImageDrawable(IconTintUtils.getTintedIcon(context, R.drawable
                     .ic_gender, getGenderColor(patient.getGender())));

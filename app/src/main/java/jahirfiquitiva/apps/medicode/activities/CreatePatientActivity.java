@@ -79,7 +79,8 @@ public class CreatePatientActivity extends AppCompatActivity {
                             @Override
                             public void onSelection(MaterialDialog dialog, View itemView, int
                                     position, CharSequence text) {
-                                gender.setText(text);
+                                gender.setText(context.getResources().getStringArray(R.array
+                                        .genders)[position]);
                             }
                         })
                         .show();
@@ -99,7 +100,8 @@ public class CreatePatientActivity extends AppCompatActivity {
                             @Override
                             public void onSelection(MaterialDialog dialog, View itemView, int
                                     position, CharSequence text) {
-                                rh.setText(text);
+                                rh.setText(context.getResources().getStringArray(R.array.rhs)
+                                        [position]);
                             }
                         })
                         .show();

@@ -219,7 +219,7 @@
                     tools:ignore="ContentDescription,RtlHardcoded,RtlSymmetry"/>
 
             <TextView
-                    android:id="@+id/specialization"
+                    android:id="@+id/gender"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/item_margin"
