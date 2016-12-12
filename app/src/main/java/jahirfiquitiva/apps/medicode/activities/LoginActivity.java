@@ -160,7 +160,8 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                positiveAction.setEnabled(s.toString().trim().length() > 0);
+                positiveAction.setEnabled(((userInput.getText().toString().trim().length() > 0)
+                        && (s.toString().trim().length() > 0)));
             }
 
             @Override
@@ -196,6 +197,7 @@ public class LoginActivity extends AppCompatActivity {
                     .title(R.string.error)
                     .content(R.string.closing_app)
                     .positiveText(android.R.string.ok)
+                    .positiveColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .autoDismiss(false)
                     .cancelable(false)
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
