@@ -18,7 +18,6 @@ package jahirfiquitiva.apps.medicode.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 
 import jahirfiquitiva.apps.medicode.adapters.base.FragmentStatePagerAdapter;
 import jahirfiquitiva.apps.medicode.fragments.PersonFragment;
@@ -26,12 +25,10 @@ import jahirfiquitiva.apps.medicode.logic.ListsManager;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
-    private FragmentManager fm;
     private ListsManager manager;
 
     public PagerAdapter(FragmentManager fm, ListsManager manager) {
         super(fm);
-        this.fm = fm;
         this.manager = manager;
     }
 
