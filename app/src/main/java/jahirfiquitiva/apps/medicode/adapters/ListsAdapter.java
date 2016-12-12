@@ -65,6 +65,7 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.DoctorsHolde
                         .specialization_n, doctors.get(position).getSpecialization()));
                 holder.specialization.setVisibility(View.VISIBLE);
             }
+            setupClickListener(holder);
         } else if (patients != null && patients.size() > 0) {
             holder.title.setText(patients.get(position).getName());
             if (context != null) {
@@ -73,14 +74,8 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.DoctorsHolde
                 holder.icon.setImageDrawable(IconTintUtils.getTintedIcon(context, R.drawable
                         .ic_patient, getGenderColor(patients.get(position).getGender())));
             }
+            setupClickListener(holder);
         }
-        holder.view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (listener != null)
-                    listener.onItemClick(holder.getAdapterPosition());
-            }
-        });
     }
 
     @Override
@@ -92,21 +87,20 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.DoctorsHolde
         Log.d("Medicode", "Adding " + (list != null ? list.size() : 0) + " doctor");
         if (list != null && (!(list.isEmpty()))) {
             this.doctors = list;
-            this.notifyItemRangeChanged(0, list.size());
+            // this.notifyItemRangeChanged(0, list.size());
         } else {
             this.doctors = new ArrayList<>();
-            this.notifyItemRangeChanged(0, 0);
+            // this.notifyItemRangeChanged(0, 0);
         }
     }
 
     public void setPatients(ArrayList<Patient> list) {
-        Log.d("Medicode", "Adding " + (list != null ? list.size() : 0) + " patients");
         if (list != null) {
             this.patients = list;
-            this.notifyItemRangeChanged(0, list.size());
+            // this.notifyItemRangeChanged(0, list.size());
         } else {
             this.patients = new ArrayList<>();
-            this.notifyItemRangeChanged(0, 0);
+            // this.notifyItemRangeChanged(0, 0);
         }
     }
 
@@ -123,6 +117,16 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.DoctorsHolde
                 }
                 break;
         }
+    }
+
+    private void setupClickListener(final DoctorsHolder holder) {
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null)
+                    listener.onItemClick(holder.getAdapterPosition());
+            }
+        });
     }
 
     class DoctorsHolder extends RecyclerView.ViewHolder {

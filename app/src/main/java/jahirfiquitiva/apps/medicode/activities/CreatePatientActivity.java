@@ -25,7 +25,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import jahirfiquitiva.apps.medicode.R;
 import jahirfiquitiva.apps.medicode.logic.ListsManager;
-import jahirfiquitiva.apps.medicode.logic.objects.Doctor;
 
 public class CreatePatientActivity extends AppCompatActivity {
 
@@ -40,7 +39,7 @@ public class CreatePatientActivity extends AppCompatActivity {
 
         manager = (ListsManager) getIntent().getSerializableExtra("manager");
 
-        setContentView(R.layout.activity_create_doctor);
+        setContentView(R.layout.activity_create_patient);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -88,12 +87,13 @@ public class CreatePatientActivity extends AppCompatActivity {
                         snackbar.dismiss();
                     }
 
-                    final boolean added = manager.addDoctor(new Doctor(docName, docID,
-                            docSpecialization));
+                    // TODO Add patient properly
+                    final boolean added = false;
+                    // final boolean added = manager.addPatient(new Patient());
 
                     MaterialDialog dialog = new MaterialDialog.Builder(context)
                             .title(added ? R.string.success : R.string.error)
-                            .content(added ? R.string.doctor_success : R.string.doctor_error)
+                            .content(added ? R.string.patient_success : R.string.patient_error)
                             .positiveText(added ? android.R.string.yes : android.R.string.ok)
                             .cancelable(false).autoDismiss(false).canceledOnTouchOutside(false)
                             .positiveColor(ContextCompat.getColor(context, R.color.colorPrimary))
@@ -127,7 +127,7 @@ public class CreatePatientActivity extends AppCompatActivity {
                     dialog.show();
                 } else {
                     snackbar = Snackbar.make(findViewById(R.id.main), context
-                            .getResources().getString(R.string.doctor_not_filled), Snackbar
+                            .getResources().getString(R.string.patient_not_filled), Snackbar
                             .LENGTH_INDEFINITE);
                     snackbar.setAction(android.R.string.ok, new View.OnClickListener() {
                         @Override

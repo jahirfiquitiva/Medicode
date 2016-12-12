@@ -72,4 +72,8 @@
     <string name="search_x">Buscar %1$s…</string>
     <string name="about">Acerca de</string>
     <string name="jahir_info">Aplicación desarrollada por Jahir Fiquitiva.\nCódigo: 201521721</string>
+    <string name="title_activity_create_patient">Añadir paciente</string>
+    <string name="patient_success">El paciente se ha añadido con éxito. Deseas añadir otro paciente?</string>
+    <string name="patient_error">El paciente ya se encuentra registrado en la base de datos.</string>
+    <string name="patient_not_filled">Error!\nNo se han llenado todos los datos del paciente. Intenta de nuevo. Ten en cuenta que el ID debe tener mínimo 4 dígitos y máximo 10.</string>
 </resources>

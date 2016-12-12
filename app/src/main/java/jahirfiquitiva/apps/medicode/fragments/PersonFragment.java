@@ -48,7 +48,6 @@ public class PersonFragment extends Fragment {
     private ArrayList<Patient> filteredPatients;
     private ArrayList<Doctor> doctors;
     private ArrayList<Doctor> filteredDoctors;
-    private boolean scrollable = false;
     private boolean doctorsFrag = true;
 
     @Override
@@ -145,7 +144,7 @@ public class PersonFragment extends Fragment {
             public void onLayoutChildren(final RecyclerView.Recycler recycler, final RecyclerView
                     .State state) {
                 super.onLayoutChildren(recycler, state);
-                setScrollable(layoutScrollable());
+                layoutScrollable();
             }
         };
     }
@@ -166,15 +165,7 @@ public class PersonFragment extends Fragment {
     }
 
     public boolean isScrollable() {
-        return scrollable;
-    }
-
-    public void setScrollable(boolean scrollable) {
-        this.scrollable = scrollable;
-    }
-
-    public void updateScrollable() {
-        this.scrollable = layoutScrollable();
+        return layoutScrollable();
     }
 
     public void performSearch(String query) {
@@ -188,9 +179,9 @@ public class PersonFragment extends Fragment {
     }
 
     private synchronized void filterDoctors(CharSequence s, ListsAdapter adapter) {
-        if ((doctors != null) && (!(doctors.isEmpty()))) {
+        if (doctors != null && !(doctors.isEmpty())) {
             if (s == null || s.toString().trim().isEmpty()) {
-                Log.d("Medicode", "Nothing to search setting default patients");
+                Log.d("Medicode", "Nothing to search setting default doctors");
                 filteredDoctors = null;
                 adapter.clearList(0);
                 adapter.setDoctors(doctors);
@@ -211,20 +202,16 @@ public class PersonFragment extends Fragment {
                 adapter.setDoctors(filteredDoctors);
             }
             adapter.notifyDataSetChanged();
-        } else {
-            Log.d("Medicode", "Doctors is null or empty");
         }
     }
 
     private synchronized void filterPatients(CharSequence s, ListsAdapter adapter) {
         if ((patients != null) && (!(patients.isEmpty()))) {
             if (s == null || s.toString().trim().isEmpty()) {
-                Log.d("Medicode", "Nothing to search setting default patients");
                 filteredPatients = null;
                 adapter.clearList(1);
                 adapter.setPatients(null);
             } else {
-                Log.d("Medicode", "Searching for patient: " + s.toString());
                 if (filteredPatients != null) {
                     filteredPatients.clear();
                 }
@@ -235,12 +222,15 @@ public class PersonFragment extends Fragment {
                         filteredPatients.add(patient);
                     }
                 }
-                Log.d("Medicode", "Putting " + filteredPatients.size() + " doctors in list");
                 adapter.clearList(1);
                 adapter.setPatients(filteredPatients);
             }
             adapter.notifyDataSetChanged();
         }
+    }
+
+    public ListsAdapter getAdapter() {
+        return adapter;
     }
 
 }

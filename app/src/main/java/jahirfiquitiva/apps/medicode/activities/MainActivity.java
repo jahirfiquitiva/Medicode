@@ -26,8 +26,6 @@ import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -39,7 +37,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -93,8 +90,6 @@ public class MainActivity extends AppCompatActivity {
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
-        enableToolbarScrolling(lastSelected, false);
-
         animateFab(-1);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,13 +140,11 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 animateFab(position);
-                enableToolbarScrolling(position, false);
                 if (position != lastSelected) {
                     Fragment frag = getSupportFragmentManager().findFragmentByTag("page:" +
                             lastSelected);
                     if (frag != null && frag instanceof PersonFragment) {
                         ((PersonFragment) frag).performSearch(null);
-                        updatePager(manager);
                     }
                 }
                 lastSelected = position;
@@ -177,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode >= 10 && requestCode <= 14) {
             if (data != null) {
-                updatePager((ListsManager) data.getSerializableExtra("manager"));
+                updatePager((ListsManager) data.getSerializableExtra("manager"), lastSelected);
             }
         }
     }
@@ -268,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         lastSelected = savedInstanceState.getInt("last", 0);
-        updatePager((ListsManager) savedInstanceState.getSerializable("manager"));
+        updatePager((ListsManager) savedInstanceState.getSerializable("manager"), lastSelected);
     }
 
     @Override
@@ -367,7 +360,7 @@ public class MainActivity extends AppCompatActivity {
                                 public void onClick(@NonNull MaterialDialog dialog, @NonNull
                                         DialogAction
                                         which) {
-                                    updatePager(mngAux);
+                                    updatePager(mngAux, lastSelected);
                                 }
                             })
                             .show();
@@ -421,7 +414,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                updatePager(manager);
+                updatePager(manager, lastSelected);
                 return true;
             }
         });
@@ -431,7 +424,7 @@ public class MainActivity extends AppCompatActivity {
             public void onFocusChange(View view, boolean hasFocus) {
                 if (!hasFocus && mSearchItem != null) {
                     mSearchItem.collapseActionView();
-                    updatePager(manager);
+                    updatePager(manager, lastSelected);
                 }
             }
         });
@@ -453,15 +446,9 @@ public class MainActivity extends AppCompatActivity {
                 Fragment frag = getSupportFragmentManager().findFragmentByTag("page:" +
                         lastSelected);
                 if (frag != null) {
-                    Log.d("Medicode", "Fragment is not null");
                     if (frag instanceof PersonFragment) {
                         ((PersonFragment) frag).performSearch(s);
-                        // updatePager(manager);
-                    } else {
-                        Log.d("Medicode", "Fragment is not an instance of PersonFragment");
                     }
-                } else {
-                    Log.d("Medicode", "Fragment is null");
                 }
             }
         });
@@ -509,38 +496,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void enableToolbarScrolling(int position, boolean updating) {
-        boolean enable = isContentScrollable(getSupportFragmentManager().findFragmentByTag("page:" +
-                position), updating);
-
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appBar);
-
-        AppBarLayout.LayoutParams toolbarLayoutParams = (AppBarLayout.LayoutParams) mToolbar
-                .getLayoutParams();
-        toolbarLayoutParams.setScrollFlags(enable ? (AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL |
-                AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS) : 0);
-        mToolbar.setLayoutParams(toolbarLayoutParams);
-
-        CoordinatorLayout.LayoutParams appBarLayoutParams = (CoordinatorLayout.LayoutParams)
-                appBarLayout.getLayoutParams();
-        appBarLayoutParams.setBehavior(enable ? (new AppBarLayout.Behavior()) : null);
-        appBarLayout.setLayoutParams(appBarLayoutParams);
-    }
-
-    private boolean isContentScrollable(Fragment fragment, boolean updating) {
-        if (fragment != null) {
-            if (fragment instanceof PersonFragment) {
-                if (updating) ((PersonFragment) fragment).updateScrollable();
-                return ((PersonFragment) fragment).isScrollable();
-            }
-        }
-        return false;
-    }
-
-    private void updatePager(ListsManager mng) {
+    private void updatePager(ListsManager mng, int position) {
         if (mng == null) return;
         setManager(mng);
+        Fragment frag = getSupportFragmentManager().findFragmentByTag("page:" +
+                position);
+        if (frag != null) {
+            if (frag instanceof PersonFragment) {
+                if (((PersonFragment) frag).getAdapter() != null) {
+                    if (position == 0) {
+                        ((PersonFragment) frag).getAdapter().setDoctors(mng.getDoctors());
+                    } else if (position == 1) {
+                        ((PersonFragment) frag).getAdapter().setPatients(mng.getPatients());
+                    }
+                    //.getRecycledViewPool().clear();
+                    ((PersonFragment) frag).getAdapter().notifyDataSetChanged();
+                }
+            }
+        }
+        /*
         if (pager != null) {
             if (pager.getAdapter() != null) {
                 ((PagerAdapter) pager.getAdapter()).setManager(mng);
@@ -549,7 +523,11 @@ public class MainActivity extends AppCompatActivity {
                 pager.setAdapter(new PagerAdapter(getSupportFragmentManager(), mng));
             }
             pager.setCurrentItem(lastSelected, true);
-            enableToolbarScrolling(lastSelected, true);
+            enableToolbarScrolling(lastSelected);
+        }
+        */
+        if (pager != null) {
+            pager.setCurrentItem(lastSelected, true);
         }
     }
 
