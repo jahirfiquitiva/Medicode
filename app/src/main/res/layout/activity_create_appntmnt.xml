@@ -68,6 +68,7 @@
                     android:textAppearance="@style/SecondaryText"/>
 
             <LinearLayout
+                    android:background="?selectableItemBackground"
                     android:id="@+id/doctor"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
@@ -119,6 +120,7 @@
                     android:textAppearance="@style/SecondaryText"/>
 
             <LinearLayout
+                    android:background="?selectableItemBackground"
                     android:id="@+id/patient"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"

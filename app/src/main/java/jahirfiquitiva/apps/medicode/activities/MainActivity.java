@@ -55,8 +55,6 @@ import jahirfiquitiva.apps.medicode.R;
 import jahirfiquitiva.apps.medicode.adapters.PagerAdapter;
 import jahirfiquitiva.apps.medicode.fragments.PersonFragment;
 import jahirfiquitiva.apps.medicode.logic.ListsManager;
-import jahirfiquitiva.apps.medicode.logic.enums.Gender;
-import jahirfiquitiva.apps.medicode.logic.objects.Patient;
 import jahirfiquitiva.apps.medicode.persistence.SerializableFile;
 import jahirfiquitiva.apps.medicode.utils.IconTintUtils;
 import jahirfiquitiva.apps.medicode.utils.PermissionsUtils;
@@ -147,6 +145,8 @@ public class MainActivity extends AppCompatActivity {
                 animateFab(position);
                 lastSelected = position;
                 if (mSearchView != null) {
+                    mSearchView.setInputType(position == 0 ? InputType
+                            .TYPE_TEXT_FLAG_CAP_CHARACTERS : InputType.TYPE_CLASS_NUMBER);
                     mSearchView.setQueryHint(getString(R.string.search_x, getTabName
                             (lastSelected)));
                 }
@@ -403,7 +403,8 @@ public class MainActivity extends AppCompatActivity {
             ((EditText) mSearchView.findViewById(android.support.v7.appcompat.R.id.search_src_text))
                     .setHintTextColor(ContextCompat.getColor(context, R.color
                             .semitransparent_white));
-            mSearchView.setInputType(InputType.TYPE_CLASS_NUMBER);
+            mSearchView.setInputType(lastSelected == 0 ? InputType
+                    .TYPE_TEXT_FLAG_CAP_CHARACTERS : InputType.TYPE_CLASS_NUMBER);
         } catch (Exception ignored) {
         }
         MenuItemCompat.setOnActionExpandListener(mSearchItem, new MenuItemCompat
@@ -412,8 +413,28 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
-                search(null);
-                return true;
+                if (lastSelected == 0) {
+                    if (manager.getDoctors().size() > 0) {
+                        search(null);
+                        return true;
+                    } else {
+                        Snackbar.make(findViewById(R.id.pager), getString(R.string
+                                .not_enough_to_search, getString(R.string.doctors).toLowerCase()), Snackbar
+                                .LENGTH_LONG).show();
+                        return false;
+                    }
+                } else if (lastSelected == 1) {
+                    if (manager.getPatients().size() > 0) {
+                        search(null);
+                        return true;
+                    } else {
+                        Snackbar.make(findViewById(R.id.pager), getString(R.string
+                                .not_enough_to_search, getString(R.string.patients).toLowerCase()), Snackbar
+                                .LENGTH_LONG).show();
+                        return false;
+                    }
+                }
+                return false;
             }
 
             @Override
@@ -540,6 +561,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void cleanSearch() {
         if (mSearchView != null) {
+            mSearchView.setInputType(lastSelected == 0 ? InputType
+                    .TYPE_TEXT_FLAG_CAP_CHARACTERS : InputType.TYPE_CLASS_NUMBER);
             mSearchView.setQuery("", false);
         }
     }

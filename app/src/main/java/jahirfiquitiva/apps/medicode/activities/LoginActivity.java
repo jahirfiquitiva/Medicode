@@ -68,23 +68,19 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        /*
-        AppCompatButton createBtn = (AppCompatButton) findViewById(R.id.create_account);
-        createBtn.setOnClickListener(new View.OnClickListener() {
+        AppCompatButton exitBtn = (AppCompatButton) findViewById(R.id.exit);
+        exitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showCreateUserDialog();
+                finish();
             }
         });
-        */
 
         AppCompatButton btn = (AppCompatButton) findViewById(R.id.login_btn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, MainActivity.class);
-                startActivity(intent);
-                // showLoginDialog();
+                showLoginDialog();
             }
         });
 
@@ -209,63 +205,6 @@ public class LoginActivity extends AppCompatActivity {
                     })
                     .show();
         }
-    }
-
-    private void showCreateUserDialog() {
-        MaterialDialog dialog = new MaterialDialog.Builder(context)
-                .title(R.string.login)
-                .customView(R.layout.login_dialog, true)
-                .positiveColor(ContextCompat.getColor(context, R.color.colorPrimary))
-                .positiveText(R.string.login)
-                .negativeColor(ContextCompat.getColor(context, R.color.colorPrimary))
-                .negativeText(android.R.string.cancel)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull
-                            DialogAction which) {
-                        // TODO: Create a new user
-                    }
-                })
-                .build();
-
-        positiveAction = dialog.getActionButton(DialogAction.POSITIVE);
-
-        //noinspection ConstantConditions
-        passwordInput = (EditText) dialog.getCustomView().findViewById(R.id.password);
-        passwordInput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                positiveAction.setEnabled(s.toString().trim().length() > 0);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-
-        CheckBox checkbox = (CheckBox) dialog.getCustomView().findViewById(R.id
-                .showPassword);
-        checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                passwordInput.setInputType(!isChecked ? InputType
-                        .TYPE_TEXT_VARIATION_PASSWORD : InputType.TYPE_CLASS_TEXT);
-                passwordInput.setTransformationMethod(!isChecked ?
-                        PasswordTransformationMethod.getInstance() : null);
-                passwordInput.setSelection(passwordInput.getText().length());
-            }
-        });
-
-        MDTintHelper.setTint(checkbox, ContextCompat.getColor(context, R.color.colorPrimary));
-        MDTintHelper.setTint(passwordInput, ContextCompat.getColor(context, R.color.colorPrimary));
-
-        positiveAction.setEnabled(false);
-
-        dialog.show();
     }
 
     @SuppressWarnings("LoopStatementThatDoesntLoop")

@@ -137,7 +137,7 @@
                         android:layout_marginStart="@dimen/field_margin"
                         android:layout_marginRight="@dimen/field_margin_r"
                         android:layout_marginEnd="@dimen/field_margin_r"
-                        android:inputType="text"
+                        android:inputType="textCapCharacters"
                         android:textSize="18sp"
                         android:maxLength="10"
                         android:textColor="@color/primary_text"
@@ -162,6 +162,7 @@
                     android:textAppearance="@style/SecondaryText"/>
 
             <LinearLayout
+                    android:background="?selectableItemBackground"
                     android:id="@+id/specializationLayout"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"

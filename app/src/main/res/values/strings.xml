@@ -16,6 +16,7 @@
 
 <resources>
     <string name="app_name">Medicode</string>
+    <string name="prof_card_n">Professional card: %1$s</string>
     <string name="cc">ID: %1$s</string>
     <string name="doctor_n">Doctor: %1$s</string>
     <string name="patient_n">Patient: %1$s</string>
@@ -49,6 +50,7 @@
     <string name="load_data_content">Do you want to load previous app data?</string>
     <string name="title_activity_create_doctor">Add doctor</string>
     <string name="doctor">Doctor</string>
+    <string name="doctors">Doctors</string>
     <string name="id">ID</string>
     <string name="professional_card">Professional Card</string>
     <string name="age">Age</string>
@@ -67,6 +69,7 @@
     <string name="appntmnts">Appointments</string>
     <string name="doc_appntmnts">Agenda</string>
     <string name="patient">Patient</string>
+    <string name="patients">Patients</string>
     <string name="date">Date</string>
     <string name="tap_to_choose_date">Tap to choose date</string>
     <string name="tap_to_choose_doctor">Tap to choose doctor</string>
@@ -89,4 +92,6 @@
     <string name="tap_to_choose_specialization">Tap to choose a specialization</string>
     <string name="appntmnt_with">Appointment type: %1$s</string>
     <string name="years_limit">0 ~ 140 years</string>
+    <string name="create_new">Create new…</string>
+    <string name="not_enough_to_search">There are not enough %1$s to search. Add some first.</string>
 </resources>

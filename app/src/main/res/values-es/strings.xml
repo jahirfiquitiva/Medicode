@@ -17,6 +17,7 @@
 
 <resources>
     <string name="app_name">Medicode</string>
+    <string name="prof_card_n">Tarjeta profesional: %1$s</string>
     <string name="cc">ID: %1$s</string>
     <string name="doctor_n">Doctor: %1$s</string>
     <string name="patient_n">Paciente: %1$s</string>
@@ -50,6 +51,7 @@
     <string name="load_data_content">Deseas cargar datos anteriores?</string>
     <string name="title_activity_create_doctor">Añadir Doctor</string>
     <string name="doctor">Doctor</string>
+    <string name="doctors">Doctores</string>
     <string name="id">ID</string>
     <string name="professional_card">Tarjeta Profesional</string>
     <string name="age">Edad</string>
@@ -68,6 +70,7 @@
     <string name="appntmnts">Citas</string>
     <string name="doc_appntmnts">Agenda</string>
     <string name="patient">Paciente</string>
+    <string name="patients">Pacientes</string>
     <string name="date">Fecha</string>
     <string name="tap_to_choose_date">Toca para escoger fecha</string>
     <string name="tap_to_choose_doctor">Toca para escoger doctor</string>
@@ -90,4 +93,6 @@
     <string name="tap_to_choose_specialization">Toca para escoger una especialización</string>
     <string name="appntmnt_with">Cita con: %1$s</string>
     <string name="years_limit">0 ~ 140 años</string>
+    <string name="create_new">Crear nuevo…</string>
+    <string name="not_enough_to_search">No hay suficientes %1$s para buscar. Añade algunos primero.</string>
 </resources>

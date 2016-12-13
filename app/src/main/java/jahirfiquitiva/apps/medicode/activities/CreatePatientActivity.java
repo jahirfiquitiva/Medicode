@@ -19,6 +19,7 @@ package jahirfiquitiva.apps.medicode.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -30,6 +31,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -40,6 +42,7 @@ import jahirfiquitiva.apps.medicode.R;
 import jahirfiquitiva.apps.medicode.logic.ListsManager;
 import jahirfiquitiva.apps.medicode.logic.enums.Gender;
 import jahirfiquitiva.apps.medicode.logic.objects.Patient;
+import jahirfiquitiva.apps.medicode.utils.IconTintUtils;
 import jahirfiquitiva.apps.medicode.views.InputFilterMinMax;
 
 public class CreatePatientActivity extends AppCompatActivity {
@@ -70,6 +73,7 @@ public class CreatePatientActivity extends AppCompatActivity {
         final EditText eps = (EditText) findViewById(R.id.eps);
 
         final LinearLayout genderLayout = (LinearLayout) findViewById(R.id.genderLayout);
+        final ImageView genderIcon = (ImageView) findViewById(R.id.genderIcon);
         final TextView gender = (TextView) findViewById(R.id.gender);
         genderLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +88,11 @@ public class CreatePatientActivity extends AppCompatActivity {
                                     position, CharSequence text) {
                                 gender.setText(context.getResources().getStringArray(R.array
                                         .genders)[position]);
+                                genderIcon.setImageDrawable(IconTintUtils.getTintedIcon(context,
+                                        R.drawable.ic_gender,
+                                        getGenderColor(Gender.getGender(context, context
+                                                .getResources().getStringArray(R.array
+                                                .genders)[position]))));
                             }
                         })
                         .show();
@@ -223,6 +232,31 @@ public class CreatePatientActivity extends AppCompatActivity {
             imm.hideSoftInputFromWindow(findViewById(R.id.main).getWindowToken(), 0);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable("manager", manager);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        this.manager = ((ListsManager) savedInstanceState.getSerializable("manager"));
+    }
+
+    @ColorRes
+    private int getGenderColor(Gender gender) {
+        switch (gender) {
+            default:
+            case MALE:
+                return R.color.colorPrimary;
+            case FEMALE:
+                return R.color.pink;
+            case OTHER:
+                return R.color.orange;
         }
     }
 

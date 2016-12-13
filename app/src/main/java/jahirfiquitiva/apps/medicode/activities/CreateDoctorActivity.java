@@ -207,4 +207,16 @@ public class CreateDoctorActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable("manager", manager);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        this.manager = ((ListsManager) savedInstanceState.getSerializable("manager"));
+    }
+
 }

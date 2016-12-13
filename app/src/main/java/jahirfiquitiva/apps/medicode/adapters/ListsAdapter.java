@@ -75,8 +75,8 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.PersonHolder
         if (doctors != null && doctors.size() > 0) {
             holder.title.setText(doctors.get(position).getName());
             if (context != null) {
-                holder.content.setText(context.getResources().getString(R.string.cc, doctors
-                        .get(position).getId()));
+                holder.content.setText(context.getResources().getString(R.string.prof_card_n,
+                        doctors.get(position).getId()));
                 holder.icon.setImageDrawable(IconTintUtils.getTintedIcon(context, R.drawable
                         .ic_doctor, R.color.colorPrimary));
                 holder.specialization.setText(context.getResources().getString(R.string

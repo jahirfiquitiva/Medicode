@@ -22,7 +22,6 @@ import android.os.Bundle;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -91,23 +90,10 @@ public class PatientAppntmntsActivity extends AppCompatActivity {
         addAppntmnt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (manager.getDoctors().size() > 0) {
-                    Intent intent = new Intent(context, CreateAppntmntActivity.class);
-                    intent.putExtra("patient", patient);
-                    intent.putExtra("manager", manager);
-                    startActivityForResult(intent, 14);
-                } else {
-                    final Snackbar snackbar = Snackbar.make(findViewById(R.id.main), context
-                            .getResources().getString(R.string.not_enough_doctors), Snackbar
-                            .LENGTH_LONG);
-                    snackbar.setAction(android.R.string.ok, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            snackbar.dismiss();
-                        }
-                    });
-                    snackbar.show();
-                }
+                Intent intent = new Intent(context, CreateAppntmntActivity.class);
+                intent.putExtra("patient", patient);
+                intent.putExtra("manager", manager);
+                startActivityForResult(intent, 14);
             }
         });
     }

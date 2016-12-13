@@ -39,6 +39,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.text.DateFormatSymbols;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import jahirfiquitiva.apps.medicode.R;
@@ -55,6 +56,8 @@ public class CreateAppntmntActivity extends AppCompatActivity {
     private Context context;
     private String selectedDate = "";
     private MaterialDialog dialog;
+    private TextView docName;
+    private TextView patientName;
     private boolean hadDoctor = true;
 
     @Override
@@ -75,7 +78,7 @@ public class CreateAppntmntActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        final TextView docName = (TextView) findViewById(R.id.doctorName);
+        docName = (TextView) findViewById(R.id.doctorName);
         if (doctor != null) {
             docName.setText(doctor.getName());
         } else {
@@ -85,13 +88,18 @@ public class CreateAppntmntActivity extends AppCompatActivity {
                     dismissPreviousDialog();
                     dialog = new MaterialDialog.Builder(context)
                             .title(R.string.doctor)
-                            .items(manager.getDoctors())
+                            .items(getAllDoctors())
                             .itemsCallback(new MaterialDialog.ListCallback() {
                                 @Override
                                 public void onSelection(MaterialDialog dialog, View itemView, int
                                         position, CharSequence text) {
-                                    docName.setText(text);
-                                    setDoctor(manager.getDoctors().get(position));
+                                    if (position == 0) {
+                                        createDoctor();
+                                    } else {
+                                        setDoctor(manager.getDoctors().get(position - 1));
+                                        docName.setText(manager.getDoctors().get(position - 1)
+                                                .getName());
+                                    }
                                 }
                             }).build();
                     dialog.show();
@@ -99,7 +107,7 @@ public class CreateAppntmntActivity extends AppCompatActivity {
             });
         }
 
-        final TextView patientName = (TextView) findViewById(R.id.patientName);
+        patientName = (TextView) findViewById(R.id.patientName);
         if (patient != null) {
             patientName.setText(patient.getName());
         } else {
@@ -109,16 +117,21 @@ public class CreateAppntmntActivity extends AppCompatActivity {
                     dismissPreviousDialog();
                     dialog = new MaterialDialog.Builder(context)
                             .title(R.string.patient)
-                            .items(manager.getPatients())
+                            .items(getAllPatients())
                             .itemsCallback(new MaterialDialog.ListCallback() {
                                 @Override
                                 public void onSelection(MaterialDialog dialog, View itemView, int
                                         position, CharSequence text) {
-                                    patientName.setText(text);
-                                    setPatient(manager.getPatients().get(position));
+                                    if (position == 0) {
+                                        createPatient();
+                                    } else {
+                                        setPatient(manager.getPatients().get(position - 1));
+                                        patientName.setText(manager.getPatients().get(position - 1)
+                                                .getName());
+                                    }
                                 }
-                            })
-                            .show();
+                            }).build();
+                    dialog.show();
                 }
             });
         }
@@ -230,6 +243,12 @@ public class CreateAppntmntActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dismissPreviousDialog();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -245,9 +264,13 @@ public class CreateAppntmntActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        dismissPreviousDialog();
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 10 || requestCode == 11) {
+            if (data != null) {
+                this.manager = ((ListsManager) data.getSerializableExtra("manager"));
+            }
+        }
     }
 
     private void finishAndSendData() {
@@ -289,6 +312,56 @@ public class CreateAppntmntActivity extends AppCompatActivity {
         return context.getString(R.string.appntmnt_error, context.getString
                 (hadDoctor ? R.string.patient : R.string.doctor)
                 .toLowerCase());
+    }
+
+    private ArrayList<String> getAllDoctors() {
+        ArrayList<String> texts = new ArrayList<>();
+        texts.add(getString(R.string.create_new));
+        for (Doctor doctor : manager.getDoctors()) {
+            texts.add(doctor.toString());
+        }
+        return texts;
+    }
+
+    private ArrayList<String> getAllPatients() {
+        ArrayList<String> texts = new ArrayList<>();
+        texts.add(getString(R.string.create_new));
+        for (Patient patient : manager.getPatients()) {
+            texts.add(patient.toString());
+        }
+        return texts;
+    }
+
+    private void createDoctor() {
+        if (docName != null) docName.setText("");
+        setDoctor(null);
+        Intent create = new Intent(context, CreateDoctorActivity.class);
+        create.putExtra("manager", manager);
+        startActivityForResult(create, 10);
+    }
+
+    private void createPatient() {
+        if (patientName != null) patientName.setText("");
+        setPatient(null);
+        Intent create = new Intent(context, CreatePatientActivity.class);
+        create.putExtra("manager", manager);
+        startActivityForResult(create, 11);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable("manager", manager);
+        outState.putSerializable("doctor", doctor);
+        outState.putSerializable("patient", patient);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        this.manager = ((ListsManager) savedInstanceState.getSerializable("manager"));
+        this.doctor = (Doctor) savedInstanceState.getSerializable("doctor");
+        this.patient = (Patient) savedInstanceState.getSerializable("patient");
     }
 
 }
