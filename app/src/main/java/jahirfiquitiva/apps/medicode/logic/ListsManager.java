@@ -20,7 +20,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import jahirfiquitiva.apps.medicode.logic.enums.Gender;
 import jahirfiquitiva.apps.medicode.logic.objects.Appntmnt;
 import jahirfiquitiva.apps.medicode.logic.objects.Doctor;
 import jahirfiquitiva.apps.medicode.logic.objects.Patient;
@@ -57,8 +56,8 @@ public class ListsManager implements Serializable {
         return true;
     }
 
-    public boolean addAppntmnt(Appntmnt appointment) {
-        if (appntmnts.contains(appointment)) return false;
+    public boolean addAppntmnt(Appntmnt appointment, boolean checkDoctor) {
+        if (appntmntsContainsAppntmnt(appointment, checkDoctor)) return false;
         appntmnts.add(appointment);
         modified = true;
         return true;
@@ -143,6 +142,21 @@ public class ListsManager implements Serializable {
 
     public boolean hasBeenModified() {
         return modified;
+    }
+
+    private boolean appntmntsContainsAppntmnt(Appntmnt nAppntmnt, boolean checkDoctor) {
+        boolean contains = false;
+        for (Appntmnt appntmnt : getAppntmnts()) {
+            if (appntmnt.equals(nAppntmnt)) {
+                if (checkDoctor) {
+                    contains = (appntmnt.getDoctor().equals(nAppntmnt.getDoctor()));
+                } else {
+                    contains = (appntmnt.getPatient().equals(nAppntmnt.getPatient()));
+                }
+                if (contains) break;
+            }
+        }
+        return contains;
     }
 
 }

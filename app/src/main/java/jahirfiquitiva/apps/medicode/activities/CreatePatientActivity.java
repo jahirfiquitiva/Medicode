@@ -25,6 +25,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputFilter;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -39,6 +40,7 @@ import jahirfiquitiva.apps.medicode.R;
 import jahirfiquitiva.apps.medicode.logic.ListsManager;
 import jahirfiquitiva.apps.medicode.logic.enums.Gender;
 import jahirfiquitiva.apps.medicode.logic.objects.Patient;
+import jahirfiquitiva.apps.medicode.views.InputFilterMinMax;
 
 public class CreatePatientActivity extends AppCompatActivity {
 
@@ -64,6 +66,7 @@ public class CreatePatientActivity extends AppCompatActivity {
         final EditText name = (EditText) findViewById(R.id.name);
         final EditText id = (EditText) findViewById(R.id.id);
         final EditText age = (EditText) findViewById(R.id.age);
+        age.setFilters(new InputFilter[]{new InputFilterMinMax("0", "140")});
         final EditText eps = (EditText) findViewById(R.id.eps);
 
         final LinearLayout genderLayout = (LinearLayout) findViewById(R.id.genderLayout);
@@ -111,6 +114,8 @@ public class CreatePatientActivity extends AppCompatActivity {
         InputMethodManager imm = (InputMethodManager)
                 getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+
+        name.requestFocus();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

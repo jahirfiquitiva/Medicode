@@ -19,7 +19,6 @@ package jahirfiquitiva.apps.medicode.adapters;
 import android.content.Context;
 import android.support.annotation.ColorRes;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,17 +104,14 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.PersonHolder
     public synchronized void filterDoctors(CharSequence s) {
         doctors.clear();
         if (s == null || s.toString().trim().isEmpty()) {
-            Log.d("Medicode", "Nothing to search, setting default doctors");
             resetDoctors(orgDoctors);
         } else {
-            Log.d("Medicode", "Searching for doctor: " + s.toString());
             String search = s.toString().toLowerCase();
             for (Doctor doctor : orgDoctors) {
-                if (doctor.getName().toLowerCase().contains(search)) {
+                if (doctor.getId().toLowerCase().contains(search)) {
                     doctors.add(doctor);
                 }
             }
-            Log.d("Medicode", "Putting " + doctors.size() + " doctors in list");
         }
         notifyDataSetChanged();
     }
@@ -123,27 +119,24 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.PersonHolder
     public synchronized void filterPatients(CharSequence s) {
         patients.clear();
         if (s == null || s.toString().trim().isEmpty()) {
-            Log.d("Medicode", "Nothing to search, setting default patients");
             resetPatients(orgPatients);
         } else {
-            Log.d("Medicode", "Searching for patient: " + s.toString());
             String search = s.toString().toLowerCase();
             for (Patient patient : orgPatients) {
-                if (patient.getName().toLowerCase().contains(search)) {
+                if (patient.getId().toLowerCase().contains(search)) {
                     patients.add(patient);
                 }
             }
-            Log.d("Medicode", "Putting " + patients.size() + " patients in list");
         }
         notifyDataSetChanged();
     }
 
-    public void resetDoctors(ArrayList<Doctor> nDoctors) {
+    private void resetDoctors(ArrayList<Doctor> nDoctors) {
         doctors.clear();
         doctors.addAll(nDoctors);
     }
 
-    public void resetPatients(ArrayList<Patient> nPatients) {
+    private void resetPatients(ArrayList<Patient> nPatients) {
         patients.clear();
         patients.addAll(nPatients);
     }
@@ -152,9 +145,13 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.PersonHolder
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (listener != null && ((doctors != null && doctors.size() > 0) || (patients !=
-                        null && patients.size() > 0)))
-                    listener.onItemClick(holder.getAdapterPosition());
+                if (listener != null) {
+                    if (doctors != null && doctors.size() > 0) {
+                        listener.onDoctorClick(doctors.get(holder.getAdapterPosition()));
+                    } else if (patients != null && patients.size() > 0) {
+                        listener.onPatientClick(patients.get(holder.getAdapterPosition()));
+                    }
+                }
             }
         });
     }
@@ -191,7 +188,9 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.PersonHolder
     }
 
     public interface ItemClickListener {
-        void onItemClick(int position);
+        void onDoctorClick(Doctor doctor);
+
+        void onPatientClick(Patient patient);
     }
 
 }

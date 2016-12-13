@@ -50,6 +50,7 @@
     <string name="title_activity_create_doctor">Add doctor</string>
     <string name="doctor">Doctor</string>
     <string name="id">ID</string>
+    <string name="professional_card">Professional Card</string>
     <string name="age">Age</string>
     <string name="gender">Gender</string>
     <string name="rh">Blood group</string>
@@ -59,10 +60,10 @@
     <string name="success">Success</string>
     <string name="doctor_success">Doctor was successfully added. Do you want to add another one?</string>
     <string name="doctor_error">Doctor is already registered in our database.</string>
-    <string name="doctor_not_filled">Error!\nYou haven\'t filled all required doctor fields. Please, try again. Keep in mind ID must have at least 4 digits and max 10.</string>
+    <string name="doctor_not_filled">Error!\nYou haven\'t filled all required doctor fields. Please, try again.</string>
     <string name="appntmnt_not_filled">Appointment data was not properly registered. Please, try again.</string>
     <string name="appntmnt_success">Appointment has been scheduled successfully. Do you want to schedule another one?</string>
-    <string name="appntmnt_error">Appointment is already scheduled in pur database.</string>
+    <string name="appntmnt_error">An appointment with another %1$s, is already scheduled, with the same date, in our database.</string>
     <string name="appntmnts">Appointments</string>
     <string name="doc_appntmnts">Agenda</string>
     <string name="patient">Patient</string>
@@ -85,4 +86,7 @@
     <string name="other">Other</string>
     <string name="tap_to_choose_gender">Tap to choose a gender</string>
     <string name="tap_to_choose_rh">Tap to choose a blood group</string>
+    <string name="tap_to_choose_specialization">Tap to choose a specialization</string>
+    <string name="appntmnt_with">Appointment type: %1$s</string>
+    <string name="years_limit">0 ~ 140 years</string>
 </resources>

@@ -65,9 +65,6 @@ public class CreateDoctorActivity extends AppCompatActivity {
         final EditText id = (EditText) findViewById(R.id.id);
         final LinearLayout specLayout = (LinearLayout) findViewById(R.id.specializationLayout);
         final TextView specialization = (TextView) findViewById(R.id.specialization);
-        InputMethodManager imm = (InputMethodManager)
-                getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 
         specLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +86,12 @@ public class CreateDoctorActivity extends AppCompatActivity {
             }
         });
 
+        InputMethodManager imm = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+
+        name.requestFocus();
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,14 +99,15 @@ public class CreateDoctorActivity extends AppCompatActivity {
                 String docName = name.getText().toString().trim();
                 String docID = id.getText().toString().trim();
                 String docSpecialization = specialization.getText().toString().trim();
-                if (docName.length() > 0 && docID.length() > 3
+                if (docName.length() > 0 && docID.length() > 0
                         && docSpecialization.length() > 0) {
 
                     if (snackbar != null && snackbar.isShown()) {
                         snackbar.dismiss();
                     }
 
-                    final boolean added = manager.addDoctor(new Doctor(docName, docID,
+                    final boolean added = manager.addDoctor(new Doctor(docName, docID.replaceAll
+                            (" ", ""),
                             docSpecialization));
                     dismissPreviousDialog();
                     dialog = new MaterialDialog.Builder(context)

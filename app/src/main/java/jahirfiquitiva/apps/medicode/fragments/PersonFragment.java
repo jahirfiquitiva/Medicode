@@ -27,6 +27,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import jahirfiquitiva.apps.medicode.R;
@@ -44,11 +45,13 @@ public class PersonFragment extends Fragment {
     private ListsAdapter adapter;
     private ArrayList<Patient> patients;
     private ArrayList<Doctor> doctors;
+    private WeakReference<MainActivity> activity;
     private boolean doctorsFrag = true;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        this.activity = new WeakReference<>((MainActivity) context);
     }
 
     @SuppressWarnings("unchecked")
@@ -74,15 +77,15 @@ public class PersonFragment extends Fragment {
         View layout = inflater.inflate(R.layout.list, container, false);
 
         if (doctorsFrag) {
-            adapter = new ListsAdapter(getActivity(), getItemClickListener(), doctors);
+            adapter = new ListsAdapter(activity.get(), getItemClickListener(), doctors);
         } else {
-            adapter = new ListsAdapter(getActivity(), patients, getItemClickListener());
+            adapter = new ListsAdapter(activity.get(), patients, getItemClickListener());
         }
 
         RecyclerView rv = (RecyclerView) layout.findViewById(R.id.rv);
-        rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL,
+        rv.setLayoutManager(new LinearLayoutManager(activity.get(), LinearLayoutManager.VERTICAL,
                 false));
-        rv.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager
+        rv.addItemDecoration(new DividerItemDecoration(activity.get(), LinearLayoutManager
                 .VERTICAL));
         rv.setAdapter(adapter);
 
@@ -109,29 +112,29 @@ public class PersonFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        ((MainActivity) getActivity()).onActivityResult(requestCode, resultCode, data);
+        (activity.get()).onActivityResult(requestCode, resultCode, data);
     }
 
     private ListsAdapter.ItemClickListener getItemClickListener() {
         return new ListsAdapter.ItemClickListener
                 () {
             @Override
-            public void onItemClick(int position) {
-                Intent intent = null;
-                if (doctorsFrag) {
-                    if (doctors != null && doctors.size() > 0) {
-                        intent = new Intent(getActivity(), DoctorAppntmntsActivity.class);
-                        intent.putExtra("doctor", doctors.get(position));
-                    }
-                } else {
-                    if (patients != null && patients.size() > 0) {
-                        intent = new Intent(getActivity(), PatientAppntmntsActivity.class);
-                        intent.putExtra("patient", patients.get(position));
-                    }
-                }
-                if (intent != null) {
+            public void onDoctorClick(Doctor doctor) {
+                if (doctor != null) {
+                    Intent intent = new Intent(activity.get(), DoctorAppntmntsActivity.class);
+                    intent.putExtra("doctor", doctor);
                     intent.putExtra("manager", manager);
-                    startActivityForResult(intent, doctorsFrag ? 12 : 13);
+                    startActivityForResult(intent, 12);
+                }
+            }
+
+            @Override
+            public void onPatientClick(Patient patient) {
+                if (patient != null) {
+                    Intent intent = new Intent(activity.get(), PatientAppntmntsActivity.class);
+                    intent.putExtra("patient", patient);
+                    intent.putExtra("manager", manager);
+                    startActivityForResult(intent, 13);
                 }
             }
         };

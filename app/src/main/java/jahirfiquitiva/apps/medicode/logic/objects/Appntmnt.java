@@ -54,10 +54,8 @@ public class Appntmnt implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        return object != null && object instanceof Appntmnt && ((this.doctor.equals(((Appntmnt)
-                object).getDoctor())) && (this.patient.equals(((Appntmnt) object).getPatient()))
-                && (this.date.equals(((Appntmnt) object).getDate())));
+        return object != null && object instanceof Appntmnt && (this.date.equals(((Appntmnt)
+                object).getDate()));
     }
-
 
 }

@@ -38,6 +38,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -81,8 +82,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         manager = new ListsManager();
-        //TODO Delete this
-        manager.addPatient(new Patient("Fulanito", "123", 19, Gender.MALE, "O+", "Nueva EPS"));
 
         requestPermissions(false, false);
 
@@ -146,15 +145,6 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 animateFab(position);
-                /*
-                if (lastSelected > -1) {
-                    Fragment frag = getSupportFragmentManager().findFragmentByTag("page:" +
-                            lastSelected);
-                    if ((frag != null) && (frag instanceof PersonFragment)) {
-                        ((PersonFragment) frag).performSearch(null);
-                    }
-                }
-                */
                 lastSelected = position;
                 if (mSearchView != null) {
                     mSearchView.setQueryHint(getString(R.string.search_x, getTabName
@@ -173,11 +163,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        cleanSearch();
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode >= 10 && requestCode <= 14) {
             if (data != null) {
-                updatePager((ListsManager) data.getSerializableExtra("manager"), lastSelected);
+                updatePager((ListsManager) data.getSerializableExtra("manager"));
             }
         }
     }
@@ -267,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         lastSelected = savedInstanceState.getInt("last", 0);
-        updatePager((ListsManager) savedInstanceState.getSerializable("manager"), lastSelected);
+        updatePager((ListsManager) savedInstanceState.getSerializable("manager"));
     }
 
     @Override
@@ -366,7 +362,7 @@ public class MainActivity extends AppCompatActivity {
                                 public void onClick(@NonNull MaterialDialog dialog, @NonNull
                                         DialogAction
                                         which) {
-                                    updatePager(mngAux, lastSelected);
+                                    updatePager(mngAux);
                                 }
                             })
                             .show();
@@ -407,6 +403,7 @@ public class MainActivity extends AppCompatActivity {
             ((EditText) mSearchView.findViewById(android.support.v7.appcompat.R.id.search_src_text))
                     .setHintTextColor(ContextCompat.getColor(context, R.color
                             .semitransparent_white));
+            mSearchView.setInputType(InputType.TYPE_CLASS_NUMBER);
         } catch (Exception ignored) {
         }
         MenuItemCompat.setOnActionExpandListener(mSearchItem, new MenuItemCompat
@@ -421,7 +418,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                updatePager(manager, lastSelected);
+                updatePager(manager);
                 return true;
             }
         });
@@ -432,7 +429,8 @@ public class MainActivity extends AppCompatActivity {
                 if (!hasFocus && mSearchItem != null) {
                     mSearchItem.collapseActionView();
                 }
-                updatePager(manager, lastSelected);
+                ((SearchView) view).onActionViewCollapsed();
+                updatePager(manager);
             }
         });
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -440,7 +438,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 search(s);
-                return true;
+                return false;
             }
 
             @Override
@@ -493,29 +491,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void updatePager(ListsManager mng, int position) {
+    private void updatePager(ListsManager mng) {
         if (mng == null) return;
         setManager(mng);
         if (pager != null) {
             if (pager.getAdapter() != null) {
                 ((PagerAdapter) pager.getAdapter()).setManager(mng);
-                /*
-                Fragment frag = getSupportFragmentManager().findFragmentByTag("page:" +
-                        position);
-                if (frag != null) {
-                    if (frag instanceof PersonFragment) {
-                        if (((PersonFragment) frag).getAdapter() != null) {
-                            if (position == 0) {
-                                ((PersonFragment) frag).setDoctors(mng.getDoctors());
-                            } else if (position == 1) {
-                                ((PersonFragment) frag).setPatients(mng.getPatients());
-                            }
-                            //.getRecycledViewPool().clear();
-                            ((PersonFragment) frag).getAdapter().notifyDataSetChanged();
-                        }
-                    }
-                }
-                */
             }
             pager.setCurrentItem(lastSelected);
         }
@@ -554,6 +535,12 @@ public class MainActivity extends AppCompatActivity {
             if (frag instanceof PersonFragment) {
                 ((PersonFragment) frag).performSearch(s);
             }
+        }
+    }
+
+    private void cleanSearch() {
+        if (mSearchView != null) {
+            mSearchView.setQuery("", false);
         }
     }
 

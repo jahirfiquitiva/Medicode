@@ -187,6 +187,7 @@
                         android:inputType="number"
                         android:textSize="18sp"
                         android:maxLength="3"
+                        android:hint="@string/years_limit"
                         android:textColor="@color/primary_text"
                         android:textColorHint="@color/tertiary_text"/>
 

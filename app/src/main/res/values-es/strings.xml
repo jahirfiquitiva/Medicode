@@ -51,6 +51,7 @@
     <string name="title_activity_create_doctor">Añadir Doctor</string>
     <string name="doctor">Doctor</string>
     <string name="id">ID</string>
+    <string name="professional_card">Tarjeta Profesional</string>
     <string name="age">Edad</string>
     <string name="gender">Género</string>
     <string name="rh">RH</string>
@@ -60,10 +61,10 @@
     <string name="success">Éxito</string>
     <string name="doctor_success">El doctor se ha añadido con éxito. Deseas añadir otro doctor?</string>
     <string name="doctor_error">El doctor ya se encuentra registrado en la base de datos.</string>
-    <string name="doctor_not_filled">Error!\nNo se han llenado todos los datos del doctor. Intenta de nuevo. Ten en cuenta que el ID debe tener mínimo 4 dígitos y máximo 10.</string>
+    <string name="doctor_not_filled">Error!\nNo se han llenado todos los datos del doctor. Intenta de nuevo.</string>
     <string name="appntmnt_not_filled">Los datos de la cita no se han registrado correctamente. Intenta de nuevo.</string>
     <string name="appntmnt_success">La cita se ha programado con éxito. Deseas añadir otra cita?</string>
-    <string name="appntmnt_error">La cita ya se encuentra programada en la base de datos.</string>
+    <string name="appntmnt_error">Una cita con otro %1$s, ya se encuentra programada, para la misma fecha, en la base de datos.</string>
     <string name="appntmnts">Citas</string>
     <string name="doc_appntmnts">Agenda</string>
     <string name="patient">Paciente</string>
@@ -86,4 +87,7 @@
     <string name="other">Otro</string>
     <string name="tap_to_choose_gender">Toca para escoger género</string>
     <string name="tap_to_choose_rh">Toca para escoger RH</string>
+    <string name="tap_to_choose_specialization">Toca para escoger una especialización</string>
+    <string name="appntmnt_with">Cita con: %1$s</string>
+    <string name="years_limit">0 ~ 140 años</string>
 </resources>

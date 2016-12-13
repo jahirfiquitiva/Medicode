@@ -18,7 +18,6 @@ package jahirfiquitiva.apps.medicode.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,12 +61,17 @@ public class AppntmntAdapter extends RecyclerView.Adapter<AppntmntAdapter.Appntm
     @Override
     public void onBindViewHolder(AppntmntHolder holder, int position) {
         Appntmnt appntmnt = list.get(holder.getAdapterPosition());
-        holder.docpat.setText(doctor != null ? context.getResources().getString(R.string
+        holder.docPat.setText(doctor != null ? context.getResources().getString(R.string
                 .patient_n, appntmnt.getPatient().getName()) : patient != null ? context
                 .getResources().getString(R.string
                         .doctor_n, appntmnt.getDoctor().getName()) : context.getResources()
                 .getString(R
-                .string.error));
+                        .string.error));
+        if (patient != null) {
+            holder.docSpec.setText(context.getString(R.string.appntmnt_with, appntmnt.getDoctor()
+                    .getSpecialization()));
+            holder.docSpec.setVisibility(View.VISIBLE);
+        }
         if (doctor != null || patient != null) {
             holder.date.setText(appntmnt.getDate());
         }
@@ -89,12 +93,14 @@ public class AppntmntAdapter extends RecyclerView.Adapter<AppntmntAdapter.Appntm
     }
 
     class AppntmntHolder extends RecyclerView.ViewHolder {
-        final TextView docpat;
+        final TextView docPat;
+        final TextView docSpec;
         final TextView date;
 
         public AppntmntHolder(View itemView) {
             super(itemView);
-            docpat = (TextView) itemView.findViewById(R.id.detail);
+            docPat = (TextView) itemView.findViewById(R.id.detail);
+            docSpec = (TextView) itemView.findViewById(R.id.appointmentWith);
             date = (TextView) itemView.findViewById(R.id.date);
         }
     }

@@ -158,9 +158,8 @@ public class CreateAppntmntActivity extends AppCompatActivity {
                     }
                 }, currentYear, currentMonth, currentDay);
                 dateDialog.getDatePicker().setMinDate(Calendar.getInstance().getTime().getTime());
-                Calendar nDate = Calendar.getInstance();
-                nDate.add(Calendar.MONTH, 1);
-                dateDialog.getDatePicker().setMaxDate(nDate.getTime().getTime());
+                c.add(Calendar.MONTH, 1);
+                dateDialog.getDatePicker().setMaxDate(c.getTime().getTime());
                 dateDialog.show();
             }
         });
@@ -171,11 +170,12 @@ public class CreateAppntmntActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (doctor != null && patient != null && (!(selectedDate.isEmpty()))) {
                     final boolean added = manager.addAppntmnt(new Appntmnt(doctor, patient,
-                            selectedDate));
+                            selectedDate), hadDoctor);
                     dismissPreviousDialog();
                     dialog = new MaterialDialog.Builder(context)
                             .title(added ? R.string.success : R.string.error)
-                            .content(added ? R.string.appntmnt_success : R.string.appntmnt_error)
+                            .content(added ? context.getString(R.string.appntmnt_success) :
+                                    getErrorMessage())
                             .positiveText(added ? android.R.string.yes : android.R.string.ok)
                             .cancelable(false).autoDismiss(false).canceledOnTouchOutside(false)
                             .positiveColor(ContextCompat.getColor(context, R.color.colorPrimary))
@@ -283,6 +283,12 @@ public class CreateAppntmntActivity extends AppCompatActivity {
         if (dialog != null) {
             dialog.dismiss();
         }
+    }
+
+    private String getErrorMessage() {
+        return context.getString(R.string.appntmnt_error, context.getString
+                (hadDoctor ? R.string.patient : R.string.doctor)
+                .toLowerCase());
     }
 
 }
