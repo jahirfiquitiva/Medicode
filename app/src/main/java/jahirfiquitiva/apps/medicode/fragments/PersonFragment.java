@@ -20,12 +20,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -38,10 +41,12 @@ import jahirfiquitiva.apps.medicode.adapters.ListsAdapter;
 import jahirfiquitiva.apps.medicode.logic.ListsManager;
 import jahirfiquitiva.apps.medicode.logic.objects.Doctor;
 import jahirfiquitiva.apps.medicode.logic.objects.Patient;
+import jahirfiquitiva.apps.medicode.views.RecyclerViewWithEmptyView;
 
 public class PersonFragment extends Fragment {
 
     private ListsManager manager;
+    private RecyclerViewWithEmptyView rv;
     private ListsAdapter adapter;
     private ArrayList<Patient> patients;
     private ArrayList<Doctor> doctors;
@@ -82,7 +87,22 @@ public class PersonFragment extends Fragment {
             adapter = new ListsAdapter(activity.get(), patients, getItemClickListener());
         }
 
-        RecyclerView rv = (RecyclerView) layout.findViewById(R.id.rv);
+        rv = (RecyclerViewWithEmptyView) layout.findViewById(R.id.rv);
+
+        LinearLayout emptyView = (LinearLayout) layout.findViewById(R.id.empty);
+        ImageView emptyIcon = (ImageView) layout.findViewById(R.id.emptyIcon);
+        TextView emptyText = (TextView) layout.findViewById(R.id.emptyText);
+
+        emptyIcon.setImageDrawable(ContextCompat.getDrawable(activity.get(), doctorsFrag ? R
+                .drawable.ic_no_doctors : R.drawable.ic_no_patients));
+        emptyText.setText(getString(R.string.not_enough_to_show, getString(doctorsFrag ? R
+                .string.doctors : R.string.patients).toLowerCase()));
+
+        LinearLayout searchView = (LinearLayout) layout.findViewById(R.id.searching);
+
+        rv.setEmptyView(emptyView);
+        rv.setSearchingView(searchView);
+
         rv.setLayoutManager(new LinearLayoutManager(activity.get(), LinearLayoutManager.VERTICAL,
                 false));
         rv.addItemDecoration(new DividerItemDecoration(activity.get(), LinearLayoutManager
@@ -140,7 +160,9 @@ public class PersonFragment extends Fragment {
         };
     }
 
-    public void performSearch(String query) {
+    public void performSearch(String query, boolean reset) {
+        rv.setState(reset ? RecyclerViewWithEmptyView.STATE_NORMAL : RecyclerViewWithEmptyView
+                .STATE_SEARCHING);
         if (adapter != null) {
             if (doctorsFrag) {
                 adapter.filterDoctors(query);

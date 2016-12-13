@@ -76,7 +76,8 @@
     <string name="tap_to_choose_patient">Tap to choose patient</string>
     <string name="not_enough_patients">Not enough patients to schedule an appointment for.</string>
     <string name="not_enough_doctors">Not enough doctors to ask for an appointment to.</string>
-    <string name="full_date">%2$s, %1$s  %3$s   at  %4$s:%5$s %6$s</string>
+    <string name="full_date">%2$s, %1$s  %3$s   at  %4$s</string>
+    <string name="appointment_time">Appointment time</string>
     <string name="search_x">Search for %1$s…</string>
     <string name="about">About</string>
     <string name="jahir_info">App developed by Jahir Fiquitiva.\nID: 201521721</string>
@@ -94,4 +95,9 @@
     <string name="years_limit">0 ~ 140 years</string>
     <string name="create_new">Create new…</string>
     <string name="not_enough_to_search">There are not enough %1$s to search. Add some first.</string>
+    <string name="time_not_properly_set">Appointment time was not selected</string>
+    <string name="title_activity_create_appntmnt">Add appointment</string>
+    <string name="no_results">There are no elements that match search.</string>
+    <string name="not_enough_to_show">There are no %1$s. Add some by pressing the bottom right button.</string>
+    <string name="not_enough_appntmnts_to_show">There are no appointments. Add some by pressing the bottom right button.</string>
 </resources>

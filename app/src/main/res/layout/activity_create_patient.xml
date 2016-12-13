@@ -24,12 +24,14 @@
         android:id="@+id/main">
 
     <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBar"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:clipChildren="false"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            android:id="@+id/appBar"
             android:elevation="4dp"
-            android:layout_height="wrap_content"
+            android:minHeight="?actionBarSize"
+            app:layout_scrollFlags="enterAlwaysCollapsed"
             tools:ignore="UnusedAttribute">
 
         <android.support.v7.widget.Toolbar
@@ -37,10 +39,11 @@
                 android:contentInsetStart="@dimen/second_keyline"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
-                android:title="@string/title_activity_create_doctor"
+                android:minHeight="?actionBarSize"
+                android:title="@string/title_activity_create_patient"
                 android:theme="@style/Toolbar.AppCompat.Responsive"
                 android:popupTheme="@style/Toolbar.Popup.AppCompat"
-                app:layout_scrollFlags="enterAlways"/>
+                app:layout_collapseMode="pin"/>
 
     </android.support.design.widget.AppBarLayout>
 
@@ -91,7 +94,7 @@
                         android:layout_marginStart="@dimen/field_margin"
                         android:layout_marginRight="@dimen/field_margin_r"
                         android:layout_marginEnd="@dimen/field_margin_r"
-                        android:inputType="text"
+                        android:inputType="textCapWords"
                         android:textSize="18sp"
                         android:textColor="@color/primary_text"
                         android:textColorHint="@color/tertiary_text"/>

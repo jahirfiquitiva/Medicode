@@ -45,6 +45,10 @@ public class SerializableFile implements Serializable {
         this.file = new File(folder, fileName);
     }
 
+    public boolean hasContent() {
+        return file != null && file.exists() && file.length() > 0;
+    }
+
     public Object getObject() throws IOException, ClassNotFoundException {
         ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(file));
         Object object = inputStream.readObject();

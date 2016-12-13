@@ -16,8 +16,8 @@
 
 package jahirfiquitiva.apps.medicode.activities;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,7 +33,6 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -50,6 +49,9 @@ import jahirfiquitiva.apps.medicode.logic.objects.Patient;
 
 public class CreateAppntmntActivity extends AppCompatActivity {
 
+    private static final int INITIAL_HOUR = 8;
+    private static final int FINAL_HOUR = 18;
+    private static final int TIME_INTERVAL = 20;
     private ListsManager manager;
     private Doctor doctor;
     private Patient patient;
@@ -58,6 +60,7 @@ public class CreateAppntmntActivity extends AppCompatActivity {
     private MaterialDialog dialog;
     private TextView docName;
     private TextView patientName;
+    private ArrayList<String> workingHours = new ArrayList<>();
     private boolean hadDoctor = true;
 
     @Override
@@ -71,6 +74,8 @@ public class CreateAppntmntActivity extends AppCompatActivity {
         manager = (ListsManager) getIntent().getSerializableExtra("manager");
 
         hadDoctor = doctor != null && patient == null;
+
+        setupWorkingHours();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -151,23 +156,37 @@ public class CreateAppntmntActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker datePicker, final int year, final int month,
                                           final int day) {
-                        final Calendar c = Calendar.getInstance();
-                        int currentHour = c.get(Calendar.HOUR_OF_DAY);
-                        int currentMinute = c.get(Calendar.MINUTE);
-                        new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker timePicker, int hour, int minutes) {
-                                selectedDate = context.getString(R.string.full_date,
-                                        String.valueOf(day),
-                                        new DateFormatSymbols().getMonths()[month],
-                                        String.valueOf(year),
-                                        String.valueOf(hour),
-                                        String.valueOf(minutes),
-                                        isAMOrPM(hour)
-                                );
-                                dateText.setText(selectedDate);
-                            }
-                        }, currentHour, currentMinute, DateFormat.is24HourFormat(context)).show();
+                        dismissPreviousDialog();
+                        dialog = new MaterialDialog.Builder(context)
+                                .title(R.string.appointment_time)
+                                .positiveText(android.R.string.ok)
+                                .items(workingHours)
+                                .itemsCallbackSingleChoice(-1, new MaterialDialog
+                                        .ListCallbackSingleChoice() {
+                                    @Override
+                                    public boolean onSelection(MaterialDialog dialog, View
+                                            itemView, int which, CharSequence text) {
+                                        if (which >= 0) {
+                                            selectedDate = context.getString(R.string.full_date,
+                                                    String.valueOf(day),
+                                                    new DateFormatSymbols().getMonths()[month],
+                                                    String.valueOf(year),
+                                                    text.toString()
+                                            );
+                                            dateText.setText(selectedDate);
+                                        } else {
+                                            selectedDate = "";
+                                            dateText.setText("");
+                                            Snackbar.make(findViewById(R.id.main),
+                                                    context.getString(R.string
+                                                            .time_not_properly_set),
+                                                    Snackbar.LENGTH_SHORT).show();
+                                        }
+                                        return true;
+                                    }
+                                })
+                                .build();
+                        dialog.show();
                     }
                 }, currentYear, currentMonth, currentDay);
                 dateDialog.getDatePicker().setMinDate(Calendar.getInstance().getTime().getTime());
@@ -282,18 +301,6 @@ public class CreateAppntmntActivity extends AppCompatActivity {
         finish();
     }
 
-    private String isAMOrPM(int hour) {
-        if (!DateFormat.is24HourFormat(this)) {
-            if (hour >= 12) {
-                return "pm";
-            } else {
-                return "am";
-            }
-        } else {
-            return "";
-        }
-    }
-
     private void setDoctor(Doctor doctor) {
         this.doctor = doctor;
     }
@@ -362,6 +369,38 @@ public class CreateAppntmntActivity extends AppCompatActivity {
         this.manager = ((ListsManager) savedInstanceState.getSerializable("manager"));
         this.doctor = (Doctor) savedInstanceState.getSerializable("doctor");
         this.patient = (Patient) savedInstanceState.getSerializable("patient");
+    }
+
+    private void setupWorkingHours() {
+        workingHours.clear();
+        boolean is24HoursFormat = DateFormat.is24HourFormat(this);
+        for (int h = INITIAL_HOUR; h < FINAL_HOUR; h++) {
+            for (int m = 0; m < 60; m += TIME_INTERVAL) {
+                if (h != 12 && h != 13) {
+                    workingHours.add(formatTimeNumber((!is24HoursFormat ? h > 12 ? h - 12 : h :
+                            h)) + ":" + formatTimeNumber(m) + " " +
+                            getAMOrPM(is24HoursFormat, h));
+                }
+            }
+        }
+    }
+
+    @SuppressLint("DefaultLocale")
+    private String formatTimeNumber(int number) {
+        return String.format("%02d", number);
+    }
+
+
+    private String getAMOrPM(boolean is24HoursFormat, int hour) {
+        if (!is24HoursFormat) {
+            if (hour >= 12) {
+                return "pm";
+            } else {
+                return "am";
+            }
+        } else {
+            return "";
+        }
     }
 
 }

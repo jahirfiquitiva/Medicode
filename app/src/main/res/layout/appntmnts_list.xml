@@ -23,8 +23,9 @@
 
     <jahirfiquitiva.apps.medicode.views.RecyclerViewWithEmptyView
             android:id="@+id/rv"
+            android:padding="@dimen/item_margin"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:overScrollMode="ifContentScrolls"
             android:clipToPadding="false"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
@@ -34,8 +35,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="@dimen/second_keyline"
             android:visibility="gone"
+            android:layout_marginTop="@dimen/second_keyline"
             tools:ignore="UseCompoundDrawables">
 
         <ImageView
@@ -45,6 +46,7 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
+                app:srcCompat="@drawable/ic_no_appntmnts"
                 android:layout_marginLeft="@dimen/empty_icon_margin"
                 android:layout_marginRight="@dimen/empty_icon_margin"
                 android:layout_marginStart="@dimen/empty_icon_margin"
@@ -64,47 +66,8 @@
                 android:layout_marginStart="@dimen/field_margin_l"
                 android:layout_marginEnd="@dimen/field_margin_l"
                 android:textColor="@color/tertiary_text"
+                android:text="@string/not_enough_appntmnts_to_show"
                 tools:text="Empty list"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-            android:id="@+id/searching"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="@dimen/second_keyline"
-            android:visibility="gone"
-            tools:ignore="UseCompoundDrawables">
-
-        <ImageView
-                android:id="@+id/searchingIcon"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_no_search"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                android:layout_marginLeft="@dimen/empty_icon_margin"
-                android:layout_marginRight="@dimen/empty_icon_margin"
-                android:layout_marginStart="@dimen/empty_icon_margin"
-                android:layout_marginEnd="@dimen/empty_icon_margin"
-                tools:ignore="ContentDescription"/>
-
-        <TextView
-                android:id="@+id/searchingText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                android:textAlignment="center"
-                android:layout_marginTop="@dimen/field_margin_l"
-                android:layout_marginLeft="@dimen/field_margin_l"
-                android:layout_marginRight="@dimen/field_margin_l"
-                android:layout_marginStart="@dimen/field_margin_l"
-                android:layout_marginEnd="@dimen/field_margin_l"
-                android:textColor="@color/tertiary_text"
-                android:text="@string/no_results"/>
 
     </LinearLayout>
 

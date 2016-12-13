@@ -24,12 +24,14 @@
         android:id="@+id/main">
 
     <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBar"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:clipChildren="false"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            android:id="@+id/appBar"
             android:elevation="4dp"
-            android:layout_height="wrap_content"
+            android:minHeight="?actionBarSize"
+            app:layout_scrollFlags="enterAlwaysCollapsed"
             tools:ignore="UnusedAttribute">
 
         <android.support.v7.widget.Toolbar
@@ -37,9 +39,10 @@
                 android:contentInsetStart="@dimen/second_keyline"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
+                android:minHeight="?actionBarSize"
                 android:theme="@style/Toolbar.AppCompat.Responsive"
                 android:popupTheme="@style/Toolbar.Popup.AppCompat"
-                app:layout_scrollFlags="enterAlways"/>
+                app:layout_collapseMode="pin"/>
 
     </android.support.design.widget.AppBarLayout>
 
@@ -245,15 +248,11 @@
 
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                    android:padding="@dimen/item_margin"
+            <include
+                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_below="@id/patientDetails"
-                    android:id="@+id/rv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:overScrollMode="ifContentScrolls"
-                    android:clipToPadding="false"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+                    layout="@layout/appntmnts_list"/>
 
         </RelativeLayout>
 

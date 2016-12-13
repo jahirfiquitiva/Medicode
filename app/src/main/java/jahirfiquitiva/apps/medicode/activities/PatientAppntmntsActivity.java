@@ -25,11 +25,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import jahirfiquitiva.apps.medicode.R;
@@ -38,12 +38,13 @@ import jahirfiquitiva.apps.medicode.logic.ListsManager;
 import jahirfiquitiva.apps.medicode.logic.enums.Gender;
 import jahirfiquitiva.apps.medicode.logic.objects.Patient;
 import jahirfiquitiva.apps.medicode.utils.IconTintUtils;
+import jahirfiquitiva.apps.medicode.views.RecyclerViewWithEmptyView;
 
 public class PatientAppntmntsActivity extends AppCompatActivity {
 
     private ListsManager manager;
     private AppntmntAdapter adapter;
-    private RecyclerView rv;
+    private RecyclerViewWithEmptyView rv;
     private Patient patient;
     private Context context;
 
@@ -80,7 +81,9 @@ public class PatientAppntmntsActivity extends AppCompatActivity {
             eps.setText(patient.getEps());
         }
 
-        rv = (RecyclerView) findViewById(R.id.rv);
+        rv = (RecyclerViewWithEmptyView) findViewById(R.id.rv);
+        LinearLayout emptyView = (LinearLayout) findViewById(R.id.empty);
+        rv.setEmptyView(emptyView);
         rv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         rv.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         rv.setNestedScrollingEnabled(false);

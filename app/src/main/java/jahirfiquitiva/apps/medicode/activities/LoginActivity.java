@@ -36,7 +36,6 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.internal.MDTintHelper;
 
-import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Properties;
 
@@ -47,7 +46,6 @@ public class LoginActivity extends AppCompatActivity {
     private Context context;
     private EditText userInput;
     private EditText passwordInput;
-    private EditText masterPasswordInput;
     private View positiveAction;
     private Properties props;
     private boolean valid = false;
@@ -64,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
 
         try {
             props.load(getResources().getAssets().open("users.properties"));
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

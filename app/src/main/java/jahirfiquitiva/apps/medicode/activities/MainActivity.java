@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 animateFab(position);
+                if (lastSelected != position) search(null, true);
                 lastSelected = position;
                 if (mSearchView != null) {
                     mSearchView.setInputType(position == 0 ? InputType
@@ -349,7 +350,7 @@ public class MainActivity extends AppCompatActivity {
             file.open();
             try {
                 final ListsManager mngAux = (ListsManager) file.getObject();
-                if (mngAux != null) {
+                if (mngAux != null && file.hasContent()) {
                     new MaterialDialog.Builder(context)
                             .title(R.string.load_data)
                             .content(R.string.load_data_content)
@@ -409,27 +410,28 @@ public class MainActivity extends AppCompatActivity {
         }
         MenuItemCompat.setOnActionExpandListener(mSearchItem, new MenuItemCompat
                 .OnActionExpandListener() {
-
-
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
                 if (lastSelected == 0) {
                     if (manager.getDoctors().size() > 0) {
-                        search(null);
+                        search(null, false);
                         return true;
                     } else {
                         Snackbar.make(findViewById(R.id.pager), getString(R.string
-                                .not_enough_to_search, getString(R.string.doctors).toLowerCase()), Snackbar
-                                .LENGTH_LONG).show();
+                                        .not_enough_to_search, getString(R.string.doctors)
+                                        .toLowerCase())
+                                , Snackbar
+                                        .LENGTH_LONG).show();
                         return false;
                     }
                 } else if (lastSelected == 1) {
                     if (manager.getPatients().size() > 0) {
-                        search(null);
+                        search(null, false);
                         return true;
                     } else {
                         Snackbar.make(findViewById(R.id.pager), getString(R.string
-                                .not_enough_to_search, getString(R.string.patients).toLowerCase()), Snackbar
+                                .not_enough_to_search, getString(R.string.patients).toLowerCase()
+                        ), Snackbar
                                 .LENGTH_LONG).show();
                         return false;
                     }
@@ -458,13 +460,13 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextSubmit(String s) {
-                search(s);
+                search(s, false);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                search(s);
+                search(s, false);
                 return true;
             }
         });
@@ -550,16 +552,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void search(String s) {
+    private void search(String s, boolean reset) {
         Fragment frag = getSupportFragmentManager().findFragmentByTag("page:" + lastSelected);
         if (frag != null) {
             if (frag instanceof PersonFragment) {
-                ((PersonFragment) frag).performSearch(s);
+                ((PersonFragment) frag).performSearch(s, reset);
             }
         }
     }
 
     private void cleanSearch() {
+        search(null, true);
         if (mSearchView != null) {
             mSearchView.setInputType(lastSelected == 0 ? InputType
                     .TYPE_TEXT_FLAG_CAP_CHARACTERS : InputType.TYPE_CLASS_NUMBER);

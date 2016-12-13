@@ -77,7 +77,8 @@
     <string name="tap_to_choose_patient">Toca para escoger paciente</string>
     <string name="not_enough_patients">No hay pacientes a quienes se les pueda asignar una cita.</string>
     <string name="not_enough_doctors">No hay doctores a quienes se les pueda solicitar una cita.</string>
-    <string name="full_date">%1$s de %2$s de %3$s  a las  %4$s:%5$s %6$s</string>
+    <string name="full_date">%1$s de %2$s de %3$s  a las  %4$s</string>
+    <string name="appointment_time">Hora de la cita</string>
     <string name="search_x">Buscar %1$s…</string>
     <string name="about">Acerca de</string>
     <string name="jahir_info">Aplicación desarrollada por Jahir Fiquitiva.\nCódigo: 201521721</string>
@@ -95,4 +96,9 @@
     <string name="years_limit">0 ~ 140 años</string>
     <string name="create_new">Crear nuevo…</string>
     <string name="not_enough_to_search">No hay suficientes %1$s para buscar. Añade algunos primero.</string>
+    <string name="time_not_properly_set">No se seleccionó una hora para la cita.</string>
+    <string name="title_activity_create_appntmnt">Añadir cita</string>
+    <string name="no_results">No hay elementos que coincidan con la búsqueda.</string>
+    <string name="not_enough_to_show">No hay %1$s para mostrar. Añade algunos presionando el botón.</string>
+    <string name="not_enough_appntmnts_to_show">Aún no hay citas. Añade algunas presionando el botón.</string>
 </resources>
