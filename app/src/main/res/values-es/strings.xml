@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016. Jahir Fiquitiva
+  ~
+  ~ Licensed under the CreativeCommons Attribution-ShareAlike
+  ~ 4.0 International License. You may not use this file except in compliance
+  ~ with the License. You may obtain a copy of the License at
+  ~
+  ~    http://creativecommons.org/licenses/by-sa/4.0/legalcode
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+    <string name="app_name">Medicode</string>
+    <string name="cc">ID: %1$s</string>
+    <string name="doctor_n">Doctor: %1$s</string>
+    <string name="patient_n">Paciente: %1$s</string>
+    <string name="appntmnt_n">Cita: %1$s</string>
+    <string name="specialization_n">Especialización: %1$s</string>
+    <string name="title_activity_login">Iniciar sesión</string>
+    <string name="create">Crear cuenta</string>
+    <string name="login">Iniciar sesión</string>
+    <string name="user">Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="master_password">Contraseña Administrador</string>
+    <string name="showPassword">Mostrar contraseña</string>
+    <string name="error">Error</string>
+    <string name="invalid_user">Contraseña incorrecta. Intenta de nuevo.</string>
+    <string name="user_does_not_exist">El usuario no se encuentra registrado en nuestra base de datos.</string>
+    <string name="sort">Sort</string>
+    <string name="sort_by_id">Ordenar por ID</string>
+    <string name="sort_by_name">Ordenar por nombre</string>
+    <string name="sort_by_gender">Ordenar por género</string>
+    <string name="search">Buscar</string>
+    <string name="closing_app">Demasiados intentos fallidos. La app se cerrará.</string>
+    <string name="exit">Salir</string>
+    <string name="exit_confirmation">Estás seguro de querer salir?</string>
+    <string name="save_data">Guardar datos</string>
+    <string name="save_data_confirmation">Deseas guardar los datos de la aplicación?</string>
+    <string name="permission_rationale">"Se requieren permisos para leer y almacenar los datos."</string>
+    <string name="permission_denied">Los permisos para almacenar datos fueron negados. Desea aceptarlos?</string>
+    <string name="permission_denied_sec">Los permisos para almacenar datos fueron negados y por lo tanto los datos no se guardarán.</string>
+    <string name="permission_completely_denied">Los permisos para almacenar datos fueron negados completamente y por lo tanto los datos no se guardarán.</string>
+    <string name="load_data">Cargar datos</string>
+    <string name="load_data_content">Deseas cargar datos anteriores?</string>
+    <string name="title_activity_create_doctor">Añadir Doctor</string>
+    <string name="doctor">Doctor</string>
+    <string name="id">ID</string>
+    <string name="age">Edad</string>
+    <string name="gender">Género</string>
+    <string name="rh">RH</string>
+    <string name="eps">EPS</string>
+    <string name="specialization">Especialización</string>
+    <string name="full_name">Nombre completo</string>
+    <string name="success">Éxito</string>
+    <string name="doctor_success">El doctor se ha añadido con éxito. Deseas añadir otro doctor?</string>
+    <string name="doctor_error">El doctor ya se encuentra registrado en la base de datos.</string>
+    <string name="doctor_not_filled">Error!\nNo se han llenado todos los datos del doctor. Intenta de nuevo. Ten en cuenta que el ID debe tener mínimo 4 dígitos y máximo 10.</string>
+    <string name="appntmnt_not_filled">Los datos de la cita no se han registrado correctamente. Intenta de nuevo.</string>
+    <string name="appntmnt_success">La cita se ha programado con éxito. Deseas añadir otra cita?</string>
+    <string name="appntmnt_error">La cita ya se encuentra programada en la base de datos.</string>
+    <string name="appntmnts">Citas</string>
+    <string name="doc_appntmnts">Agenda</string>
+    <string name="patient">Paciente</string>
+    <string name="date">Fecha</string>
+    <string name="tap_to_choose_date">Toca para escoger fecha</string>
+    <string name="tap_to_choose_doctor">Toca para escoger doctor</string>
+    <string name="tap_to_choose_patient">Toca para escoger paciente</string>
+    <string name="not_enough_patients">No hay pacientes a quienes se les pueda asignar una cita.</string>
+    <string name="not_enough_doctors">No hay doctores a quienes se les pueda solicitar una cita.</string>
+    <string name="full_date">%1$s de %2$s de %3$s  a las  %4$s:%5$s %6$s</string>
+    <string name="search_x">Buscar %1$s…</string>
+    <string name="about">Acerca de</string>
+    <string name="jahir_info">Aplicación desarrollada por Jahir Fiquitiva.\nCódigo: 201521721</string>
+    <string name="title_activity_create_patient">Añadir paciente</string>
+    <string name="patient_success">El paciente se ha añadido con éxito. Deseas añadir otro paciente?</string>
+    <string name="patient_error">El paciente ya se encuentra registrado en la base de datos.</string>
+    <string name="patient_not_filled">Error!\nNo se han llenado todos los datos del paciente. Intenta de nuevo. Ten en cuenta que el ID debe tener mínimo 4 dígitos y máximo 10.</string>
+    <string name="male">Masculino</string>
+    <string name="female">Femenino</string>
+    <string name="other">Otro</string>
+    <string name="tap_to_choose_gender">Toca para escoger género</string>
+    <string name="tap_to_choose_rh">Toca para escoger RH</string>
+</resources>

@@ -499,24 +499,21 @@ public class MainActivity extends AppCompatActivity {
         if (pager != null) {
             if (pager.getAdapter() != null) {
                 ((PagerAdapter) pager.getAdapter()).setManager(mng);
-                /*
                 Fragment frag = getSupportFragmentManager().findFragmentByTag("page:" +
                         position);
                 if (frag != null) {
                     if (frag instanceof PersonFragment) {
                         if (((PersonFragment) frag).getAdapter() != null) {
-                            /*
                             if (position == 0) {
-                                ((PersonFragment) frag).getAdapter().setDoctors(mng.getDoctors());
+                                ((PersonFragment) frag).setDoctors(mng.getDoctors());
                             } else if (position == 1) {
-                                ((PersonFragment) frag).getAdapter().setPatients(mng.getPatients());
+                                ((PersonFragment) frag).setPatients(mng.getPatients());
                             }
                             //.getRecycledViewPool().clear();
                             ((PersonFragment) frag).getAdapter().notifyDataSetChanged();
                         }
                     }
                 }
-                */
             }
             pager.setCurrentItem(lastSelected);
         }
