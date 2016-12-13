@@ -176,7 +176,7 @@ public class PersonFragment extends Fragment {
     private synchronized void filterDoctors(CharSequence s) {
         if (doctors != null && !(doctors.isEmpty())) {
             if (s == null || s.toString().trim().isEmpty()) {
-                Log.d("Medicode", "Nothing to search setting default doctors");
+                Log.d("Medicode", "Nothing to search, setting default doctors");
                 filteredDoctors = null;
                 setDoctors(null);
             } else {
@@ -194,15 +194,19 @@ public class PersonFragment extends Fragment {
                 Log.d("Medicode", "Putting " + filteredDoctors.size() + " doctors in list");
                 setDoctors(filteredDoctors);
             }
+        } else {
+            Log.d("Medicode", "Original doctors list is empty");
         }
     }
 
     private synchronized void filterPatients(CharSequence s) {
         if ((patients != null) && (!(patients.isEmpty()))) {
             if (s == null || s.toString().trim().isEmpty()) {
+                Log.d("Medicode", "Nothing to search, setting default patients");
                 filteredPatients = null;
                 setPatients(null);
             } else {
+                Log.d("Medicode", "Searching for patient: " + s.toString());
                 if (filteredPatients != null) {
                     filteredPatients.clear();
                 }
@@ -213,8 +217,11 @@ public class PersonFragment extends Fragment {
                         filteredPatients.add(patient);
                     }
                 }
+                Log.d("Medicode", "Putting " + filteredPatients.size() + " patients in list");
                 setPatients(filteredPatients);
             }
+        } else {
+            Log.d("Medicode", "Original patients list is empty");
         }
     }
 

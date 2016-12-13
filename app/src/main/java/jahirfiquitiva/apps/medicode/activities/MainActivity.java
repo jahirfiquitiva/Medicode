@@ -499,6 +499,7 @@ public class MainActivity extends AppCompatActivity {
         if (pager != null) {
             if (pager.getAdapter() != null) {
                 ((PagerAdapter) pager.getAdapter()).setManager(mng);
+                /*
                 Fragment frag = getSupportFragmentManager().findFragmentByTag("page:" +
                         position);
                 if (frag != null) {
@@ -514,6 +515,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
+                */
             }
             pager.setCurrentItem(lastSelected);
         }
