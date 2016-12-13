@@ -23,7 +23,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,12 +41,9 @@ import jahirfiquitiva.apps.medicode.logic.objects.Patient;
 public class PersonFragment extends Fragment {
 
     private ListsManager manager;
-    private LinearLayoutManager layoutManager;
     private ListsAdapter adapter;
     private ArrayList<Patient> patients;
-    private ArrayList<Patient> filteredPatients;
     private ArrayList<Doctor> doctors;
-    private ArrayList<Doctor> filteredDoctors;
     private boolean doctorsFrag = true;
 
     @Override
@@ -63,8 +59,11 @@ public class PersonFragment extends Fragment {
             this.doctorsFrag = getArguments().getBoolean("doctorsFrag");
             this.manager = (ListsManager) getArguments().getSerializable("manager");
             if (manager != null) {
-                this.doctors = manager.getDoctors();
-                this.patients = manager.getPatients();
+                if (doctorsFrag) {
+                    this.doctors = manager.getDoctors();
+                } else {
+                    this.patients = manager.getPatients();
+                }
             }
         }
     }
@@ -81,8 +80,8 @@ public class PersonFragment extends Fragment {
         }
 
         RecyclerView rv = (RecyclerView) layout.findViewById(R.id.rv);
-        setupLinearLayout();
-        rv.setLayoutManager(layoutManager);
+        rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL,
+                false));
         rv.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager
                 .VERTICAL));
         rv.setAdapter(adapter);
@@ -113,33 +112,6 @@ public class PersonFragment extends Fragment {
         ((MainActivity) getActivity()).onActivityResult(requestCode, resultCode, data);
     }
 
-    private void setupLinearLayout() {
-        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL,
-                false) {
-            @Override
-            public void onLayoutChildren(final RecyclerView.Recycler recycler, final RecyclerView
-                    .State state) {
-                super.onLayoutChildren(recycler, state);
-                layoutScrollable();
-            }
-        };
-    }
-
-    private boolean layoutScrollable() {
-        if (layoutManager == null) return false;
-        if (doctors == null || doctors.isEmpty() || patients == null || patients.isEmpty())
-            return false;
-        final int firstVisibleItemPosition =
-                layoutManager.findFirstCompletelyVisibleItemPosition();
-        if (firstVisibleItemPosition != 0) {
-            if (firstVisibleItemPosition == -1) {
-                return false;
-            }
-        }
-        return (layoutManager.findLastCompletelyVisibleItemPosition() !=
-                ((doctors != null ? doctors.size() : patients != null ? patients.size() : 0) - 1));
-    }
-
     private ListsAdapter.ItemClickListener getItemClickListener() {
         return new ListsAdapter.ItemClickListener
                 () {
@@ -166,92 +138,17 @@ public class PersonFragment extends Fragment {
     }
 
     public void performSearch(String query) {
-        if (doctorsFrag) {
-            filterDoctors(query);
-        } else {
-            filterPatients(query);
-        }
-    }
-
-    private synchronized void filterDoctors(CharSequence s) {
-        if (doctors != null && !(doctors.isEmpty())) {
-            if (s == null || s.toString().trim().isEmpty()) {
-                Log.d("Medicode", "Nothing to search, setting default doctors");
-                filteredDoctors = null;
-                setDoctors(null);
+        if (adapter != null) {
+            if (doctorsFrag) {
+                adapter.filterDoctors(query);
             } else {
-                Log.d("Medicode", "Searching for doctor: " + s.toString());
-                if (filteredDoctors != null) {
-                    filteredDoctors.clear();
-                }
-                filteredDoctors = new ArrayList<>();
-                String search = s.toString().toLowerCase();
-                for (Doctor doctor : doctors) {
-                    if (doctor.getName().toLowerCase().contains(search)) {
-                        filteredDoctors.add(doctor);
-                    }
-                }
-                Log.d("Medicode", "Putting " + filteredDoctors.size() + " doctors in list");
-                setDoctors(filteredDoctors);
+                adapter.filterPatients(query);
             }
-        } else {
-            Log.d("Medicode", "Original doctors list is empty");
-        }
-    }
-
-    private synchronized void filterPatients(CharSequence s) {
-        if ((patients != null) && (!(patients.isEmpty()))) {
-            if (s == null || s.toString().trim().isEmpty()) {
-                Log.d("Medicode", "Nothing to search, setting default patients");
-                filteredPatients = null;
-                setPatients(null);
-            } else {
-                Log.d("Medicode", "Searching for patient: " + s.toString());
-                if (filteredPatients != null) {
-                    filteredPatients.clear();
-                }
-                filteredPatients = new ArrayList<>();
-                String search = s.toString().toLowerCase();
-                for (Patient patient : patients) {
-                    if (patient.getName().toLowerCase().contains(search)) {
-                        filteredPatients.add(patient);
-                    }
-                }
-                Log.d("Medicode", "Putting " + filteredPatients.size() + " patients in list");
-                setPatients(filteredPatients);
-            }
-        } else {
-            Log.d("Medicode", "Original patients list is empty");
         }
     }
 
     public ListsAdapter getAdapter() {
         return adapter;
-    }
-
-    public void setDoctors(ArrayList<Doctor> list) {
-        Log.d("Medicode", "Adding " + (list != null ? list.size() : 0) + " doctors");
-        if (list != null && (!(list.isEmpty()))) {
-            if (doctors != null) {
-                doctors.clear();
-                doctors.addAll(list);
-            }
-        } else {
-            this.doctors = new ArrayList<>();
-        }
-        adapter.notifyDataSetChanged();
-    }
-
-    public void setPatients(ArrayList<Patient> list) {
-        if (list != null) {
-            if (patients != null) {
-                patients.clear();
-                patients.addAll(list);
-            }
-        } else {
-            this.patients = new ArrayList<>();
-        }
-        adapter.notifyDataSetChanged();
     }
 
 }

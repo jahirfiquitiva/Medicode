@@ -144,7 +144,7 @@ public class CreateAppntmntActivity extends AppCompatActivity {
                         new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker timePicker, int hour, int minutes) {
-                                selectedDate = context.getResources().getString(R.string.full_date,
+                                selectedDate = context.getString(R.string.full_date,
                                         String.valueOf(day),
                                         new DateFormatSymbols().getMonths()[month],
                                         String.valueOf(year),

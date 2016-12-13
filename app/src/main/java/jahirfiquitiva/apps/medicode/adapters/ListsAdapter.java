@@ -19,6 +19,7 @@ package jahirfiquitiva.apps.medicode.adapters;
 import android.content.Context;
 import android.support.annotation.ColorRes;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,25 +36,33 @@ import jahirfiquitiva.apps.medicode.utils.IconTintUtils;
 
 public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.PersonHolder> {
 
+    private Context context;
+    private ItemClickListener listener;
+    private ArrayList<Doctor> orgDoctors;
+    private ArrayList<Patient> orgPatients;
     private ArrayList<Doctor> doctors;
     private ArrayList<Patient> patients;
-    private ItemClickListener listener;
-    private Context context;
 
     public ListsAdapter(Context context, ItemClickListener listener) {
         this.context = context;
         this.listener = listener;
     }
 
-    public ListsAdapter(Context context, ItemClickListener listener, ArrayList<Doctor> doctors) {
+    public ListsAdapter(Context context, ItemClickListener listener, ArrayList<Doctor> nDoctors) {
         this(context, listener);
-        this.doctors = doctors;
+        this.orgDoctors = new ArrayList<>();
+        this.orgDoctors.addAll(nDoctors);
+        this.doctors = new ArrayList<>();
+        resetDoctors(nDoctors);
     }
 
 
-    public ListsAdapter(Context context, ArrayList<Patient> patients, ItemClickListener listener) {
+    public ListsAdapter(Context context, ArrayList<Patient> nPatients, ItemClickListener listener) {
         this(context, listener);
-        this.patients = patients;
+        this.orgPatients = new ArrayList<>();
+        this.orgPatients.addAll(nPatients);
+        this.patients = new ArrayList<>();
+        resetPatients(nPatients);
     }
 
     @Override
@@ -91,6 +100,52 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.PersonHolder
     @Override
     public int getItemCount() {
         return doctors != null ? doctors.size() : patients != null ? patients.size() : 0;
+    }
+
+    public synchronized void filterDoctors(CharSequence s) {
+        doctors.clear();
+        if (s == null || s.toString().trim().isEmpty()) {
+            Log.d("Medicode", "Nothing to search, setting default doctors");
+            resetDoctors(orgDoctors);
+        } else {
+            Log.d("Medicode", "Searching for doctor: " + s.toString());
+            String search = s.toString().toLowerCase();
+            for (Doctor doctor : orgDoctors) {
+                if (doctor.getName().toLowerCase().contains(search)) {
+                    doctors.add(doctor);
+                }
+            }
+            Log.d("Medicode", "Putting " + doctors.size() + " doctors in list");
+        }
+        notifyDataSetChanged();
+    }
+
+    public synchronized void filterPatients(CharSequence s) {
+        patients.clear();
+        if (s == null || s.toString().trim().isEmpty()) {
+            Log.d("Medicode", "Nothing to search, setting default patients");
+            resetPatients(orgPatients);
+        } else {
+            Log.d("Medicode", "Searching for patient: " + s.toString());
+            String search = s.toString().toLowerCase();
+            for (Patient patient : orgPatients) {
+                if (patient.getName().toLowerCase().contains(search)) {
+                    patients.add(patient);
+                }
+            }
+            Log.d("Medicode", "Putting " + patients.size() + " patients in list");
+        }
+        notifyDataSetChanged();
+    }
+
+    public void resetDoctors(ArrayList<Doctor> nDoctors) {
+        doctors.clear();
+        doctors.addAll(nDoctors);
+    }
+
+    public void resetPatients(ArrayList<Patient> nPatients) {
+        patients.clear();
+        patients.addAll(nPatients);
     }
 
     private void setupClickListener(final PersonHolder holder) {
