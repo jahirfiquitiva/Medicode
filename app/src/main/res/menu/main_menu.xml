@@ -18,40 +18,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!--
-    <item
-            android:id="@+id/sort"
-            android:icon="@drawable/ic_sort"
-            app:showAsAction="never|ifRoom"
-            android:orderInCategory="100"
-            android:title="@string/sort">
-        <menu>
-            <group
-                    android:icon="@drawable/ic_sort"
-                    android:checkableBehavior="single"
-                    android:id="@+id/sortOptns2">
-                <item
-                        android:id="@+id/id2"
-                        android:orderInCategory="100"
-                        app:showAsAction="never"
-                        android:title="@string/sort_by_id"/>
-                <item
-                        android:id="@+id/name2"
-                        android:orderInCategory="200"
-                        app:showAsAction="never"
-                        android:title="@string/sort_by_name"/>
-                <item
-                        android:id="@+id/gender2"
-                        android:orderInCategory="300"
-                        app:showAsAction="never"
-                        android:title="@string/sort_by_gender"/>
-
-            </group>
-        </menu>
-    </item>
-    -->
-
-
     <item
             android:id="@+id/about"
             android:icon="@drawable/ic_about"
@@ -67,9 +33,16 @@
             android:title="@string/save_data"/>
 
     <item
+            android:id="@+id/appntmnt"
+            android:icon="@drawable/ic_appntmnts"
+            app:showAsAction="ifRoom"
+            android:orderInCategory="300"
+            android:title="@string/title_activity_create_appntmnt"/>
+
+    <item
             android:id="@+id/search"
             android:icon="@drawable/ic_search"
-            android:orderInCategory="300"
+            android:orderInCategory="400"
             android:title="@string/search"
             app:actionViewClass="android.support.v7.widget.SearchView"
             app:showAsAction="always|collapseActionView"/>

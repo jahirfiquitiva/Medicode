@@ -20,6 +20,9 @@ import java.io.Serializable;
 
 import jahirfiquitiva.apps.medicode.logic.ListsManager;
 
+/**
+ * @author Jahir Fiquitiva
+ */
 public class Doctor extends Person implements Serializable {
 
     private static final long serialVersionUID = 123L;

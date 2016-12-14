@@ -41,6 +41,9 @@ import java.util.Properties;
 
 import jahirfiquitiva.apps.medicode.R;
 
+/**
+ * @author Jahir Fiquitiva
+ */
 public class LoginActivity extends AppCompatActivity {
 
     private Context context;

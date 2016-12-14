@@ -31,7 +31,6 @@ import java.util.ArrayList;
 /**
  * @author Aidan Follestad (afollestad)
  */
-
 public abstract class FragmentStatePagerAdapter extends PagerAdapter {
 
     private final FragmentManager mFragmentManager;

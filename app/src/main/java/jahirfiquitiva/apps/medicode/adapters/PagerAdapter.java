@@ -23,6 +23,9 @@ import jahirfiquitiva.apps.medicode.adapters.base.FragmentStatePagerAdapter;
 import jahirfiquitiva.apps.medicode.fragments.PersonFragment;
 import jahirfiquitiva.apps.medicode.logic.ListsManager;
 
+/**
+ * @author Jahir Fiquitiva
+ */
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
     private ListsManager manager;

@@ -21,6 +21,9 @@ import java.io.Serializable;
 import jahirfiquitiva.apps.medicode.logic.ListsManager;
 import jahirfiquitiva.apps.medicode.logic.enums.Gender;
 
+/**
+ * @author Jahir Fiquitiva
+ */
 public class Patient extends Person implements Serializable {
 
     private static final long serialVersionUID = 123L;

@@ -33,6 +33,9 @@ import jahirfiquitiva.apps.medicode.logic.objects.Doctor;
 import jahirfiquitiva.apps.medicode.logic.objects.Patient;
 import jahirfiquitiva.apps.medicode.utils.IconTintUtils;
 
+/**
+ * @author Jahir Fiquitiva
+ */
 public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.PersonHolder> {
 
     private Context context;

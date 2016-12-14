@@ -31,6 +31,9 @@ import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 
+/**
+ * @author Jahir Fiquitiva
+ */
 public class IconTintUtils {
 
     public static Drawable getTintedIcon(@NonNull Context context, @DrawableRes int drawable,

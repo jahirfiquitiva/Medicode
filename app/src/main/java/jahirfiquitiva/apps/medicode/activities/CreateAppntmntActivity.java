@@ -47,6 +47,9 @@ import jahirfiquitiva.apps.medicode.logic.objects.Appntmnt;
 import jahirfiquitiva.apps.medicode.logic.objects.Doctor;
 import jahirfiquitiva.apps.medicode.logic.objects.Patient;
 
+/**
+ * @author Jahir Fiquitiva
+ */
 public class CreateAppntmntActivity extends AppCompatActivity {
 
     private static final int INITIAL_HOUR = 8;

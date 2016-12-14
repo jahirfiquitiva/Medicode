@@ -36,6 +36,9 @@ import jahirfiquitiva.apps.medicode.logic.ListsManager;
 import jahirfiquitiva.apps.medicode.logic.objects.Doctor;
 import jahirfiquitiva.apps.medicode.views.RecyclerViewWithEmptyView;
 
+/**
+ * @author Jahir Fiquitiva
+ */
 public class DoctorAppntmntsActivity extends AppCompatActivity {
 
     private ListsManager manager;

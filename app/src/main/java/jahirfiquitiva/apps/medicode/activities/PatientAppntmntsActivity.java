@@ -40,6 +40,9 @@ import jahirfiquitiva.apps.medicode.logic.objects.Patient;
 import jahirfiquitiva.apps.medicode.utils.IconTintUtils;
 import jahirfiquitiva.apps.medicode.views.RecyclerViewWithEmptyView;
 
+/**
+ * @author Jahir Fiquitiva
+ */
 public class PatientAppntmntsActivity extends AppCompatActivity {
 
     private ListsManager manager;
@@ -160,6 +163,7 @@ public class PatientAppntmntsActivity extends AppCompatActivity {
                 this.adapter = new AppntmntAdapter(this, patient, manager.getPatientAppntmnts
                         (patient));
                 if (rv != null) {
+                    rv.setState(RecyclerViewWithEmptyView.STATE_NORMAL);
                     rv.setAdapter(adapter);
                 }
             }

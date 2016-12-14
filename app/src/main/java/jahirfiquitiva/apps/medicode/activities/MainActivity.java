@@ -59,9 +59,12 @@ import jahirfiquitiva.apps.medicode.persistence.SerializableFile;
 import jahirfiquitiva.apps.medicode.utils.IconTintUtils;
 import jahirfiquitiva.apps.medicode.utils.PermissionsUtils;
 
+/**
+ * @author Jahir Fiquitiva
+ */
 public class MainActivity extends AppCompatActivity {
 
-    private static final int REQUEST_STORAGE_ACCESS = 0;
+    private static final int REQUEST_STORAGE_ACCESS = 5;
     private ViewPager pager;
     private FloatingActionButton fab;
     private Context context;
@@ -203,6 +206,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.save:
                 requestPermissions(true, false);
                 break;
+            case R.id.appntmnt:
+                Intent createAppntmnt = new Intent(this, CreateAppntmntActivity.class);
+                createAppntmnt.putExtra("manager", manager);
+                startActivityForResult(createAppntmnt, 14);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -265,6 +272,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         lastSelected = savedInstanceState.getInt("last", 0);
+        search(null, true);
         updatePager((ListsManager) savedInstanceState.getSerializable("manager"));
     }
 
@@ -272,14 +280,16 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (grantResults.length > 0
-                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            loadOrSaveAppData(open, finishActivity);
-        } else {
-            Snackbar.make(findViewById(R.id.pager), R.string
-                    .permission_denied_sec, Snackbar
-                    .LENGTH_LONG)
-                    .show();
+        if (requestCode == REQUEST_STORAGE_ACCESS) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                loadOrSaveAppData(open, finishActivity);
+            } else {
+                Snackbar.make(findViewById(R.id.pager), R.string
+                        .permission_denied_sec, Snackbar
+                        .LENGTH_LONG)
+                        .show();
+            }
         }
     }
 
@@ -379,16 +389,16 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("ShowToast")
     private void saveAppData(boolean finish) {
+        search(null, true);
         if (file != null) {
             file.open();
-            search(null, true);
             try {
                 file.saveObject(manager);
                 showToastAndFinish(Toast.makeText(context, "Datos guardados correctamente", Toast
                         .LENGTH_SHORT), finish);
             } catch (IOException e) {
                 showToastAndFinish(Toast.makeText(context, "Ocurrió un error al guardar el " +
-                        "archivo.",
+                                "archivo.",
                         Toast.LENGTH_SHORT), finish);
             } catch (ClassNotFoundException ignored) {
             }
@@ -415,8 +425,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
                 if (lastSelected == 0) {
+                    search(null, manager.getDoctors().size() <= 0);
                     if (manager.getDoctors().size() > 0) {
-                        search(null, false);
                         return true;
                     } else {
                         Snackbar.make(findViewById(R.id.pager), getString(R.string
@@ -427,8 +437,8 @@ public class MainActivity extends AppCompatActivity {
                         return false;
                     }
                 } else if (lastSelected == 1) {
+                    search(null, manager.getPatients().size() <= 0);
                     if (manager.getPatients().size() > 0) {
-                        search(null, false);
                         return true;
                     } else {
                         Snackbar.make(findViewById(R.id.pager), getString(R.string
@@ -443,6 +453,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
+                search(null, true);
                 updatePager(manager);
                 return true;
             }
@@ -458,6 +469,7 @@ public class MainActivity extends AppCompatActivity {
                     ((SearchView) view).onActionViewCollapsed();
                 } catch (Exception ignored) {
                 }
+                search(null, true);
                 updatePager(manager);
             }
         });

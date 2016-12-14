@@ -28,6 +28,9 @@ import android.view.View;
 
 import jahirfiquitiva.apps.medicode.R;
 
+/**
+ * @author Jahir Fiquitiva
+ */
 @SuppressWarnings("SameParameterValue")
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 

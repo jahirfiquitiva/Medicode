@@ -19,6 +19,9 @@ package jahirfiquitiva.apps.medicode.views;
 import android.text.InputFilter;
 import android.text.Spanned;
 
+/**
+ * @author Jahir Fiquitiva
+ */
 public class InputFilterMinMax implements InputFilter {
 
     private int min, max;

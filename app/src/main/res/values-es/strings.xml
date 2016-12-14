@@ -15,7 +15,7 @@
   ~ limitations under the License.
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Medicode</string>
     <string name="prof_card_n">Tarjeta profesional: %1$s</string>
     <string name="cc">ID: %1$s</string>

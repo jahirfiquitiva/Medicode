@@ -21,6 +21,9 @@ import android.content.SharedPreferences;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ * @author Jahir Fiquitiva
+ */
 public class PreferencesUtils {
     public static void firstTimeAskingPermission(Context context, String permission, boolean
             isFirstTime) {

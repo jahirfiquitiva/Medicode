@@ -30,16 +30,19 @@ import jahirfiquitiva.apps.medicode.logic.objects.Appntmnt;
 import jahirfiquitiva.apps.medicode.logic.objects.Doctor;
 import jahirfiquitiva.apps.medicode.logic.objects.Patient;
 
+/**
+ * @author Jahir Fiquitiva
+ */
 public class AppntmntAdapter extends RecyclerView.Adapter<AppntmntAdapter.AppntmntHolder> {
 
     private Context context;
     private Doctor doctor;
     private Patient patient;
-    private ArrayList<Appntmnt> list;
+    private ArrayList<Appntmnt> list = new ArrayList<>();
 
-    public AppntmntAdapter(Context context, ArrayList<Appntmnt> list) {
+    public AppntmntAdapter(Context context, ArrayList<Appntmnt> nList) {
         this.context = context;
-        this.list = list;
+        list.addAll(nList);
     }
 
     public AppntmntAdapter(Context context, Doctor doctor, ArrayList<Appntmnt> list) {
@@ -82,14 +85,10 @@ public class AppntmntAdapter extends RecyclerView.Adapter<AppntmntAdapter.Appntm
         return list != null ? list.size() : 0;
     }
 
-    public void updateList(ArrayList<Appntmnt> list) {
-        if (list != null) {
-            this.list = list;
-            this.notifyItemRangeChanged(0, list.size());
-        } else {
-            this.list = new ArrayList<>();
-            this.notifyItemRangeChanged(0, 0);
-        }
+    public void updateList(ArrayList<Appntmnt> nList) {
+        list.clear();
+        list.addAll(nList);
+        notifyDataSetChanged();
     }
 
     class AppntmntHolder extends RecyclerView.ViewHolder {

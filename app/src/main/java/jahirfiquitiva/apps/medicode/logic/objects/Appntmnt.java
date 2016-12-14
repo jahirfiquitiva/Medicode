@@ -19,6 +19,9 @@ package jahirfiquitiva.apps.medicode.logic.objects;
 import java.io.Serializable;
 import java.util.Comparator;
 
+/**
+ * @author Jahir Fiquitiva
+ */
 public class Appntmnt implements Serializable {
 
     private static final long serialVersionUID = 123L;

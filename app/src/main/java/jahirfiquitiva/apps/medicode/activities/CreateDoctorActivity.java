@@ -39,6 +39,9 @@ import jahirfiquitiva.apps.medicode.R;
 import jahirfiquitiva.apps.medicode.logic.ListsManager;
 import jahirfiquitiva.apps.medicode.logic.objects.Doctor;
 
+/**
+ * @author Jahir Fiquitiva
+ */
 public class CreateDoctorActivity extends AppCompatActivity {
 
     private Context context;

@@ -26,6 +26,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+/**
+ * @author Jahir Fiquitiva
+ */
 public class SerializableFile implements Serializable {
 
     private static final long serialVersionUID = 123L;

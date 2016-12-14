@@ -21,6 +21,9 @@ import android.support.annotation.StringRes;
 
 import jahirfiquitiva.apps.medicode.R;
 
+/**
+ * @author Jahir Fiquitiva
+ */
 public enum Gender {
     MALE(R.string.male), FEMALE(R.string.female), OTHER(R.string.other);
 

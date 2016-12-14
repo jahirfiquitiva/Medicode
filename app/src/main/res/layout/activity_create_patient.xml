@@ -50,7 +50,6 @@
     <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
             android:fillViewport="true"
             android:layout_below="@+id/appBar"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -362,7 +361,6 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            app:layout_behavior="jahirfiquitiva.apps.medicode.views.ScrollAwareFABBehavior"
             app:srcCompat="@drawable/ic_check"
             app:backgroundTint="@color/fab_two"
             app:fabSize="normal"

@@ -27,6 +27,9 @@ import android.view.View;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+/**
+ * @author Jahir Fiquitiva
+ */
 public class RecyclerViewWithEmptyView extends RecyclerView {
     @Nullable
     View emptyView;

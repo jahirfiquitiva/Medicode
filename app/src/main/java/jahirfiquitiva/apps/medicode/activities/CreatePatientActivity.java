@@ -45,6 +45,9 @@ import jahirfiquitiva.apps.medicode.logic.objects.Patient;
 import jahirfiquitiva.apps.medicode.utils.IconTintUtils;
 import jahirfiquitiva.apps.medicode.views.InputFilterMinMax;
 
+/**
+ * @author Jahir Fiquitiva
+ */
 public class CreatePatientActivity extends AppCompatActivity {
 
     private Context context;
@@ -92,7 +95,7 @@ public class CreatePatientActivity extends AppCompatActivity {
                                         R.drawable.ic_gender,
                                         getGenderColor(Gender.getGender(context, context
                                                 .getResources().getStringArray(R.array
-                                                .genders)[position]))));
+                                                        .genders)[position]))));
                             }
                         })
                         .show();

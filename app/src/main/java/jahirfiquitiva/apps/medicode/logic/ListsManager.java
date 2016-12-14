@@ -25,6 +25,9 @@ import jahirfiquitiva.apps.medicode.logic.objects.Doctor;
 import jahirfiquitiva.apps.medicode.logic.objects.Patient;
 import jahirfiquitiva.apps.medicode.logic.objects.Person;
 
+/**
+ * @author Jahir Fiquitiva
+ */
 @SuppressWarnings("unchecked")
 public class ListsManager implements Serializable {
 

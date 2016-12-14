@@ -43,6 +43,9 @@ import jahirfiquitiva.apps.medicode.logic.objects.Doctor;
 import jahirfiquitiva.apps.medicode.logic.objects.Patient;
 import jahirfiquitiva.apps.medicode.views.RecyclerViewWithEmptyView;
 
+/**
+ * @author Jahir Fiquitiva
+ */
 public class PersonFragment extends Fragment {
 
     private ListsManager manager;
