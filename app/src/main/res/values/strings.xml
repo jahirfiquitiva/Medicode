@@ -100,4 +100,5 @@
     <string name="no_results">There are no elements that match search.</string>
     <string name="not_enough_to_show">There are no %1$s. Add some by pressing the bottom right button.</string>
     <string name="not_enough_appntmnts_to_show">There are no appointments. Add some by pressing the bottom right button.</string>
+    <string name="unknown">Unknown</string>
 </resources>

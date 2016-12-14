@@ -17,17 +17,17 @@
 
 <resources>
     <string-array name="specializations">
-        <item>Medicina General</item>
-        <item>Dentista</item>
-        <item>Internista</item>
-        <item>Cirujano</item>
-        <item>Nutricionista</item>
-        <item>Neurólogo</item>
-        <item>Pediatra</item>
-        <item>Ortopedista</item>
-        <item>Otorrinolaringólogo</item>
-        <item>Ginecólogo</item>
-        <item>Urólogo</item>
+        <item>General</item>
+        <item>Internal</item>
+        <item>Dentistry</item>
+        <item>Surgery</item>
+        <item>Nutrition</item>
+        <item>Neurology</item>
+        <item>Pediatrics</item>
+        <item>Orthopedics</item>
+        <item>Otolaryngology</item>
+        <item>Gynecology</item>
+        <item>Urology</item>
     </string-array>
 
     <string-array name="genders">
@@ -46,7 +46,7 @@
         <item>AB+</item>
         <item>AB-</item>
         <item>H/H</item>
-        <item>Desconocido</item>
+        <item>@string/unknown</item>
     </string-array>
 
 </resources>

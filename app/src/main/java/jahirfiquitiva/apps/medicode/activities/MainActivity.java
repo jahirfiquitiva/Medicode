@@ -161,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        search(null, true);
     }
 
     @Override
@@ -346,16 +347,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadAppData() {
-        if (file != null) {
-            file.open();
+        file.open();
+        if (file.hasContent()) {
             try {
                 final ListsManager mngAux = (ListsManager) file.getObject();
-                if (mngAux != null && file.hasContent()) {
+                if (mngAux != null) {
                     new MaterialDialog.Builder(context)
                             .title(R.string.load_data)
                             .content(R.string.load_data_content)
                             .positiveColor(ContextCompat.getColor(context, R.color.colorPrimary))
-                            .negativeColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                            .negativeColor(ContextCompat.getColor(context, R.color
+                                    .colorPrimary))
                             .positiveText(android.R.string.yes)
                             .negativeText(android.R.string.no)
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -379,16 +381,16 @@ public class MainActivity extends AppCompatActivity {
     private void saveAppData(boolean finish) {
         if (file != null) {
             file.open();
+            search(null, true);
             try {
                 file.saveObject(manager);
                 showToastAndFinish(Toast.makeText(context, "Datos guardados correctamente", Toast
                         .LENGTH_SHORT), finish);
             } catch (IOException e) {
-                showToastAndFinish(Toast.makeText(context, "No se pudo guardar el archivo.",
+                showToastAndFinish(Toast.makeText(context, "Ocurrió un error al guardar el " +
+                        "archivo.",
                         Toast.LENGTH_SHORT), finish);
-            } catch (ClassNotFoundException e) {
-                showToastAndFinish(Toast.makeText(context, "El objeto a guardar no es " +
-                        "serializable.", Toast.LENGTH_SHORT), finish);
+            } catch (ClassNotFoundException ignored) {
             }
         }
     }
@@ -452,7 +454,10 @@ public class MainActivity extends AppCompatActivity {
                 if (!hasFocus && mSearchItem != null) {
                     mSearchItem.collapseActionView();
                 }
-                ((SearchView) view).onActionViewCollapsed();
+                try {
+                    ((SearchView) view).onActionViewCollapsed();
+                } catch (Exception ignored) {
+                }
                 updatePager(manager);
             }
         });

@@ -141,6 +141,7 @@ public class PersonFragment extends Fragment {
             @Override
             public void onDoctorClick(Doctor doctor) {
                 if (doctor != null) {
+                    rv.setState(RecyclerViewWithEmptyView.STATE_NORMAL);
                     Intent intent = new Intent(activity.get(), DoctorAppntmntsActivity.class);
                     intent.putExtra("doctor", doctor);
                     intent.putExtra("manager", manager);
@@ -151,6 +152,7 @@ public class PersonFragment extends Fragment {
             @Override
             public void onPatientClick(Patient patient) {
                 if (patient != null) {
+                    rv.setState(RecyclerViewWithEmptyView.STATE_NORMAL);
                     Intent intent = new Intent(activity.get(), PatientAppntmntsActivity.class);
                     intent.putExtra("patient", patient);
                     intent.putExtra("manager", manager);
@@ -161,8 +163,10 @@ public class PersonFragment extends Fragment {
     }
 
     public void performSearch(String query, boolean reset) {
-        rv.setState(reset ? RecyclerViewWithEmptyView.STATE_NORMAL : RecyclerViewWithEmptyView
-                .STATE_SEARCHING);
+        if (rv != null) {
+            rv.setState(reset ? RecyclerViewWithEmptyView.STATE_NORMAL : RecyclerViewWithEmptyView
+                    .STATE_SEARCHING);
+        }
         if (adapter != null) {
             if (doctorsFrag) {
                 adapter.filterDoctors(query);

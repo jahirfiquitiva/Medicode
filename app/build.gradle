@@ -17,12 +17,12 @@
 apply plugin: 'com.android.application'
 
 ext {
-    ANDROID_SUPPORT_LIBS = "25.0.1"
+    ANDROID_SUPPORT_LIBS = "25.1.0"
 }
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "jahirfiquitiva.apps.medicode"
         minSdkVersion 16
