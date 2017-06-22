@@ -1,6 +1,6 @@
 # Medicode
 
-This app is just an implementation of some things I "learnt" this semester.
+This app is just an implementation of some things I learnt this semester.
 
 
 # License
